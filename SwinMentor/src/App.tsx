@@ -1,13 +1,20 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import LandingPage from './pages/LandingPage';
+import CreateFlashcard from './pages/CreateFlashcard';
+import Navbar from './components/Navbar';
 
-function App() {
-
+const App: React.FC = () => {
   return (
-    <>
-    <div className='bg-amber-300'>
-      SwinMentor
-    </div>
-    </>
-  )
-}
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/create" element={<CreateFlashcard />} />
+        {/* Add more routes as needed */}
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App;
