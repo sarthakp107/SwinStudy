@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FaChevronLeft, FaChevronRight, FaUserGraduate, FaBookOpen, FaCalendarAlt } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaUserGraduate, FaCalendarAlt } from 'react-icons/fa';
+import { supabase } from '../../supabase-client';
 
 const steps = ['Which degree and year?', 'Current units'];
 
@@ -8,6 +9,8 @@ const SignUpSurvey: React.FC = () => {
   const [degree, setDegree] = useState<string>('');
   const [year, setYear] = useState<string>('');
   const [currentUnits, setCurrentUnits] = useState<string[]>([]);
+  const [error, setError] = useState<string>('');
+
 
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
@@ -21,8 +24,9 @@ const SignUpSurvey: React.FC = () => {
     }
   };
 
-  const handleSubmit = () => {
-    alert('Survey Submitted');
+  const handleSubmit = async() => {
+    const{} = await supabase
+console.log(degree, year, currentUnits);
   };
 
   const handleUnitSelect = (unit: string) => {
@@ -39,24 +43,28 @@ const SignUpSurvey: React.FC = () => {
   };
 
   const isNextDisabled = !degree || !year;
-  const units = ['OOP', 'Intro To Programming', 'Data Structures and Patterns', 'Network Administration', 'Network and Switching', 'Technology in an Indigenous Context'];
+  const units = [
+    { id: "OOP", name: "OOP" },
+    { id: "ITP", name: "Intro To Programming" },
+    { id: "DSP", name: "Data Structures and Patterns" },
+    { id: "NETAD", name: "Network Administration" },
+    { id: "NSWITCH", name: "Network and Switching" },
+    { id: "TIC", name: "Technology in an Indigenous Context" },
+  ];
 
   return (
     <div className="flex min-h-screen bg-red-50">
       {/* Left Sidebar */}
       <div className="w-1/3 bg-gradient-to-r from-red-500 to-red-700 text-white p-8 flex flex-col justify-between rounded-r-xl shadow-lg">
         <div className="space-y-6">
-          <h2 className="text-4xl font-bold">Survey</h2>
-          <p className="text-lg">Please fill in the following steps to complete your registration</p>
+          <h2 className="mt-56 text-6xl font-bold">One final step to becoming part of the SwinStudent family</h2>
           <div className="flex items-center text-lg font-medium">
             <FaUserGraduate className="w-8 h-8 mr-2" />
             <span>Step {activeStep + 1} of {steps.length}</span>
           </div>
         </div>
 
-        <div className="flex justify-center mt-6">
-          <FaCalendarAlt className="w-24 h-24 opacity-70" />
-        </div>
+
       </div>
 
       {/* Right Content Area */}
@@ -95,9 +103,9 @@ const SignUpSurvey: React.FC = () => {
                     className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-300"
                   >
                     <option value="">Select Degree</option>
-                    <option value="Bachelors">Bachelors of Computer Science</option>
-                    <option value="Masters">Masters of IT</option>
-                    <option value="PhD">PhD in Cybersecurity</option>
+                    <option value="Bachelors of Computer Science">Bachelors of Computer Science</option>
+                    <option value="Masters of IT">Masters of IT</option>
+                    <option value="PhD in Cybersecurity">PhD in Cybersecurity</option>
                   </select>
                 </div>
 
