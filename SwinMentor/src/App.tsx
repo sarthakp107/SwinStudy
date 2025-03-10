@@ -14,10 +14,11 @@ const App: React.FC = () => {
     <Router>
       <Navbar />
       <Routes>
+      <Route path="/" element={<LandingPage />} />
         {user ? (
           <>
             {/* If user is logged in, redirect signup page to home */}
-            <Route path="/" element={<LandingPage />} />
+            
             <Route path="/signup" element={<Navigate to="/" replace />} />
             <Route path="/login" element={<Navigate to="/" replace />} />
             {/* Add other routes for logged-in users here */}

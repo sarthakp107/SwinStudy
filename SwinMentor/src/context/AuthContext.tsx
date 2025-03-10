@@ -1,6 +1,8 @@
-import { SupabaseClient, User } from "@supabase/supabase-js";
+import {  User } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useState } from "react";
 import { supabase } from "../../supabase-client"
+import { Navigate } from "react-router-dom";
+
 
 interface AuthContextType {
     user: User | null;
@@ -14,6 +16,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [user, setUser] = useState<User | null>(null);
+    
 
     useEffect(() => {
         supabase.auth.getSession().then(({data : {session} }) => {
@@ -39,8 +42,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         supabase.auth.signInWithOAuth({ provider: "google" })
     }
 
-    const signOut = () => {
-        supabase.auth.signOut();
+    const signOut = async() => {
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) throw error;
+            <Navigate to="/"/>
+            
+        } catch (err) {
+            console.error("Sign-out error:", err);
+        }
     }
 
     return <AuthContext.Provider value={{ user, signInWithGithub, signInWithGoogle, signOut }}>{children}</AuthContext.Provider>
