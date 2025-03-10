@@ -6,6 +6,7 @@ import Navbar from './components/Navbar';
 import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import { useAuth } from './context/AuthContext';
+import SignUpSurvey from './pages/SignupSurvey';
 
 const App: React.FC = () => {
   const { user } = useAuth();
@@ -22,6 +23,7 @@ const App: React.FC = () => {
             <Route path="/signup" element={<Navigate to="/" replace />} />
             <Route path="/login" element={<Navigate to="/" replace />} />
             {/* Add other routes for logged-in users here */}
+            <Route path="/signupsurvey" element={<SignUpSurvey />} />
           </>
         ) : (
           <>
