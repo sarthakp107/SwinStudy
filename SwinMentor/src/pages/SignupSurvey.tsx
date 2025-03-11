@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaChevronLeft, FaChevronRight, FaUserGraduate, FaCalendarAlt } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaChevronLeft, FaChevronRight, FaUserGraduate } from 'react-icons/fa';
 import { supabase } from '../../supabase-client';
 
 const steps = ['Which degree and year?', 'Current units'];
@@ -8,9 +8,30 @@ const SignUpSurvey: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [degree, setDegree] = useState<string>('');
   const [year, setYear] = useState<string>('');
-  const [currentUnits, setCurrentUnits] = useState<string[]>([]);
+  const [currentUnits, setCurrentUnits] = useState<string>('');
   const [error, setError] = useState<string>('');
+  const [units, setUnits] = useState<{ id: string; name: string }[]>([]); // Units state
 
+  // Fetch units from the database when the component mounts
+  useEffect(() => {
+    const fetchUnits = async () => {
+        const { data, error } = await supabase.from('units').select('unit_id, unit_name'); // Select both id and unit_name
+    
+        if (error) {
+          setError(error.message);
+          console.log(error);
+        }
+    
+        if (data) {
+          // Update state with id and unit_name
+          setUnits(data.map((unit: { unit_id: string; unit_name: string }) => ({
+            id: unit.unit_id,
+            name: unit.unit_name
+          })));
+        }
+      };
+    fetchUnits();
+  }, []);
 
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
@@ -24,33 +45,70 @@ const SignUpSurvey: React.FC = () => {
     }
   };
 
-  const handleSubmit = async() => {
-    const{} = await supabase
-console.log(degree, year, currentUnits);
+  const handleSubmit = async () => {
+    setError('');
+    console.log('Submitting form...');
+  
+    try {
+      // Get the current authenticated user
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+  
+      if (authError || !user) {
+        console.error('Error getting authenticated user:', authError);
+        return;
+      }
+  
+      // Get the profile associated with the authenticated user
+      const { data: profileData, error: profileError } = await supabase
+        .from('profile')
+        .select('id')
+        .eq('id', user.id) // Match the user_id to get the profile
+        .single(); // We expect a single profile to match
+  
+      if (profileError) {
+        console.error('Error fetching profile:', profileError);
+        return;
+      }
+  
+      // Now we have the profile_id, we can update degree and year
+      const profileId = profileData.id;
+  
+      // Update the profile with degree and year
+      const { error: updateError } = await supabase
+        .from('profile')
+        .update({
+          degree: degree,
+          year: year,
+        })
+        .eq('id', profileId); // Update using the profile_id
+  
+      if (updateError) {
+        console.error("Profile Update Error:", updateError);
+        return;
+      }
+  
+      console.log("Profile updated successfully!");
+    } catch (error) {
+      console.error("Unexpected Error:", error);
+    }
   };
+  
 
   const handleUnitSelect = (unit: string) => {
     setCurrentUnits((prevUnits) => {
       if (prevUnits.includes(unit)) {
-        return prevUnits.filter((u) => u !== unit);
+        return prevUnits.replace(unit, '').trim();
       } else {
-        if (prevUnits.length >= 4) {
+        if (prevUnits.split(' ').length >= 4) {
           return prevUnits;
         }
-        return [...prevUnits, unit];
+        return `${prevUnits} ${unit}`.trim();
       }
     });
   };
 
   const isNextDisabled = !degree || !year;
-  const units = [
-    { id: "OOP", name: "OOP" },
-    { id: "ITP", name: "Intro To Programming" },
-    { id: "DSP", name: "Data Structures and Patterns" },
-    { id: "NETAD", name: "Network Administration" },
-    { id: "NSWITCH", name: "Network and Switching" },
-    { id: "TIC", name: "Technology in an Indigenous Context" },
-  ];
+  const isUnitLimitReached = currentUnits.split(' ').length >= 4;
 
   return (
     <div className="flex min-h-screen bg-red-50">
@@ -63,15 +121,13 @@ console.log(degree, year, currentUnits);
             <span>Step {activeStep + 1} of {steps.length}</span>
           </div>
         </div>
-
-
       </div>
 
       {/* Right Content Area */}
       <div className="w-2/3 p-8 flex flex-col justify-center space-y-6">
         {/* Heading */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-extrabold text-gray-800">Welcome to the Signup Survey</h1>
+          <h1 className="text-5xl font-extrabold text-gray-800">Signup Survey</h1>
           <p className="text-xl text-gray-600 mt-2">Please take a moment to complete your registration steps.</p>
         </div>
 
@@ -119,10 +175,10 @@ console.log(degree, year, currentUnits);
                     className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-red-500 transition-all duration-300"
                   >
                     <option value="">Select Year</option>
-                    <option value="First Year">First Year</option>
-                    <option value="Second Year">Second Year</option>
-                    <option value="Third Year">Third Year</option>
-                    <option value="Fourth Year">Fourth Year</option>
+                    <option value="1">First Year</option>
+                    <option value="2">Second Year</option>
+                    <option value="3">Third Year</option>
+                    <option value="4">Fourth Year</option>
                   </select>
                 </div>
               </div>
@@ -135,18 +191,18 @@ console.log(degree, year, currentUnits);
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {units.map((unit) => (
                   <div
-                    key={unit}
-                    onClick={() => handleUnitSelect(unit)}
+                    key={unit.id}
+                    onClick={() => handleUnitSelect(unit.name)}
                     className={`cursor-pointer border p-6 rounded-lg text-center transition-all duration-300 ${
-                      currentUnits.includes(unit)
+                      currentUnits.includes(unit.name)
                         ? 'bg-red-600 text-white'
                         : 'bg-gray-100 text-gray-700'
-                    } ${currentUnits.length >= 4 && !currentUnits.includes(unit) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    } ${isUnitLimitReached && !currentUnits.includes(unit.name) ? 'opacity-50 cursor-not-allowed' : ''}`}
                     style={{
-                      pointerEvents: currentUnits.length >= 4 && !currentUnits.includes(unit) ? 'none' : 'auto',
+                      pointerEvents: isUnitLimitReached && !currentUnits.includes(unit.name) ? 'none' : 'auto',
                     }}
                   >
-                    {unit}
+                    {unit.name}
                   </div>
                 ))}
               </div>
