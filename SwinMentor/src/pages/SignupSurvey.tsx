@@ -8,7 +8,7 @@ const SignUpSurvey: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [degree, setDegree] = useState<string>('');
   const [year, setYear] = useState<string>('');
-  const [currentUnits, setCurrentUnits] = useState<string>('');
+  const [currentUnits, setCurrentUnits] = useState<string[]>([]);
   const [error, setError] = useState<string>('');
   const [units, setUnits] = useState<{ id: string; name: string }[]>([]); // Units state
 
@@ -47,7 +47,6 @@ const SignUpSurvey: React.FC = () => {
 
   const handleSubmit = async () => {
     setError('');
-    console.log('Submitting form...');
   
     try {
       // Get the current authenticated user
@@ -86,8 +85,21 @@ const SignUpSurvey: React.FC = () => {
         console.error("Profile Update Error:", updateError);
         return;
       }
+
+//units db update
+      const { error: insertError } = await supabase.from('user_units').upsert(
+        currentUnits.map((unitName) => ({
+          profile_id: profileId, // The profile of the user
+          unit_id: units.find((unit) => unit.name === unitName)?.id // Get the unit ID based on unit name
+        }))
+      );
+
+      if (insertError) {
+        console.error('Error inserting user units:', insertError);
+        setError('Failed to save units');
+        return;
+      }
   
-      console.log("Profile updated successfully!");
     } catch (error) {
       console.error("Unexpected Error:", error);
     }
@@ -97,18 +109,20 @@ const SignUpSurvey: React.FC = () => {
   const handleUnitSelect = (unit: string) => {
     setCurrentUnits((prevUnits) => {
       if (prevUnits.includes(unit)) {
-        return prevUnits.replace(unit, '').trim();
+        // Remove the unit if it's already selected
+        return prevUnits.filter((u) => u !== unit);
       } else {
-        if (prevUnits.split(' ').length >= 4) {
-          return prevUnits;
+        if (prevUnits.length >= 4) {
+          return prevUnits; // Limit to 4 units
         }
-        return `${prevUnits} ${unit}`.trim();
+        // Add the unit if it's not already selected
+        return [...prevUnits, unit];
       }
     });
   };
 
   const isNextDisabled = !degree || !year;
-  const isUnitLimitReached = currentUnits.split(' ').length >= 4;
+  const isUnitLimitReached = currentUnits.length >= 4;
 
   return (
     <div className="flex min-h-screen bg-red-50">
