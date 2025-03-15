@@ -60,33 +60,6 @@ const Dashboard: React.FC = () => {
         <div className="bg-white p-6 space-y-6 shadow-lg rounded-lg">
           <YourGroups /> {/* YourGroups Component here */}
         </div>
-
-        {/* Right Column: News or Events Feed */}
-        <div className="bg-white p-6 shadow-lg rounded-lg">
-          <div className="text-2xl font-semibold text-red-700 mb-4">Latest News</div>
-          {/* News Section Cards */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-4 mb-4">
-              <FaRegNewspaper className="text-3xl text-red-700" />
-              <div>
-                <div className="font-semibold text-red-700">AI Research Breakthrough</div>
-                <p className="text-gray-600 text-sm">
-                  A new breakthrough in AI research could shape the future of autonomous systems.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-4 mb-4">
-              <FaRegNewspaper className="text-3xl text-red-700" />
-              <div>
-                <div className="font-semibold text-red-700">Frontend Dev Conference</div>
-                <p className="text-gray-600 text-sm">
-                  The biggest frontend development conference is happening soon. Get ready for workshops and talks.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
