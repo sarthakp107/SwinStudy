@@ -1,66 +1,88 @@
-// Dashboard.tsx
 import React from 'react';
-import { FaUsers, FaUserTie, FaCalendarAlt, FaRegNewspaper } from 'react-icons/fa'; // Icons for new sections
+import { FaUsers, FaUserTie, FaCalendarAlt, FaUserFriends, FaChalkboardTeacher } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import YourGroups from '../components/YourGroup'; // Importing the YourGroups component
+import YourGroups from '../components/YourGroup';
 
 const Dashboard: React.FC = () => {
   return (
-    <div className="flex flex-col h-screen p-6">
+    <div className="container mx-auto px-4 py-6">
+      {/* Page Header */}
+      <h1 className="text-3xl font-bold text-gray-800 mb-8">Dashboard</h1>
+      
       {/* Top Section: Get Involved */}
-      <div className="bg-gradient-to-r from-red-200 to-red-100 p-6 shadow-lg rounded-lg mb-6">
-        <div className="text-3xl font-semibold text-red-700 mb-6">Get Involved</div>
-        {/* Cards for mentor and buddy */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 cursor-pointer">
-            <div className="flex items-center space-x-4 mb-4">
-              <FaUserTie className="text-4xl text-red-700" />
-              <div className="text-xl font-semibold text-red-700">Find a Mentor</div>
+      <section className="mb-10">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-6 flex items-center">
+          <FaUsers className="mr-3 text-red-500" />
+          Get Involved
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Find a Mentor Card */}
+          <div className="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg border-t-4 border-red-500">
+            <div className="p-6">
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-red-100 rounded-full mr-4">
+                  <FaChalkboardTeacher className="text-red-600 text-xl" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800">Find a Mentor</h3>
+              </div>
+              <p className="text-gray-600 mb-6">
+                Get matched with industry experts who can guide your learning and career.
+              </p>
+              <Link to="/mentors" className="inline-block px-4 py-2 bg-red-600 text-white rounded-md font-medium transition hover:bg-red-700">
+                Learn More
+              </Link>
             </div>
-            <p className="text-gray-600 mb-4">
-              Get matched with industry experts who can guide your learning and career.
-            </p>
-            <Link to="/find-mentor" className="text-red-700 hover:text-red-600 font-semibold">
-              Learn More
-            </Link>
           </div>
-
-          <div className="bg-white p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 cursor-pointer">
-            <div className="flex items-center space-x-4 mb-4">
-              <FaUsers className="text-4xl text-red-700" />
-              <div className="text-xl font-semibold text-red-700">Find a Buddy</div>
+          
+          {/* Find a Buddy Card */}
+          <div className="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg border-t-4 border-red-500">
+            <div className="p-6">
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-red-100 rounded-full mr-4">
+                  <FaUserFriends className="text-red-600 text-xl" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800">Find a Buddy</h3>
+              </div>
+              <p className="text-gray-600 mb-6">
+                Partner with someone who shares your interests for collaborative projects.
+              </p>
+              <Link to="/buddies" className="inline-block px-4 py-2 bg-red-600 text-white rounded-md font-medium transition hover:bg-red-700">
+                Learn More
+              </Link>
             </div>
-            <p className="text-gray-600 mb-4">
-              Partner with someone who shares your interests for collaborative projects.
-            </p>
-            <Link to="/find-buddies" className="text-red-700 hover:text-red-600 font-semibold">
-              Learn More
-            </Link>
           </div>
-
-          {/* New Section Card: Upcoming Events */}
-          <div className="bg-white p-6 rounded-lg shadow-xl hover:shadow-2xl transition-all transform hover:scale-105 cursor-pointer">
-            <div className="flex items-center space-x-4 mb-4">
-              <FaCalendarAlt className="text-4xl text-red-700" />
-              <div className="text-xl font-semibold text-red-700">Upcoming Events</div>
+          
+          {/* Upcoming Events Card */}
+          <div className="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg border-t-4 border-red-500">
+            <div className="p-6">
+              <div className="flex items-center mb-4">
+                <div className="p-3 bg-red-100 rounded-full mr-4">
+                  <FaCalendarAlt className="text-red-600 text-xl" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-800">Upcoming Events</h3>
+              </div>
+              <p className="text-gray-600 mb-6">
+                Stay updated with the latest events, webinars, and meetups in your area of interest.
+              </p>
+              <Link to="/events" className="inline-block px-4 py-2 bg-red-600 text-white rounded-md font-medium transition hover:bg-red-700">
+                View Events
+              </Link>
             </div>
-            <p className="text-gray-600 mb-4">
-              Stay updated with the latest events, webinars, and meetups in your area of interest.
-            </p>
-            <Link to="/events" className="text-red-700 hover:text-red-600 font-semibold">
-              View Events
-            </Link>
           </div>
         </div>
-      </div>
-
-      {/* Bottom Section: Left - Your Groups, Right - News/Events */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Left Column: Your Groups */}
-        <div className="bg-white p-6 space-y-6 shadow-lg rounded-lg">
-          <YourGroups /> {/* YourGroups Component here */}
+      </section>
+      
+      {/* Bottom Section: Your Groups */}
+      <section>
+        <h2 className="text-2xl font-semibold text-gray-700 mb-6 flex items-center">
+          <FaUserTie className="mr-3 text-red-500" />
+          Your Groups
+        </h2>
+        <div className="bg-white rounded-lg shadow-md p-6">
+          <YourGroups />
         </div>
-      </div>
+      </section>
     </div>
   );
 };
