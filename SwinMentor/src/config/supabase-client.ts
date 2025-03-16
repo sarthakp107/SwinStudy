@@ -6,3 +6,5 @@ const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 // const supabaseKey = import.meta.env.VITE_SUPABASE_ANNON_KEY as string;
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
+
+export default supabase

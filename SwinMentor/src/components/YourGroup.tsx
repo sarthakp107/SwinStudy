@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaUsers, FaComments, FaSearch, FaChevronRight } from "react-icons/fa";
-import { supabase } from "../../supabase-client";
+import { supabase } from "../config/supabase-client";
 import { useAuth } from "@/context/AuthContext";
 
 interface Group {

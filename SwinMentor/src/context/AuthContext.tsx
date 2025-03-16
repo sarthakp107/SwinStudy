@@ -1,11 +1,12 @@
 import {  User } from "@supabase/supabase-js";
 import { createContext, useContext, useEffect, useState } from "react";
-import { supabase } from "../../supabase-client"
+import { supabase } from "../config/supabase-client"
 import { Navigate } from "react-router-dom";
 
 
 interface AuthContextType {
     user: User | null;
+    signUpWithEmail: (email:string, password: string)=>Promise<void>;
     signInWithGithub: () => void; 
     signInWithGoogle: () => void;
     signOut: () => void;
@@ -16,7 +17,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const [user, setUser] = useState<User | null>(null);
-    
 
     useEffect(() => {
         supabase.auth.getSession().then(({data : {session} }) => {
@@ -42,6 +42,28 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         supabase.auth.signInWithOAuth({ provider: "google" })
     }
 
+    const signUpWithEmail = async (email: string, password: string) => {
+
+        const { error: signUpError } = await supabase.auth.signUp({ email, password });
+    
+        if (signUpError) throw signUpError;
+    
+        const { data: userCheck, error: checkError } = await supabase
+          .from('profile') 
+          .select('*')
+          .eq('email', email)
+          .single();
+    
+        if (checkError) throw checkError; 
+    
+        if (userCheck) {
+          return; 
+        } else {
+          throw new Error('Email does not exist in the database');
+        }
+      };
+    
+
     const signOut = async() => {
         try {
             const { error } = await supabase.auth.signOut();
@@ -53,7 +75,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }
 
-    return <AuthContext.Provider value={{ user, signInWithGithub, signInWithGoogle, signOut }}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ user, signUpWithEmail, signInWithGithub, signInWithGoogle, signOut }}>{children}</AuthContext.Provider>
 };
 
 export const useAuth = (): AuthContextType => {
