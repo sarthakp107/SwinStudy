@@ -19,17 +19,19 @@ const App: React.FC = () => {
       <Route path="/" element={<LandingPage/>} />
         {user ? (
           <>
+            {/* {Logged In}  */}
             <Route path="/survey" element={<SignUpSurvey />} />
-            <Route path="/signup" element={<Navigate to="/" replace />} />
-            <Route path="/login" element={<Navigate to="/" replace />} />
-            {/* Add other routes for logged-in users here */}            
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/signup" element={<Navigate to="/" replace />} />
+            <Route path="/login" element={<Navigate to="/" replace />} />       
+            <Route path="/" element={<LandingPage />} />
           </>
         ) : (
           <>
-            {/* If user is not logged in, show signup and login pages */}
+            {/* {Not Logged In} */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
+            <Route path="/" element={<LandingPage />} />
           </>
         )}
 
