@@ -16,6 +16,7 @@ const App: React.FC = () => {
     <Router>
       <Navbar />
       <Routes>
+      <Route path="/" element={<LandingPage/>} />
         {user ? (
           <>
             <Route path="/survey" element={<SignUpSurvey />} />
