@@ -21,22 +21,31 @@ const Navbar: React.FC = () => {
         <Link to="/about" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
           About
         </Link>
+        <Link to="/" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
+          Mentors
+        </Link>
+        <Link to="/" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
+          Unit Buddy
+        </Link>
+        <Link to="/" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
+          AI Study
+        </Link>
         {user ? (
           <div className="text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300">
 
-            <button onClick={signOut}>SignOut</button>
+            <button onClick={signOut}>Sign Out</button>
           </div>
         ) :
           (
             <div>
-              <Link to="/login" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
+              <Link to="/login" className="text-gray-700 mr-5 hover:text-red-600 transition-colors duration-300">
                 Login
               </Link>
               <Link
                 to="/signup"
                 className="text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300"
               >
-                Signup
+                Get Started
               </Link>
             </div>)
         }
