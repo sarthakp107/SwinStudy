@@ -6,6 +6,7 @@ import { Navigate } from "react-router-dom";
 
 interface AuthContextType {
     user: User | null;
+    signInWithPassword: (email: string, password:string)=>Promise<void>;
     signUpWithEmail: (email:string, password: string)=>Promise<void>;
     signInWithGithub: () => void; 
     signInWithGoogle: () => void;
@@ -61,21 +62,25 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         } else {
           throw new Error('Email does not exist in the database');
         }
-      };
+    };
     
+    const signInWithPassword= async(email: string, password: string) =>{
+        const { error: loginError} = await supabase.auth.signInWithPassword({email, password})
+        if (loginError) throw loginError;
+    }
 
     const signOut = async() => {
         try {
             const { error } = await supabase.auth.signOut();
             if (error) throw error;
-            <Navigate to="/"/>
+            <Navigate to="/login"/>
             
         } catch (err) {
             console.error("Sign-out error:", err);
         }
     }
 
-    return <AuthContext.Provider value={{ user, signUpWithEmail, signInWithGithub, signInWithGoogle, signOut }}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ user, signUpWithEmail, signInWithGithub, signInWithGoogle, signInWithPassword, signOut }}>{children}</AuthContext.Provider>
 };
 
 export const useAuth = (): AuthContextType => {
