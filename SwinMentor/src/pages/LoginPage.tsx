@@ -1,22 +1,54 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaUser, FaLock } from 'react-icons/fa';
+import React, {useState} from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { FaUser, FaLock, FaGoogle, FaGithub } from 'react-icons/fa';
+import { useAuth } from '@/context/AuthContext';
 
 const LoginPage: React.FC = () => {
+  const {signInWithGithub, signInWithGoogle, signInWithPassword} = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [isLoading, setisLoading] = useState(false)
+
+  // Log In Handling Function
+  const handleSubmit = async (e: React.FormEvent) => {
+    setisLoading(true);
+    e.preventDefault();
+    setError(""); // Reset previous errors
+
+    try {
+      await signInWithPassword(email, password);
+      navigate('/dashboard');
+    } catch (err: any) {
+      setisLoading(false);
+      setError(`Error: ${err.message || err}`);
+    }
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-gray-100 to-gray-300">
       <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
-        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Login</h2>
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Welcome Back</h2>
 
         {/* Login Form */}
-        <form className="space-y-5">
+        <form className="space-y-5" onSubmit={handleSubmit}>
+          {error && 
+              (
+                <div className='bg-red-100 text-red-600 text-sm p-3 border border-red-400 rounded-md'>
+                  {error}
+                </div>
+              )
+          }
           {/* Email Field */}
           <div className="relative">
             <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
             <input
               type="email"
               className="w-full pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none"
-              placeholder="Enter your email"
+              placeholder="Enter Your Email"
+              value={email}
+              onChange={(e)=> setEmail(e.target.value)}
             />
           </div>
 
@@ -26,25 +58,43 @@ const LoginPage: React.FC = () => {
             <input
               type="password"
               className="w-full pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none"
-              placeholder="Enter your password"
+              placeholder="Enter Your Password"
+              value={password}
+              onChange={(e)=> setPassword(e.target.value)}
             />
           </div>
 
           {/* Login Button */}
           <button 
             type="submit" 
-            className="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-300 shadow-md"
+            className="w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-300 shadow-md mb-3"          
+            disabled={(isLoading)}
           >
-            Login
+            {isLoading ? "Processing...": "Sign In"}
           </button>
+
         </form>
 
-        {/* Forgot Password & Signup Link */}
-        <div className="text-center mt-4">
-          <Link to="/forgot-password" className="text-sm text-gray-500 hover:underline">
-            Forgot password?
-          </Link>
+        {/* {Or in the middle} */}
+        <div className='flex items-center my-4'>
+            <hr className='flex-grow border-t border-gray-300'/>
+            <span className='mx-4 text-gray-500'>or</span>
+            <hr className='flex-grow border-t border-gray-300'/>
         </div>
+
+        {/* {Github Sign in} */}
+          <button onClick={signInWithGithub} className="w-full bg-gray-800 text-white py-2 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-900 transition duration-300 shadow-md">
+            <FaGithub className="text-xl" />
+            <span className="text-lg">Sign up with GitHub</span>
+          </button>
+        
+
+        {/* {Google Sign In} */}
+          <button onClick={signInWithGoogle} className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-600 transition-colors duration-300 shadow-md">
+            <FaGoogle className="text-xl" />
+            <span className="text-lg">Sign up with Google</span>
+          </button>
+
 
         <p className="text-sm text-gray-600 text-center mt-4">
           Don't have an account? 
