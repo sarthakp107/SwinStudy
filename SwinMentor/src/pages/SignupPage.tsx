@@ -32,12 +32,19 @@ const SignupPage: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-gray-100 to-gray-300">
+      
       <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Create an account</h2>
 
           {/* Form For Sign Up with Email/Password */}
           <form className='space-y-5' onSubmit={handleSubmit}>
-            
+            {error && 
+                (
+                  <div className='bg-red-100 text-red-600 text-sm p-3 border border-red-400 rounded-md'>
+                    {error}
+                  </div>
+                )
+            }
             {/* Input For Email */}
             <div className='relative'>
             <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
@@ -56,13 +63,11 @@ const SignupPage: React.FC = () => {
               <input
                 type="password"
                 className="w-full pl-10 pr-4 py-2 border rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none"
-                placeholder="Enter your password"
+                placeholder="Enter Your Password"
                 value={password}
                 onChange={(e)=>setPassword(e.target.value)}
               />
             </div>
-
-            {error && <div className='text-red-500 text-sm'> {error}</div>}
 
             {/* Button for SignUp with Email */}
             <button
