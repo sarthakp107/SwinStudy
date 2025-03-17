@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight, FaUserGraduate } from 'react-icons/fa';
-import { supabase } from '../../supabase-client';
+import { supabase } from '../config/supabase-client';
 
 const steps = ['Which degree and year?', 'Current units'];
 
@@ -138,7 +138,11 @@ const SignUpSurvey: React.FC = () => {
       </div>
 
       {/* Right Content Area */}
+      
       <div className="w-2/3 p-8 flex flex-col justify-center space-y-6">
+        {/* Error Message, if any */}
+        {error && <div className="text-red-600">{error}</div>}
+
         {/* Heading */}
         <div className="text-center mb-8">
           <h1 className="text-5xl font-extrabold text-gray-800">Signup Survey</h1>
