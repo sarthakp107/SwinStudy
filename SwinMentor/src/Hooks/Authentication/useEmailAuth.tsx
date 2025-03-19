@@ -55,7 +55,11 @@ export const useEmailAuth = () => {
 
                 if(displayNameResponse.error) throw displayNameResponse.error;
                 
-                dispatch({type: "LOGIN", payload: user});
+                if(user){
+                    dispatch({type: "LOGIN", payload: user});
+                }else{
+                    setError("User is NULL");
+                }
                 setIsPending(false);
                
             }
