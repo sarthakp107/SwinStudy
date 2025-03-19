@@ -1,5 +1,5 @@
 import { User } from "@supabase/supabase-js";
-import { createContext, useContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer } from "react";
 import { supabase } from "../config/supabase-client"
 
 // signInWithPassword: (email: string, password:string)=>Promise<void>;

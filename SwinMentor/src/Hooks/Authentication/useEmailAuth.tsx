@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {useAuthContext} from '../Context/useAuthContext';
 import supabase from '@/config/supabase-client';
-
 
 
 export const useEmailAuth = () => {
@@ -61,15 +60,27 @@ export const useEmailAuth = () => {
                     setError("User is NULL");
                 }
                 setIsPending(false);
+
+                if (!isCancelled) {
+                    setIsPending(false);
+                    setError("");
+                  }
                
             }
             
 
             setIsPending(false);
-        } catch (err) {
+        } catch (error) {
             setError("Signup Failed. Try Again");
+            if (!isCancelled) {
+                setError("signup with email hook wrong");
+                setIsPending(false)
+              }
         }
     }
+    useEffect(() => {
+        return () => setIsCancelled(true)
+      }, [])
 
     return{signInWithPassword, signUpWithEmail, error, isPending}
 }
