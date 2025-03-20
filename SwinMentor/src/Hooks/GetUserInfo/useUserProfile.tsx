@@ -3,7 +3,7 @@ import supabase from "@/config/supabase-client";
 
 const useUserProfile = () => {
     const [displayName, setDisplayName] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
