@@ -2,13 +2,14 @@ import { useSignOut } from '@/Hooks/Authentication/useSignOut';
 import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import Spinner from './Loading/Spinner';
 
 const Navbar: React.FC = () => {
   const { user } = useAuthContext();
   const {signOut, isPending}=useSignOut();
 
 
-  const handleSubmit = (e : React.MouseEvent<HTMLButtonElement>) => {
+  const handleSignOut = (e : React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     signOut();
 }
@@ -45,8 +46,8 @@ const Navbar: React.FC = () => {
                 <Link to="/signup" className='ml-5 text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300'>Signup</Link>
             </li>}
         {user && <li className='list-none'>
-                {!isPending && <button className='text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300' onClick={handleSubmit}>Logout</button>}
-                {isPending && <button className='text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300' onClick={handleSubmit} disabled>Loging Out</button>}
+                {!isPending && <button className='text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300' onClick={handleSignOut}>Logout</button>}
+                {isPending && <Spinner/>}
             </li>}
       </div>
     </nav>

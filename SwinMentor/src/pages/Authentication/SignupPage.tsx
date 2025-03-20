@@ -74,7 +74,7 @@ const SignupPage: React.FC = () => {
             {!isPending && <button className='w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-300 shadow-md mb-3'>Signup</button>}
             {/* {isPending && <button className='w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-300 shadow-md mb-3'>Loading</button>} */}
             {isPending && <Spinner/>}
-            {error && <div>{error}</div>}
+            
             
           </form>
 
