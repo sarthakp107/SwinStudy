@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaUsers, FaUserTie, FaCalendarAlt, FaUserFriends, FaChalkboardTeacher } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import YourGroups from '../components/YourGroup';
+
 
 const Dashboard: React.FC = () => {
   return (
@@ -80,7 +80,7 @@ const Dashboard: React.FC = () => {
           Your Groups
         </h2>
         <div className="bg-white rounded-lg shadow-md p-6">
-          <YourGroups />
+          {/* <YourGroups /> */}
         </div>
       </section>
     </div>
