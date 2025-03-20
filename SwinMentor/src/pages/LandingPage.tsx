@@ -1,9 +1,9 @@
-import { useAuth } from '@/context/AuthContext';
+import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const LandingPage: React.FC = () => {
-  const {user} = useAuth();
+  const {user} = useAuthContext();
 
   const displayName = user?.user_metadata.user_name||user?.user_metadata.name || user?.email || "Student";
   console.log(user?.user_metadata);

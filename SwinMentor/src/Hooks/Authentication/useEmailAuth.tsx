@@ -5,14 +5,14 @@ import supabase from '@/config/supabase-client';
 
 export const useEmailAuth = () => {
     const [isCancelled, setIsCancelled] = useState(false)
-    const [error, setError] = useState<string>()
+    const [error, setError] = useState<string | null>()
     const [isPending, setIsPending] = useState(false)
-    const { dispatch, user } = useAuthContext()
+    const { dispatch } = useAuthContext()
 
 
     //login to existing acc
     const signInWithPassword = async(email : string, password : string) => {
-        setError("")
+        setError(null)
         setIsPending(true)
 
         try{
@@ -35,24 +35,28 @@ export const useEmailAuth = () => {
     //SIGNUP
 
     const signUpWithEmail = async(email:string, password: string, displayName: string) => {
-        setError("");
+        setError(null);
         setIsPending(true);
 
         try {
-            const res = await supabase.auth.signUp({email,password});
+            const {data, error} = await supabase.auth.signUp({email,password});
 
-            if(!res){
+            if(error){
                 throw new Error("Could not complete signup.")
             }
 
-            if(res.data.user){
+            if(data.user){
+                const user = data.user;
                
                 const displayNameResponse = await supabase.from('profile').upsert({
-                    id: res.data.user.id,
-                    displayName: displayName
+                    id: user.id,
+                    display_name: displayName
                 })
+                console.log("User ID:", user.id);
+console.log("Display Name:", displayName);
 
-                if(displayNameResponse.error) throw displayNameResponse.error;
+
+                if(displayNameResponse.error) throw displayNameResponse.error.message;
                 
                 if(user){
                     dispatch({type: "LOGIN", payload: user});
@@ -63,22 +67,26 @@ export const useEmailAuth = () => {
 
                 if (!isCancelled) {
                     setIsPending(false);
-                    setError("");
+                    setError(null);
                   }
                
             }
-            
-
             setIsPending(false);
         } catch (error) {
-            setError("Signup Failed. Try Again");
+            if (error instanceof Error) {
+                setError(error.message);
+                setIsPending(false);
+            } else {
+                setError("An unknown error occurred.");
+                setIsPending(false);
+            }
+        } finally {
             if (!isCancelled) {
-                setError("signup with email hook wrong");
-                setIsPending(false)
-              }
+                setIsPending(false);
+            }
         }
     }
-    useEffect(() => {
+    useEffect(() => { 
         return () => setIsCancelled(true)
       }, [])
 

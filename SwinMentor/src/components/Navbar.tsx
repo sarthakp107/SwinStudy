@@ -1,9 +1,19 @@
-import { useAuth } from '@/context/AuthContext';
+import { useSignOut } from '@/Hooks/Authentication/useSignOut';
+import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar: React.FC = () => {
-  const { user, signOut } = useAuth();
+  const { user } = useAuthContext();
+  const {signOut, isPending}=useSignOut();
+
+
+  const handleSubmit = (e : React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    signOut();
+}
+
+
   return (
     <nav className="bg-white px-8 py-4 flex justify-between items-center shadow-md">
       {/* Logo */}
@@ -30,25 +40,14 @@ const Navbar: React.FC = () => {
         <Link to="/" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
           AI Study
         </Link>
-        {user ? (
-          <div className="text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300">
-
-            <button onClick={signOut}>Sign Out</button>
-          </div>
-        ) :
-          (
-            <div>
-              <Link to="/login" className="text-gray-700 mr-5 hover:text-red-600 transition-colors duration-300">
-                Login
-              </Link>
-              <Link
-                to="/signup"
-                className="text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300"
-              >
-                Get Started
-              </Link>
-            </div>)
-        }
+        { !user && <li className='list-none text-gray-700 mr-5 hover:text-red-600 transition-colors duration-300'>
+                <Link to="/login">Login</Link>
+                <Link to="/signup" className='ml-5 text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300'>Signup</Link>
+            </li>}
+        {user && <li className='list-none'>
+                {!isPending && <button className='text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300' onClick={handleSubmit}>Logout</button>}
+                {isPending && <button className='text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300' onClick={handleSubmit} disabled>Loging Out</button>}
+            </li>}
       </div>
     </nav>
   );

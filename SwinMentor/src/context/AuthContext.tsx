@@ -2,12 +2,6 @@ import { User } from "@supabase/supabase-js";
 import { createContext, useEffect, useReducer } from "react";
 import { supabase } from "../config/supabase-client"
 
-// signInWithPassword: (email: string, password:string)=>Promise<void>;
-//     signUpWithEmail: (email:string, password: string)=>Promise<void>;
-//     signInWithGithub: () => void; 
-//     signInWithGoogle: () => void;
-//     signOut: () => void;
-
 interface AuthContextType {
     user: User | null;
     dispatch: React.Dispatch<AuthAction>;
