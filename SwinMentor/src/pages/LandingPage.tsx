@@ -1,12 +1,15 @@
-import { useAuth } from '@/context/AuthContext';
+import Spinner from '@/components/Loading/Spinner';
+import { useAuthContext } from '@/Hooks/Context/useAuthContext';
+import useUserProfile from '@/Hooks/GetUserInfo/useUserProfile';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const LandingPage: React.FC = () => {
-  const {user} = useAuth();
+  const { user } = useAuthContext();
+  const { displayName, loading } = useUserProfile();
 
-  const displayName = user?.user_metadata.user_name||user?.user_metadata.name || user?.email || "Student";
-  console.log(user?.user_metadata);
+  if (loading) return <Spinner/>;
+
 
   return (
     <div className="min-h-screen">
@@ -15,9 +18,9 @@ const LandingPage: React.FC = () => {
         <div className="container mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-center">
             <div className="lg:w-1/2 lg:pr-12">
-             {user ? (<h1 className="text-5xl font-bold text-gray-800 mb-6">
+              {user ? (<h1 className="text-5xl font-bold text-gray-800 mb-6">
                 Hello <span className="text-red-600">{displayName}!</span>
-              </h1>) :<span className="text-red-600">Study</span> }
+              </h1>) : <span className="text-red-600">Study</span>}
               <h1 className="text-5xl font-bold text-gray-800 mb-6">
                 Transform Your Notes into <span className="text-red-600">Smart Flashcards</span>
               </h1>
@@ -33,7 +36,7 @@ const LandingPage: React.FC = () => {
                 </Link>
               </div>
             </div>
-            
+
           </div>
         </div>
       </section>
