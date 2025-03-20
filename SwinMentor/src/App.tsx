@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LandingPage from './pages/LandingPage';
 import CreateFlashcard from './pages/CreateFlashcard';
 import Navbar from './components/Navbar';
-import SignUpSurvey from './pages/SignupSurvey';
 import Dashboard from './pages/Dashboard';
 import LoginPage from './pages/Authentication/LoginPage';
 import SignupPage from './pages/Authentication/SignupPage';
 import { useAuthContext } from './Hooks/Context/useAuthContext';
+import { SignUpSurvey } from './pages/Survey/SignupSurvey';
+
+
 
 
 const App: React.FC = () => {

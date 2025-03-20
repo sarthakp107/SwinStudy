@@ -1,15 +1,10 @@
 import React from 'react';
-import { FaUsers, FaCalendarAlt, FaUserFriends, FaChalkboardTeacher } from 'react-icons/fa';
+import { FaCalendarAlt, FaUserFriends, FaChalkboardTeacher } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export const FeatureCards: React.FC = () => {
     return (
         <section className="mb-10">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-6 flex items-center">
-          <FaUsers className="mr-3 text-red-500" />
-          Get Involved
-        </h2>
-        
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Find a Mentor Card */}
           <div className="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg border-t-4 border-red-500">
