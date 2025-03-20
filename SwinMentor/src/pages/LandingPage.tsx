@@ -1,12 +1,14 @@
 import { useAuthContext } from '@/Hooks/Context/useAuthContext';
+import useUserProfile from '@/Hooks/GetUserInfo/useUserProfile';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
 const LandingPage: React.FC = () => {
-  const {user} = useAuthContext();
+const {user} = useAuthContext();
+  const {  displayName, loading, error } = useUserProfile();
 
-  const displayName = user?.user_metadata.user_name||user?.user_metadata.name || user?.email || "Student";
-  console.log(user?.user_metadata);
+  if (loading) return <p>Loading...</p>;
+    if (error) return <p>{error}</p>;
 
   return (
     <div className="min-h-screen">
