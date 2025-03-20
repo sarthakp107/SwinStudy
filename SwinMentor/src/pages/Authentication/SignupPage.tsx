@@ -13,7 +13,6 @@ const SignupPage: React.FC = () => {
   const {signUpWithEmail, error, isPending} = useEmailAuth();
   const {signInWithGithub, signInWithGoogle} = useOAuth();
 
-
   // Signup Handling Function
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

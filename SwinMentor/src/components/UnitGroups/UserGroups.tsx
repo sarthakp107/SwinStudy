@@ -24,7 +24,7 @@ export const UserGroups: React.FC = () => {
                     ))
                 ) : (
                     <li className="bg-yellow-100 text-yellow-800 p-4 rounded-lg shadow-md">
-                        You haven't enrolled this semester. Please complete the survey.
+                        Seems like you haven't completed the survey yet!😄
                     </li>
                 )}
             </ul>
