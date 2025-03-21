@@ -4,8 +4,6 @@ import { initialState, surveyReducer } from '@/reducers/surveyReducer';
 import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import { useUpdateDegreeInProfile } from '@/Hooks/Database/update/useUpdateDegreeInProfile';
 
-
-
 export const Step1: React.FC = () => {
     const [state, dispatch] = useReducer(surveyReducer, initialState);
     const {user} = useAuthContext();
@@ -28,8 +26,6 @@ export const Step1: React.FC = () => {
         }
     };
 
-
-
     return (
         <>
             <h2 className="text-xl font-semibold">Select Your Degree & Semester</h2>
@@ -43,8 +39,7 @@ export const Step1: React.FC = () => {
                         value={state.degree || ""}
                         required
                     >
-                        <option value="">Select Degree</option>
-                        
+                        <option value="">Select Degree</option> 
                         <DegreeList />
                     </select>
                 </label>
