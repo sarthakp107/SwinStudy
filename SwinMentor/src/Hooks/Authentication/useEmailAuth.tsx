@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {useAuthContext} from '../Context/useAuthContext';
+import { useAuthContext } from '../Context/useAuthContext';
 import supabase from '@/config/supabase-client';
 
 
@@ -11,65 +11,67 @@ export const useEmailAuth = () => {
 
 
     //login to existing acc
-    const signInWithPassword = async(email : string, password : string) => {
+    const signInWithPassword = async (email: string, password: string) => {
         setError(null)
         setIsPending(true)
 
-        try{
-            const res = await supabase.auth.signInWithPassword({email,password});
+        try {
+            const res = await supabase.auth.signInWithPassword({ email, password });
 
             //can add online status
 
-            if(res.data.user){
-                dispatch({type: "LOGIN" , payload: res.data.user});
-            } else{
-                setError("No user found");
-            } 
+            if (res.data.user) {
+                dispatch({ type: "LOGIN", payload: res.data.user });
+            } else {
+                setError(res.error?.message);
+            }
         }
-        catch(err) {      
-              setError("Invalid Login Credentials");
-              setIsPending(false);
-          }
+        catch (err) {
+            setError("Invalid Login Credentials");
+            setIsPending(false);
+        } finally {
+            setIsPending(false);
+        }
     };
 
     //SIGNUP
 
-    const signUpWithEmail = async(email:string, password: string, displayName: string) => {
+    const signUpWithEmail = async (email: string, password: string, displayName: string) => {
         setError(null);
         setIsPending(true);
 
         try {
-            const {data, error} = await supabase.auth.signUp({email,password});
+            const { data, error } = await supabase.auth.signUp({ email, password });
 
-            if(error){
-                throw new Error("Could not complete signup.")
+            if (error) {
+                throw new Error(error.message)
             }
 
-            if(data.user){
+            if (data.user) {
                 const user = data.user;
-               
+
                 const displayNameResponse = await supabase.from('profile').upsert({
                     id: user.id,
                     display_name: displayName
                 })
                 console.log("User ID:", user.id);
-console.log("Display Name:", displayName);
+                console.log("Display Name:", displayName);
 
 
-                if(displayNameResponse.error) throw displayNameResponse.error.message;
-                
-                if(user){
-                    dispatch({type: "LOGIN", payload: user});
-                }else{
-                    setError("User is NULL");
+                if (displayNameResponse.error) throw displayNameResponse.error.message;
+
+                if (user) {
+                    dispatch({ type: "LOGIN", payload: user });
+                } else {
+                    setError(error);
                 }
                 setIsPending(false);
 
                 if (!isCancelled) {
                     setIsPending(false);
                     setError(null);
-                  }
-               
+                }
+
             }
             setIsPending(false);
         } catch (error) {
@@ -86,9 +88,9 @@ console.log("Display Name:", displayName);
             }
         }
     }
-    useEffect(() => { 
+    useEffect(() => {
         return () => setIsCancelled(true)
-      }, [])
+    }, [])
 
-    return{signInWithPassword, signUpWithEmail, error, isPending}
+    return { signInWithPassword, signUpWithEmail, error, isPending }
 }
