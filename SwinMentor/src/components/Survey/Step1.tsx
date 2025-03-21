@@ -3,7 +3,7 @@ import { DegreeList } from './DegreeList';
 import { initialState, surveyReducer } from '@/reducers/surveyReducer';
 import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import { useUpdateDegreeInProfile } from '@/Hooks/Database/update/useUpdateDegreeInProfile';
-import { ChevronDownIcon } from '@heroicons/react/16/solid';
+import { FaDownload } from 'react-icons/fa'; 
 
 export const Step1: React.FC = () => {
     const [state, dispatch] = useReducer(surveyReducer, initialState);
@@ -40,7 +40,7 @@ export const Step1: React.FC = () => {
                         <option value="">Select Degree</option>
                         <DegreeList />
                     </select>
-                    <ChevronDownIcon className="absolute right-3 top-10 w-5 h-5 text-gray-500" />
+                    <FaDownload className="absolute right-3 top-10 w-5 h-5 text-gray-500" />
                 </div>
                 <div className="relative">
                     <label className="block text-gray-700 font-medium mb-2">Semester</label>
@@ -53,7 +53,7 @@ export const Step1: React.FC = () => {
                             <option key={sem} value={sem}>Semester {sem}</option>
                         ))}
                     </select>
-                    <ChevronDownIcon className="absolute right-3 top-10 w-5 h-5 text-gray-500" />
+                    <FaDownload className="absolute right-3 top-10 w-5 h-5 text-gray-500" />
                 </div>
                 <button type="submit" className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">Next</button>
             </form>
