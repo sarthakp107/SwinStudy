@@ -5,6 +5,7 @@ import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import { useUpdateDegreeInProfile } from '@/Hooks/Database/update/useUpdateDegreeInProfile';
 import { FaDownload } from 'react-icons/fa'; 
 
+
 export const Step1: React.FC = () => {
     const [state, dispatch] = useReducer(surveyReducer, initialState);
     const { user } = useAuthContext();
@@ -37,7 +38,7 @@ export const Step1: React.FC = () => {
                         value={state.degree || ""}
                         required
                     >
-                        <option value="">Select Degree</option>
+                        <option value="">Select Degree</option> 
                         <DegreeList />
                     </select>
                     <FaDownload className="absolute right-3 top-10 w-5 h-5 text-gray-500" />

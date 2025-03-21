@@ -22,9 +22,9 @@ export const useSignOut = () => {
                 setIsPending(false)
                 setError(null)
               }
-        } catch (error) {
+        } catch (error : any) {
             if (!isCancelled) {
-                setError("use signout hook wrong")
+                setError(error?.message || "An unknown error has occured.");
                 setIsPending(false)
               }
         }

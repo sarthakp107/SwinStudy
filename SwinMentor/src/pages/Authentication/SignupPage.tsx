@@ -10,8 +10,8 @@ const SignupPage: React.FC = () => {
     const[displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {signUpWithEmail, error, isPending} = useEmailAuth();
-  const {signInWithGithub, signInWithGoogle} = useOAuth();
+  const {signUpWithEmail, error : emailAuthError, isPending} = useEmailAuth();
+  const {signInWithGithub, signInWithGoogle, error: oAuthError} = useOAuth();
 
   // Signup Handling Function
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,10 +29,17 @@ const SignupPage: React.FC = () => {
 
           {/* Form For Sign Up with Email/Password */}
           <form className='space-y-5' onSubmit={handleSubmit}>
-            {error && 
+            {emailAuthError && 
                 (
                   <div className='bg-red-100 text-red-600 text-sm p-3 border border-red-400 rounded-md'>
-                    {error}
+                    {emailAuthError}
+                  </div>
+                )
+            }
+            {oAuthError && 
+                (
+                  <div className='bg-red-100 text-red-600 text-sm p-3 border border-red-400 rounded-md'>
+                    {oAuthError}
                   </div>
                 )
             }
