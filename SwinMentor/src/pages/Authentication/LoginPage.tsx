@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FaUser, FaLock, FaGoogle, FaGithub } from 'react-icons/fa';
 import { useEmailAuth } from '@/Hooks/Authentication/useEmailAuth';
 import { useOAuth } from '@/Hooks/Authentication/useOAuth';
@@ -9,11 +9,11 @@ import Spinner from '@/components/Loading/Spinner';
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [error, setError] = useState("");
   // const [isLoading, setisLoading] = useState(false);
 
-  const {signInWithPassword, isPending} = useEmailAuth();
+  const {signInWithPassword, isPending ,error: emailAuthError} = useEmailAuth();
   const{signInWithGithub, signInWithGoogle}=useOAuth();
 
   // Log In Handling Function
@@ -23,7 +23,7 @@ const LoginPage: React.FC = () => {
 
     try {
       await signInWithPassword(email, password);
-      navigate('/');
+        // navigate('/');
     } catch (err: any) {
       setError(`Error: ${err.message || err}`);
     }
@@ -40,6 +40,13 @@ const LoginPage: React.FC = () => {
               (
                 <div className='bg-red-100 text-red-600 text-sm p-3 border border-red-400 rounded-md'>
                   {error}
+                </div>
+              )
+          }
+          {emailAuthError && 
+              (
+                <div className='bg-red-100 text-red-600 text-sm p-3 border border-red-400 rounded-md'>
+                  {emailAuthError}
                 </div>
               )
           }
