@@ -1,12 +1,18 @@
-import React, { useReducer, useState } from 'react';
+import React, { useState } from 'react';
 import { SearchableDropdown } from './SearchableDropdown';
-import { initialState, surveyReducer } from '@/reducers/surveyReducer';
+import { SurveyState, Action } from '@/reducers/surveyReducer';
 import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import { useUpdateDegreeInProfile } from '@/Hooks/Database/update/useUpdateDegreeInProfile';
 import { useAvailableDegrees } from '@/Hooks/Database/useAvailableDegrees';
 
-export const Step1: React.FC = () => {
-    const [state, dispatch] = useReducer(surveyReducer, initialState);
+//Grabbing State and Dispatch from Parent Page for centralised State Management
+type Step1Props = {
+    state: SurveyState
+    dispatch: React.Dispatch<Action>
+}
+
+export const Step1: React.FC<Step1Props> = ({state, dispatch}) => {
+    
     const { user } = useAuthContext();
     const { updateDegree } = useUpdateDegreeInProfile();
     const { degrees, loading, error } = useAvailableDegrees();
@@ -27,9 +33,11 @@ export const Step1: React.FC = () => {
 
     const handleNext = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (user && state.degree && state.semester) {
-            await updateDegree(user.id, state.degree, state.semester);
-        }
+        // if (user && state.degree && state.semester) {
+        //     console.log("Updated Degree to Supabase:", state.degree, state.semester)
+        //     await updateDegree(user.id, state.degree, state.semester);
+        // }
+        dispatch({type: "NEXT_STEP"})
     };
 
     return (
