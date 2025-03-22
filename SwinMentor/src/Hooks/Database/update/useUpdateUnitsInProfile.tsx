@@ -24,17 +24,20 @@ export const useUpdateUnitsInProfile = (): UpdateUnitsResult => {
         setIsSuccess(false);
 
         try {
-            const { error: updateError } = await supabase
-                .from("testTable") 
-                .update({ 
-                    "user": userId,
-                    "selected_units":  selectedUnits
-                })
-
-            if (updateError) {
-                setError(updateError.message);
+            const { error: insertError } = await supabase
+            .from("testTable")
+            .insert(
+                selectedUnits.map((unit) => ({
+                    user: userId,
+                    selected_units: unit,
+                }))
+            );
+        
+            if (insertError) {
+                setError(insertError.message);
                 return false;
             }
+            
             setIsSuccess(true);
             return true;
         } catch (err: unknown) {

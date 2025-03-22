@@ -16,10 +16,11 @@ export const Step2: React.FC = () => {
         } else if (updatedUnits.length < 4) {
             updatedUnits.push(unitId);
         }
+        console.log(updateUnits)
         dispatch({ type: "SET_UNITS", payload: updatedUnits });
     };
 
-    const handleNext = async (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (user && state.selectedUnits.length === 4) {
             await updateUnits(user.id, state.selectedUnits);
@@ -29,14 +30,14 @@ export const Step2: React.FC = () => {
     return (
         <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Select Your 4 Units</h2>
-            <form onSubmit={handleNext} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md space-y-4">
+            <form onSubmit={handleSubmit} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md space-y-4">
                 <UnitList selectedUnits={state.selectedUnits} onUnitSelect={handleUnitSelection} />
                 <div className="flex justify-between mt-4">
                     <button type="button" onClick={() => dispatch({ type: "PREV_STEP" })} className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
                         Previous
                     </button>
                     <button type="submit" disabled={state.selectedUnits.length !== 4} className="px-4 py-2 bg-red-500 text-white rounded-lg disabled:bg-gray-300 hover:bg-red-600">
-                        Next
+                        Submit
                     </button>
                 </div>
             </form>
