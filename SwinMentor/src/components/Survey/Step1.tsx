@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { SearchableDropdown } from './SearchableDropdown';
 import { SurveyState, Action } from '@/reducers/surveyReducer';
-import { useAuthContext } from '@/Hooks/Context/useAuthContext';
-import { useUpdateDegreeInProfile } from '@/Hooks/Database/update/useUpdateDegreeInProfile';
+// import { useAuthContext } from '@/Hooks/Context/useAuthContext';
+// import { useUpdateDegreeInProfile } from '@/Hooks/Database/update/useUpdateDegreeInProfile';
 import { useAvailableDegrees } from '@/Hooks/Database/useAvailableDegrees';
 
 //Grabbing State and Dispatch from Parent Page for centralised State Management
@@ -13,8 +13,8 @@ type Step1Props = {
 
 export const Step1: React.FC<Step1Props> = ({state, dispatch}) => {
     
-    const { user } = useAuthContext();
-    const { updateDegree } = useUpdateDegreeInProfile();
+    // const { user } = useAuthContext();
+    // const { updateDegree } = useUpdateDegreeInProfile();
     const { degrees, loading, error } = useAvailableDegrees();
     
     //Required for list
