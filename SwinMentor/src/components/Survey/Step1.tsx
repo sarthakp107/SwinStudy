@@ -1,22 +1,28 @@
-import React, { useReducer } from 'react';
-import { DegreeList } from './DegreeList';
+import React, { useReducer, useState } from 'react';
+// import { DegreeList } from './DegreeList';
+import { SearchableDropdown } from './SearchableDropdown';
+import { useAvailableDegrees } from "@/Hooks/Database/useAvailableDegrees";
 import { initialState, surveyReducer } from '@/reducers/surveyReducer';
 import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import { useUpdateDegreeInProfile } from '@/Hooks/Database/update/useUpdateDegreeInProfile';
-import { FaDownload } from 'react-icons/fa'; 
 
 
 export const Step1: React.FC = () => {
     const [state, dispatch] = useReducer(surveyReducer, initialState);
     const { user } = useAuthContext();
     const { updateDegree } = useUpdateDegreeInProfile();
+    const {degrees} = useAvailableDegrees();
+    const [isOpen, setIsOpen] = useState(false)
+    const [selectedSemester, setSelectedSemester] = useState("")
 
-    const handleDegreeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        dispatch({ type: 'SET_DEGREE', payload: e.target.value });
-    };
+    const handleDegreeChange = (value: string) => {
+        dispatch({ type: 'SET_DEGREE', payload: value });
+    };  
 
-    const handleSemesterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        dispatch({ type: 'SET_SEMESTER', payload: e.target.value });
+    const handleSemesterChange = (semester: string) => {    
+        setSelectedSemester(semester)
+        setIsOpen(false);
+        dispatch({ type: 'SET_SEMESTER', payload: semester});
     };
 
     const handleNext = async (e: React.FormEvent) => {
@@ -32,30 +38,40 @@ export const Step1: React.FC = () => {
             <form onSubmit={handleNext} className="bg-white p-6 rounded-lg shadow-md w-full max-w-md space-y-4">
                 <div className="relative">
                     <label className="block text-gray-700 font-medium mb-2">Degree</label>
-                    <select
-                        className="w-full p-3 border rounded-lg appearance-none bg-gray-100 focus:ring-2 focus:ring-red-500"
+                    {/* <DegreeList selectedDegree={state.degree || ""} onDegreeChange={handleDegreeChange} /> */}
+                    <SearchableDropdown
+                        options={degrees.map(degree => ({ id: degree.degree_id, name: degree.degree_name }))}
+                        value={state.degree}
                         onChange={handleDegreeChange}
-                        value={state.degree || ""}
-                        required
-                    >
-                        <option value="">Select Degree</option> 
-                        <DegreeList />
-                    </select>
-                    <FaDownload className="absolute right-3 top-10 w-5 h-5 text-gray-500" />
+                        placeholder="Search Degree"
+                    />
                 </div>
+
                 <div className="relative">
                     <label className="block text-gray-700 font-medium mb-2">Semester</label>
-                    <select
-                        className="w-full p-3 border rounded-lg appearance-none bg-gray-100 focus:ring-2 focus:ring-red-500"
-                        onChange={handleSemesterChange}
+                    
+                    <div
+                        className="w-full p-3 border rounded-lg cursor-pointer bg-gray-100"
+                        onClick={() => setIsOpen(!isOpen)} // Toggle dropdown visibility
                     >
-                        <option>Select Semester</option>
-                        {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
-                            <option key={sem} value={sem}>Semester {sem}</option>
+                        {selectedSemester ? `Semester ${selectedSemester}` : "Select Semester"}
+                    </div>
+
+                    {isOpen && (
+                        <ul className="absolute w-full bg-white border border-gray-300 shadow-lg rounded-lg mt-1 max-h-60 overflow-y-auto z-10">
+                        {["1", "2", "3", "4", "5", "6", "7", "8"].map((sem) => (
+                            <li
+                            key={sem}
+                            className="p-3 cursor-pointer hover:bg-red-100 transition"
+                            onClick= {()=>handleSemesterChange(sem)} 
+                            >
+                            Semester {sem}
+                            </li>
                         ))}
-                    </select>
-                    <FaDownload className="absolute right-3 top-10 w-5 h-5 text-gray-500" />
+                        </ul>
+                    )}
                 </div>
+
                 <button type="submit" className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600">Next</button>
             </form>
         </div>
