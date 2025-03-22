@@ -1,15 +1,22 @@
-import React, { useReducer } from "react";
+import React from "react";
 import { SearchableDropdown } from "./SearchableDropdown";
-import { initialState, surveyReducer } from "@/reducers/surveyReducer";
+import { SurveyState, Action} from "@/reducers/surveyReducer";
 import { useAuthContext } from "@/Hooks/Context/useAuthContext";
 import { useUpdateUnitsInProfile } from "@/Hooks/Database/update/useUpdateUnitsInProfile";
 import { useAvailableUnits } from "@/Hooks/Database/useAvailableUnits";
+import { useUpdateDegreeInProfile } from "@/Hooks/Database/update/useUpdateDegreeInProfile";
 
+//Grabbing State and Dispatch from Parent Page for centralised State Management
+type Step2Props = {
+    state: SurveyState;
+    dispatch: React.Dispatch<Action>;
+}
 
-export const Step2: React.FC = () => {
-    const [state, dispatch] = useReducer(surveyReducer, initialState);
+export const Step2: React.FC<Step2Props> = ({state, dispatch}) => {
+    
     const { user } = useAuthContext();
     const { updateUnits } = useUpdateUnitsInProfile();
+    const {updateDegree} = useUpdateDegreeInProfile()
     const { units, loading, error } = useAvailableUnits();
 
     if (loading) return <div>Loading units...</div>;
@@ -31,9 +38,11 @@ export const Step2: React.FC = () => {
     //Submits to Supabase at Submit
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Selected Units:", state.selectedUnits)
         if (user && state.selectedUnits.length === 4) {
-            await updateUnits(user.id, state.selectedUnits);
+            console.log("Updated Degree to Supabase:", state.degree, state.semester)
+            await updateDegree(user.id, state.degree, state.semester); //Submit Degree and Sem to Supabase
+            console.log("Selected Units:", state.selectedUnits)
+            await updateUnits(user.id, state.selectedUnits); //Submit Units to Supabase
         }
     };
 

@@ -41,6 +41,7 @@ export const SearchableDropdown: React.FC<SearchableDropdownProps> = ({options, 
               key={option}
               className="p-3 cursor-pointer hover:bg-red-100 transition"
               onClick={() => {
+                setSearchTerm("")
                 onSelect(option); //Send this back to parent to handle along with the selected item
                 setIsOpen(false);
               }}
@@ -60,7 +61,7 @@ export const SearchableDropdown: React.FC<SearchableDropdownProps> = ({options, 
             <span
               key={selected}
               className="bg-red-500 text-white px-3 py-1 rounded-full m-1 cursor-pointer"
-              onClick={() => onSelect(selected)} //This is sent back to parent again
+              onClick={() => {onSelect(selected); setSearchTerm("")}} //This is sent back to parent again
             >
               {selected} ✖
             </span>
