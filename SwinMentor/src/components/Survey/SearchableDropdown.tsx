@@ -1,62 +1,76 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 interface SearchableDropdownProps {
-    options: { id: string; name: string }[];
-    value: string;
-    onChange: (value: string) => void;
-    placeholder?: string;
+  options: string[]; //Simply takes as a string this time to increase reusability
+  selectedOptions: string[];
+  onSelect: (value: string) => void;
+  isMultiSelect?: boolean; //To make this component reusable again
+  placeholder?: string;
 }
 
-export const SearchableDropdown: React.FC<SearchableDropdownProps> = ({ options, onChange, placeholder }) => {
+export const SearchableDropdown: React.FC<SearchableDropdownProps> = ({options, selectedOptions, onSelect, isMultiSelect = false, placeholder = "Search..."}) => {
+  
     const [searchTerm, setSearchTerm] = useState("");
     const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        if (searchTerm.trim() === "") {
-            setIsOpen(false); 
-        }
-    }, [searchTerm]);
-
-  
-    const filteredOptions = searchTerm.trim()
-        ? options.filter(option => option.name.toLowerCase().includes(searchTerm.toLowerCase())).slice(0, 5)
-        : options.slice(0, 5); 
-
-    const handleSelect = (selectedName: string) => {
-        onChange(selectedName); 
-        setSearchTerm(selectedName);
-        setIsOpen(false); 
-    };
-
-    return (
-        <div className="relative w-full">
-            <input
-                type="text"
-                placeholder={placeholder || "Search..."}
-                value={searchTerm}
-                onChange={(e) => {
-                    setSearchTerm(e.target.value);
-                    setIsOpen(true);
-                }}
-                onFocus={() => setIsOpen(true)}
-                onBlur={() => setIsOpen(false)} 
-                className="w-full p-3 border rounded-lg bg-gray-100 focus:ring-2 focus:ring-red-500"
-            />
-            
-            
-            {isOpen && filteredOptions.length > 0 && (
-                <ul className="absolute w-full bg-white border border-gray-300 shadow-lg rounded-lg mt-1 max-h-60 overflow-y-auto z-10">
-                    {filteredOptions.map(option => (
-                        <li
-                            key={option.id}
-                            onMouseDown={() => handleSelect(option.name)} 
-                            className="p-3 cursor-pointer hover:bg-red-100 transition"
-                        >
-                            {option.name}
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
+    //Takes the list, and filters in terms of search Query
+    const filteredOptions = options.filter((option) =>
+        option.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+
+  return (
+    // Main Div
+    <div className="relative w-full">
+
+      {/* Input Field for Search */}
+      <input
+        type="text"
+        placeholder={placeholder}
+        className="w-full p-2 border rounded-lg focus:outline-none"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        onFocus={() => setIsOpen(true)}
+        onBlur={()=>setIsOpen(false)}
+      />
+
+      {/* Show the list if IsOpen is true */}
+      {isOpen && (
+        <ul className="absolute w-full bg-white border border-gray-300 shadow-lg rounded-lg mt-1 max-h-60 overflow-y-auto z-10">
+          {filteredOptions.slice(0, 5).map((option) => (
+            <li
+              key={option}
+              className="p-3 cursor-pointer hover:bg-red-100 transition"
+              onClick={() => {
+                onSelect(option); //Send this back to parent to handle along with the selected item
+                setIsOpen(false);
+              }}
+            >
+              {option}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {/* Additional code to handle Multiple Selections (like Units) */}
+      {isMultiSelect && (
+        <div className="flex flex-wrap mt-2">
+
+            {/* To Show the Selected units on the bottom */}
+          {selectedOptions.map((selected) => (
+            <span
+              key={selected}
+              className="bg-red-500 text-white px-3 py-1 rounded-full m-1 cursor-pointer"
+              onClick={() => onSelect(selected)} //This is sent back to parent again
+            >
+              {selected} ✖
+            </span>
+          ))}
+
+        </div>
+      )}
+
+
+    </div>
+  );
 };

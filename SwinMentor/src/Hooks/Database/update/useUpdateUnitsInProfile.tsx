@@ -29,7 +29,7 @@ export const useUpdateUnitsInProfile = (): UpdateUnitsResult => {
             .insert(
                 selectedUnits.map((unit) => ({
                     user: userId,
-                    selected_units: unit,
+                    selected_units: unit, 
                 }))
             );
         
