@@ -7,6 +7,7 @@ import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import { useUpdateDegreeInProfile } from '@/Hooks/Database/update/useUpdateDegreeInProfile';
 
 
+
 export const Step1: React.FC = () => {
     const [state, dispatch] = useReducer(surveyReducer, initialState);
     const { user } = useAuthContext();
