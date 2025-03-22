@@ -31,7 +31,6 @@ export const SearchableDropdown: React.FC<SearchableDropdownProps> = ({options, 
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         onFocus={() => setIsOpen(true)}
-        onBlur={()=>setIsOpen(false)}
       />
 
       {/* Show the list if IsOpen is true */}
