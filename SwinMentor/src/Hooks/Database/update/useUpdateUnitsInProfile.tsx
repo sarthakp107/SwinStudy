@@ -28,7 +28,7 @@ export const useUpdateUnitsInProfile = (): UpdateUnitsResult => {
             .from("testTable")
             .insert(
                 selectedUnits.map((unit) => ({
-                    user: userId,
+                    user_id: userId,
                     selected_units: unit, 
                 }))
             );
