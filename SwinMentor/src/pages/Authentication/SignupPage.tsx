@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Spinner from '@/components/Loading/Spinner';
 
 
+
 const SignupPage: React.FC = () => {
     const[displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -17,7 +18,7 @@ const SignupPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(email,password,displayName);
-    signUpWithEmail(email,password, displayName);
+    await signUpWithEmail(email,password, displayName);
   };
 
 
