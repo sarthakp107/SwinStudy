@@ -7,13 +7,12 @@ import Dashboard from './pages/Dashboard';
 import LoginPage from './pages/Authentication/LoginPage';
 import SignupPage from './pages/Authentication/SignupPage';
 import { useAuthContext } from './Hooks/Context/useAuthContext';
-import { useSurveyContext } from './Hooks/Context/useSurveyContext';
 import { SignUpSurvey } from './pages/Survey/SignupSurvey';
 
 
 const App: React.FC = () => {
   const { user } = useAuthContext();
-  
+
   return (
     <Router>
       <Navbar />
