@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../Context/useAuthContext';
 import supabase from '@/config/supabase-client';
+import { useNavigate } from 'react-router-dom';
 
 
 export const useEmailAuth = () => {
@@ -8,6 +9,7 @@ export const useEmailAuth = () => {
     const [error, setError] = useState<string | null>()
     const [isPending, setIsPending] = useState(false)
     const { dispatch } = useAuthContext()
+    const navigate = useNavigate();
 
 
     //login to existing acc
@@ -21,6 +23,8 @@ export const useEmailAuth = () => {
             //can add online status
 
             if (res.data.user) {
+                console.log(res.data);
+                navigate("/survey")
                 dispatch({ type: "LOGIN", payload: res.data.user });
             } else {
                 setError(res.error?.message);
@@ -62,6 +66,7 @@ export const useEmailAuth = () => {
 
                 if (user) {
                     dispatch({ type: "LOGIN", payload: user });
+                    // navigate("/survey")
                 } else {
                     setError(error);
                 }

@@ -1,9 +1,17 @@
 import { Step1 } from "@/components/Survey/Step1";
-import React from "react";
-
+import { Step2 } from "@/components/Survey/Step2";
+import { useSurveyContext } from "@/Hooks/Context/useSurveyContext";
 
 export const SignUpSurvey: React.FC = () => {
-  return(
-    <div><Step1/></div>
-  );
+    const{ state, dispatch }= useSurveyContext()
+
+    return (
+        <div className="container mx-auto p-4">
+            {state.step === 1 ? (
+                <Step1 />
+            ) : ( 
+                <Step2 dispatch={dispatch} state={state} />
+            )}
+        </div>
+    );
 };
