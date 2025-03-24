@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { SearchableDropdown } from './SearchableDropdown';
 import { useAvailableDegrees } from '@/Hooks/Database/useAvailableDegrees';
 import { useSurveyContext } from '@/Hooks/Context/useSurveyContext';
+import { List } from './List';
+import { SEMESTER_OPTIONS } from '@/config/Constants';
 
 export const DegreeAndSem = () =>{
 
@@ -62,22 +64,10 @@ export const DegreeAndSem = () =>{
                         {/* Simple List for Sem 1-8, similar design to Degree List */}
                         <div className="w-full p-3 border rounded-lg cursor-pointer bg-gray-100" onClick={() => setIsOpen(!isOpen)}>
                             {/* Label for semester field, no input required here */}
-                            {selectedSemester ? `Semester ${selectedSemester}` : "Select Semester"}
+                            {selectedSemester ? selectedSemester : "Select Semester"}
                         </div>
                         {/* When the form is open, display list of 8 sems */}
-                        {isOpen && (
-                            <ul className="absolute w-full bg-white border border-gray-300 shadow-lg rounded-lg mt-1 max-h-60 overflow-y-auto z-10">
-                                {["1", "2", "3", "4", "5", "6", "7", "8"].map((sem) => (
-                                    <li
-                                        key={sem}
-                                        className="p-3 cursor-pointer hover:bg-red-100 transition"
-                                        onClick={() => handleSemesterChange(sem)} 
-                                    >
-                                        Semester {sem}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                        {isOpen && (<List options={SEMESTER_OPTIONS} handleClick={handleSemesterChange} />)}
                     </div>
 
                     {/* Next Button, submits to Supabase and sends to Step 2 */}
