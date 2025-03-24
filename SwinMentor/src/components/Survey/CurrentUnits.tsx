@@ -4,6 +4,7 @@ import { useAuthContext } from "@/Hooks/Context/useAuthContext"
 import { useSurveyContext } from "@/Hooks/Context/useSurveyContext"
 import { useUpdateUnitsInProfile } from "@/Hooks/Database/update/useUpdateUnitsInProfile"
 import { useUpdateDegreeInProfile } from "@/Hooks/Database/update/useUpdateDegreeInProfile"
+import { NUMBER_OF_CURRENT_UNITS } from "@/config/Constants"
 
 export const CurrentUnits = ()=>{
 
@@ -71,7 +72,7 @@ export const CurrentUnits = ()=>{
                         <button type="button" onClick={() => dispatch({ type: "PREV_STEP" })} className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
                             Previous
                         </button>
-                        <button type="submit" disabled={state.selectedUnits.length !== 4} className="px-4 py-2 bg-red-500 text-white rounded-lg disabled:bg-gray-300 hover:bg-red-600">
+                        <button type="submit" disabled={state.selectedUnits.length !== NUMBER_OF_CURRENT_UNITS} className="px-4 py-2 bg-red-500 text-white rounded-lg disabled:bg-gray-300 hover:bg-red-600">
                             Submit
                         </button>
                     </div>

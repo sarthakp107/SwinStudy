@@ -8,6 +8,7 @@ import LoginPage from './pages/Authentication/LoginPage';
 import SignupPage from './pages/Authentication/SignupPage';
 import { useAuthContext } from './Hooks/Context/useAuthContext';
 import { SignUpSurvey } from './pages/Survey/SignupSurvey';
+import { CreateFlashcard1 } from './pages/UploadPage';
 
 
 const App: React.FC = () => {
@@ -22,10 +23,13 @@ const App: React.FC = () => {
               <>
                 {/* {Logged In}  */}
                 <Route path="/survey" element={<SignUpSurvey />} />
+                <Route path="/survey" element={<SignUpSurvey />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/flashcard" element={<CreateFlashcard1 />} />
                 <Route path="/signup" element={<Navigate to="/" replace />} />
-                <Route path="/login" element={<Navigate to="/" replace />} />       
+                <Route path="/login" element={<Navigate to="/" replace />} />          
                 <Route path="/" element={<LandingPage />} />
+
               </>
             ) : (
               <>
