@@ -13,6 +13,7 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen">
+      
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-red-50 to-gray-50 py-20">
         <div className="container mx-auto px-6">
