@@ -1,21 +1,21 @@
 import React, { useRef } from "react";
 
 interface DragDropProps{
-    onFileSelect: (file: File)=>void
+    onUpload: (file: File)=>void
 }
 
-const DragDrop: React.FC<DragDropProps> = ({onFileSelect}) =>{
+const DragDrop: React.FC<DragDropProps> = ({onUpload}) =>{
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault()
         const file = event.dataTransfer.files[0]
-        if (file) onFileSelect(file)
+        if (file) onUpload(file)
     }
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) =>{
         const file = event.target.files?.[0]
-        if (file) onFileSelect(file)
+        if (file) onUpload(file)
     }
     return (
         <>
@@ -28,7 +28,7 @@ const DragDrop: React.FC<DragDropProps> = ({onFileSelect}) =>{
                 <p>Drag and Drop your PDF here</p>
                 <input
                 type = "file"
-                accept=".pdf"
+                accept=".pdf, .docx"
                 ref={fileInputRef}
                 className="hidden"
                 onChange={handleFileSelect}

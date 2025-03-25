@@ -1,5 +1,5 @@
-type State = {
-    file: File | null;
+  type State = {
+    file: File;
     flashcardCount: number;
   };
   
@@ -12,8 +12,6 @@ type State = {
     switch (action.type) {
       case "SET_FILE":
         return { ...state, file: action.payload };
-      case "REMOVE_FILE":
-        return { ...state, file: null };
       case "SET_FLASHCARD_COUNT":
         return { ...state, flashcardCount: action.payload };
       default:
@@ -22,7 +20,7 @@ type State = {
   };
   
   export const initialFileState: State = {
-    file: null,
+    file: new File([""], "default.txt", { type: "text/plain" }),
     flashcardCount: 1,
   };
   
