@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
 import { SearchableDropdown } from './SearchableDropdown';
 import { useAvailableDegrees } from '@/Hooks/Database/useAvailableDegrees';
 import { useSurveyContext } from '@/Hooks/Context/useSurveyContext';
+import { DropDownList } from './DropDownList';
+import { SEMESTER_OPTIONS } from '@/config/Constants';
 
 export const DegreeAndSem = () =>{
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [selectedSemester, setSelectedSemester] = useState("");
     const { degrees, loading, error } = useAvailableDegrees();
     const {dispatch, state} = useSurveyContext();
 
@@ -15,8 +14,6 @@ export const DegreeAndSem = () =>{
     };
 
     const handleSemesterChange = (semester: string) => {    
-        setSelectedSemester(semester);
-        setIsOpen(false);
         dispatch({ type: 'SET_SEMESTER', payload: semester });
     };
 
@@ -53,31 +50,10 @@ export const DegreeAndSem = () =>{
                         )}
                     </div>
 
-
-
                     {/* Div For Semester Selection */}
                     <div className="relative">
                         <label className="block text-gray-700 font-medium mb-2">Semester</label>
-
-                        {/* Simple List for Sem 1-8, similar design to Degree List */}
-                        <div className="w-full p-3 border rounded-lg cursor-pointer bg-gray-100" onClick={() => setIsOpen(!isOpen)}>
-                            {/* Label for semester field, no input required here */}
-                            {selectedSemester ? `Semester ${selectedSemester}` : "Select Semester"}
-                        </div>
-                        {/* When the form is open, display list of 8 sems */}
-                        {isOpen && (
-                            <ul className="absolute w-full bg-white border border-gray-300 shadow-lg rounded-lg mt-1 max-h-60 overflow-y-auto z-10">
-                                {["1", "2", "3", "4", "5", "6", "7", "8"].map((sem) => (
-                                    <li
-                                        key={sem}
-                                        className="p-3 cursor-pointer hover:bg-red-100 transition"
-                                        onClick={() => handleSemesterChange(sem)} 
-                                    >
-                                        Semester {sem}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                        <DropDownList options={SEMESTER_OPTIONS} handleClick={handleSemesterChange} label='Select Semester' />
                     </div>
 
                     {/* Next Button, submits to Supabase and sends to Step 2 */}
