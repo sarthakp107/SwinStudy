@@ -2,13 +2,12 @@ import supabase from "@/config/supabase-client";
 import { useEffect, useState } from "react";
 
 export const useUserUnits = () => {
-    const [units, setUnits] = useState<any[]>([]);  
+    const [units, setUnits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-
     useEffect(() => {
-        const fetchUnits = async() => {
+        const fetchUserUnits = async () => {
             setLoading(true);
             setError(null);
 
@@ -21,25 +20,25 @@ export const useUserUnits = () => {
                 return;
             }
 
-            const {data,error} = await supabase
-            .from("user_units")
-            .select("unit_id, units(*)")
-            .eq("profile_id", user.id);
+            const { data, error } = await supabase
+            .from("testTable")
+            .select("user_id, selected_units")
+            .eq("user_id", user.id);
 
             if (error) {
-                setError("Error fetching units.");
+                setError(error.message);
             } else {
                 // Extract the 'units' data from the response
-                const userUnits = data?.map((item) => item.units) || [];
+                const userUnits = data?.map((item) => item.selected_units ?? []) || [];
                 setUnits(userUnits);  // Set the units in state
             }
-
-            setLoading(false); 
+            setLoading(false);
         };
 
-        fetchUnits();
+        fetchUserUnits();
     }, [])
 
+    // return {  loading, error };
     return { units, loading, error };
 
 }
