@@ -4,6 +4,7 @@ import { UploadButton } from "@/components/Flashcards/UploadButton"
 import { fileReducer, initialFileState } from "@/reducers/fileReducer"
 import { DropDownList } from "@/components/Survey/DropDownList"
 import { NUMBER_OF_FLASHCARDS } from "@/config/Constants"
+import PDFExtractor from "@/components/Flashcards/FileParser"
 // import FileParser from "@/components/Flashcards/FileParser"
 
 
@@ -41,7 +42,7 @@ export const CreateFlashcard1 = () => {
                     <label className="">Select Number of Flashcards</label>
                     <DropDownList options={NUMBER_OF_FLASHCARDS} handleClick={handleClick} label="Number of Flashcards"/>
                 </div>
-
+                <PDFExtractor onTextExtracted={handleExtract} onError={handleExtract} />
                 {/* <FileParser file = {state.file} onExtractedText={handleExtract}/> */}
             </div>
         </>
