@@ -2,12 +2,16 @@
     file: File;
     flashcardCount: number;
     extractedText: string;
+    embeddedText: string[];
+    QnAText: string;
   };
   
   type Action =
     | { type: "SET_FILE"; payload: File }
     | { type: "REMOVE_FILE" }
     | {type: "SET_EXTRACTED_TEXT"; payload: string}
+    | {type: "SET_EMBEDDED_TEXT"; payload: string[]}
+    | {type: "SET_QNA_TEXT"; payload: string}
     | { type: "SET_FLASHCARD_COUNT"; payload: number };
   
   export const fileReducer = (state: State, action: Action): State => {
@@ -17,7 +21,11 @@
       case "SET_FLASHCARD_COUNT":
         return { ...state, flashcardCount: action.payload };
       case "SET_EXTRACTED_TEXT":
-        return {...state, extractedText: action.payload}
+        return {...state, extractedText: action.payload};
+      case "SET_EMBEDDED_TEXT":
+        return{...state, embeddedText: action.payload};
+      case "SET_QNA_TEXT":
+        return{...state, QnAText: action.payload};
       default:
         return state;
     }
@@ -26,6 +34,8 @@
   export const initialFileState: State = {
     file: new File([""], "default.txt", { type: "text/plain" }),
     flashcardCount: 0,
-    extractedText: ""
+    extractedText: "",
+    embeddedText: [],
+    QnAText: ""
   };
   
