@@ -3,9 +3,10 @@ import React, { useRef } from "react";
 interface UploadButtonProps {
     onUpload: (file:File) => void
     file: File | null;
+    label: string;
 }
 
-export const UploadButton: React.FC<UploadButtonProps>=({onUpload})=>{
+export const UploadButton: React.FC<UploadButtonProps>=({onUpload, label})=>{
     const fileInputRef = useRef<HTMLInputElement>(null)
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) =>{
@@ -19,7 +20,7 @@ export const UploadButton: React.FC<UploadButtonProps>=({onUpload})=>{
             onClick={()=>fileInputRef.current?.click()}
             className="bg-red-600 text-white px-4 py-2 rounded-lg mt-4 cursor-pointer"
             >
-            Upload
+            {label}
                 <input
                     type = "file"
                     accept=".pdf, .docx"
