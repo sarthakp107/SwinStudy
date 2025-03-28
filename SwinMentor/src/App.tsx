@@ -9,6 +9,8 @@ import SignupPage from './pages/Authentication/SignupPage';
 import { useAuthContext } from './Hooks/Context/useAuthContext';
 import { SignUpSurvey } from './pages/Survey/SignupSurvey';
 import { CreateFlashcard1 } from './pages/UploadPage';
+import { UnitBuddies } from './pages/UnitBuddies/UnitBuddies';
+
 
 
 const App: React.FC = () => {
@@ -29,6 +31,7 @@ const App: React.FC = () => {
                 <Route path="/signup" element={<Navigate to="/" replace />} />
                 <Route path="/login" element={<Navigate to="/" replace />} />          
                 <Route path="/" element={<LandingPage />} />
+                <Route path="/dashboard/:unitName" element={<UnitBuddies/>} />
 
               </>
             ) : (
