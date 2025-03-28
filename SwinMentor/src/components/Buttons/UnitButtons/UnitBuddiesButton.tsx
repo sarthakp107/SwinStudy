@@ -1,29 +1,9 @@
-import { useGetUnitMembers } from "@/Hooks/useGetUnitMembers";
-
-interface UnitBuddiesButtonProps {
-  unit: string;
-}
-
-export const UnitBuddiesButton: React.FC<UnitBuddiesButtonProps> = ({ unit }) => {
-    const { users, loading, error } = useGetUnitMembers(unit);
-
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
-
+export const UnitBuddiesButton = () => {
     return (
-        <div>
-            <h3>Unit Buddies for {unit}</h3>
-            <ul>
-                {users.length > 0 ? (
-                    users.map((user) => (
-                        <li key={user.user_id}>
-                            <strong>{user.display_name}</strong>
-                        </li>
-                    ))
-                ) : (
-                    <li>No buddies found.</li>
-                )}
-            </ul>
+        <div className="flex justify-center mt-6">
+            <button className="px-6 py-3 bg-red-500 text-white font-semibold rounded-lg shadow-md hover:bg-red-600 transition-all duration-300 transform hover:scale-105">
+                Unit Buddies
+            </button>
         </div>
     );
 };

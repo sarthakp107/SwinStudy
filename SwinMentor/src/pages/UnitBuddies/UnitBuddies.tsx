@@ -1,3 +1,4 @@
+import Spinner from "@/components/Loading/Spinner";
 import { useGetUnitMembers } from "@/Hooks/useGetUnitMembers";
 import { FaUserFriends } from "react-icons/fa";
 import { useParams } from "react-router-dom";
@@ -8,7 +9,7 @@ export const UnitBuddies = () => {
     const safeUnitName = unitName ?? ""; // Ensure it's always a string
     const { users, loading, error } = useGetUnitMembers(safeUnitName);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div className="mt-16"><Spinner/></div>;
     if (error) return <div className="error">Error: {error}</div>;
 
     return (
