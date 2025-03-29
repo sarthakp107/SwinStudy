@@ -1,10 +1,12 @@
 import { SearchableDropdown } from "./SearchableDropdown"
 import { useAvailableUnits } from "@/Hooks/Database/useAvailableUnits"
+
 import { useSurveyContext } from "@/Hooks/Context/useSurveyContext"
 
 export const CurrentUnits = ()=>{
 
     const {state, dispatch} = useSurveyContext()
+
     const { units, error } = useAvailableUnits();
 
     // if (loading) return <div>Loading units...</div>;
@@ -23,6 +25,7 @@ export const CurrentUnits = ()=>{
         dispatch({ type: "SET_UNITS", payload: updatedUnits });
     };
 
+
     
     return (
             <div>
@@ -39,7 +42,6 @@ export const CurrentUnits = ()=>{
                         />
                     </div>
 
-                   
             </div>
     )
 }

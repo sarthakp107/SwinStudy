@@ -1,5 +1,7 @@
 export const FetchQnAOurServer = async (text: string) => {
-    const response = await fetch('http://34.129.0.139:8000/flashcards', {
+
+    const response = await fetch('http://34.129.0.139:8000/generate', {
+
         method: "POST",
         headers: {
             "Content-Type": "application/json"
