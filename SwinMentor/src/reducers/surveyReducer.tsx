@@ -1,13 +1,13 @@
 export type SurveyState = {
     degree: string;
-    semester: string;
+    semester: number;
     selectedUnits: string[]
     step: number;
 }
 
 export type Action = 
 |{ type: "SET_DEGREE"; payload:string }
-|{type: "SET_SEMESTER"; payload: string}
+|{type: "SET_SEMESTER"; payload: number}
 |{type:"SET_UNITS"; payload: string[]}
 |{type:"NEXT_STEP"}
 |{type:"PREV_STEP"};
@@ -15,7 +15,7 @@ export type Action =
 
 export const initialState: SurveyState = {
     degree: "",
-    semester: "",
+    semester: 0,
     selectedUnits:[],
     step: 1
 }

@@ -1,10 +1,14 @@
 import { SearchableDropdown } from './SearchableDropdown';
 import { useAvailableDegrees } from '@/Hooks/Database/useAvailableDegrees';
 import { useSurveyContext } from '@/Hooks/Context/useSurveyContext';
-import { DropDownList } from './DropDownList';
-import { SEMESTER_OPTIONS } from '@/config/Constants';
+import { useState } from 'react';
+// import { DropDownList } from './DropDownList';
+// import { SEMESTER_OPTIONS } from '@/config/Constants';
 
 export const DegreeAndSem = () =>{
+
+    const [isOpen, setIsOpen] = useState(false)
+    const [option, setOption] =useState ("")
 
     const { degrees, loading, error } = useAvailableDegrees();
     const {dispatch, state} = useSurveyContext();
@@ -13,8 +17,10 @@ export const DegreeAndSem = () =>{
         dispatch({ type: 'SET_DEGREE', payload: degreeId });
     };
 
-    const handleSemesterChange = (semester: string) => {    
+    const handleSemesterChange = (semester: number) => {    
         dispatch({ type: 'SET_SEMESTER', payload: semester });
+        console.log(semester)
+        setOption(`Semester ${semester}`)
     };
 
     const handleNext = async (e: React.FormEvent) => {
@@ -53,7 +59,32 @@ export const DegreeAndSem = () =>{
                     {/* Div For Semester Selection */}
                     <div className="relative">
                         <label className="block text-gray-700 font-medium mb-2">Semester</label>
-                        <DropDownList options={SEMESTER_OPTIONS} handleClick={handleSemesterChange} label='Select Semester' />
+                        <input
+                            type="text"
+                            placeholder="Select Semester"
+                            className="w-full p-2 border rounded-lg focus:outline-none"
+                            value={option}
+                            onChange={(e)=>setOption(e.target.value)}
+                            onFocus={() => setIsOpen(true)}
+                        >
+                            
+                        </input>
+                        {isOpen && 
+                                <ul className="absolute w-full bg-white border border-gray-300 shadow-lg rounded-lg mt-1 max-h-60 overflow-y-auto z-10">
+                                {[1,2,3,4,5,6,7,8].map((option) => (
+                                    <li
+                                        key={option}
+                                        className="p-3 cursor-pointer hover:bg-red-100 transition"
+                                        onClick={() => {handleSemesterChange(option); setIsOpen(false)}} 
+                                    >
+                                    Semester {option}
+                                    </li>
+                                ))}
+                                </ul>
+                                }
+                            
+                        
+                        
                     </div>
 
                     {/* Next Button, submits to Supabase and sends to Step 2 */}

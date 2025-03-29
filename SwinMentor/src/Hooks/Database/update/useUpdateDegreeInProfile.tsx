@@ -9,8 +9,6 @@ interface UpdateDegreeResult {
     isSuccess: boolean;
 }
 
-
-
 export const useUpdateDegreeInProfile = (): UpdateDegreeResult => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -32,7 +30,7 @@ export const useUpdateDegreeInProfile = (): UpdateDegreeResult => {
 
         try {
             const { error: updateError } = await supabase
-                .from('profile') // Replace with your actual table name
+                .from('profile') 
                 .update({
                     degree: degree,
                     semester: semester
