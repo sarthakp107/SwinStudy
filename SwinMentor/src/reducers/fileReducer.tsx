@@ -1,9 +1,12 @@
+  import {QnAFormat} from "@/components/Flashcards/QnAConverter";
   type State = {
     file: File;
     flashcardCount: number;
     extractedText: string;
     embeddedText: string[];
     QnAText: string;
+    QnA: QnAFormat[];
+
   };
   
   type Action =
@@ -12,6 +15,7 @@
     | {type: "SET_EXTRACTED_TEXT"; payload: string}
     | {type: "SET_EMBEDDED_TEXT"; payload: string[]}
     | {type: "SET_QNA_TEXT"; payload: string}
+    | {type: "SET_QNA"; payload: QnAFormat[]}
     | { type: "SET_FLASHCARD_COUNT"; payload: number };
   
   export const fileReducer = (state: State, action: Action): State => {
@@ -26,6 +30,8 @@
         return{...state, embeddedText: action.payload};
       case "SET_QNA_TEXT":
         return{...state, QnAText: action.payload};
+      case "SET_QNA":
+        return{...state, QnA: action.payload};
       default:
         return state;
     }
@@ -36,6 +42,7 @@
     flashcardCount: 0,
     extractedText: "",
     embeddedText: [],
-    QnAText: ""
+    QnAText: "",
+    QnA: []
   };
   
