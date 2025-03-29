@@ -20,6 +20,7 @@ export const UserUnitsCard: React.FC = () => {
 
     return (
         <div className="p-6">
+
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {units.length > 0 ? (
                     units.map((unit, index) => (
@@ -46,6 +47,7 @@ export const UserUnitsCard: React.FC = () => {
                 )}
             </ul>
         </div>
+
 
     );
 };

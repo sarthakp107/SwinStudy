@@ -1,3 +1,4 @@
+
 import { useSurveyContext } from "@/Hooks/Context/useSurveyContext";
 import { CurrentUnits } from "./CurrentUnits";
 import { NUMBER_OF_CURRENT_UNITS } from "@/config/Constants"
@@ -32,6 +33,7 @@ export const Step2: React.FC = () => {
         //Main Div
         <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center p-6">
             <CurrentUnits />
+
 
             <div className="flex justify-between mt-4">
                 <button type="button" onClick={() => dispatch({ type: "PREV_STEP" })} className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600">
