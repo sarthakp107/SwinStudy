@@ -2,6 +2,7 @@ import { useSurveyContext } from "@/Hooks/Context/useSurveyContext";
 import { CurrentUnits } from "./CurrentUnits";
 import { NUMBER_OF_CURRENT_UNITS } from "@/config/Constants";
 import { useHandleSurveySubmit } from "@/Hooks/Database/useHandleSurveySubmit";
+import Spinner from "../Loading/Spinner";
 
 export const Step2: React.FC = () => {
     const { state, dispatch } = useSurveyContext();
@@ -23,7 +24,7 @@ export const Step2: React.FC = () => {
                     disabled={state.selectedUnits.length !== NUMBER_OF_CURRENT_UNITS || loading} 
                     className={`px-4 py-2 text-white rounded-lg ${loading ? 'bg-gray-300' : 'bg-red-500 hover:bg-red-600'}`}
                 >
-                    {loading ? "Submitting..." : "Submit"}
+                    {loading ? <Spinner/> : "Submit"}
                 </button>
             </div>
         </div>
