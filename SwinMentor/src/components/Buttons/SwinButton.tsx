@@ -6,7 +6,7 @@ interface ButtonProps {
     icon: JSX.Element;  // Accepting a JSX Element for the icon
 }
 
-export const Button = ({ label, onClick, icon }: ButtonProps) => {
+export const SwinButton = ({ label, onClick, icon }: ButtonProps) => {
     return (
         <button
             onClick={onClick}
@@ -20,6 +20,7 @@ export const Button = ({ label, onClick, icon }: ButtonProps) => {
         </button>
     );
 };
+
 export const ActionButton = ({ label, onClick, icon }: ButtonProps) => {
     return (
         <button
