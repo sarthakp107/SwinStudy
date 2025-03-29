@@ -1,3 +1,4 @@
+
 import { OPEN_ROUTER_API, FETCH_QNA_MODEL } from "@/config/Constants";
 
 
@@ -7,17 +8,21 @@ export const FetchQnA = async (text: string, number: number) => {
                             Format your response in clear text. Do not use any additional formatting (not even bold or italic, use just plain text).  Label each Question and Answer like Question: This is a Question. Answer: This is the answer, and so on, it shouldn't be a numbered list.`
 
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+
         method: "POST",
         headers: {
             "Authorization": `Bearer ${OPEN_ROUTER_API}`,
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
+
             "model": FETCH_QNA_MODEL,
             "messages": [
                 {
                     "role": "system",
                     "content": prompt
+
+
                 },
                 {
                     "role": "user",
@@ -26,6 +31,7 @@ export const FetchQnA = async (text: string, number: number) => {
             ]
         })
     });
+
     
     const data = await response.json();
     console.log("Raw Response:", response)
@@ -39,3 +45,4 @@ export const FetchQnA = async (text: string, number: number) => {
 
 
 };
+

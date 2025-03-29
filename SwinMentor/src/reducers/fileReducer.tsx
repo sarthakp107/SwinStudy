@@ -1,5 +1,4 @@
   import {QnAFormat} from "@/components/Flashcards/QnAConverter";
-
   type State = {
     file: File;
     flashcardCount: number;
@@ -7,6 +6,7 @@
     embeddedText: string[];
     QnAText: string;
     QnA: QnAFormat[];
+
   };
   
   type Action =

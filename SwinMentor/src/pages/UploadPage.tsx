@@ -5,6 +5,7 @@ import { fileReducer, initialFileState } from "@/reducers/fileReducer"
 import { DropDownList } from "@/components/Survey/DropDownList"
 import { NUMBER_OF_FLASHCARDS } from "@/config/Constants"
 import { PDFParser } from "@/components/Flashcards/PDFParser"
+
 import { FetchQnA } from "@/components/Flashcards/FetchQnA"
 import { QnAConverter } from "@/components/Flashcards/QnAConverter"
 import { SwinButton } from "@/components/Buttons/SwinButton"
@@ -13,11 +14,12 @@ import { FaGamepad } from "react-icons/fa"
 export const CreateFlashcard1 = () => {
     
     const [state, dispatch] = useReducer(fileReducer, initialFileState)
-    
+
     const handleUpload = async (file: File) => {
         dispatch({ type: "SET_FILE", payload: file });
         try {
             const extractedText = await PDFParser(file);
+
             await dispatch({ type: "SET_EXTRACTED_TEXT", payload: extractedText });
             console.log("Extracted Text:", extractedText);
         } catch (error) {
@@ -42,7 +44,6 @@ export const CreateFlashcard1 = () => {
             console.log("Error in API call:", error)
         }
     };
-
 
     return (
         <>

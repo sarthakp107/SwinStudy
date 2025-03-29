@@ -5,3 +5,4 @@ export const LOCATION_OF_PDF_WORKER = '/node_modules/pdfjs-dist/build/pdf.worker
 export const OPEN_ROUTER_API ="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"
 export const FETCH_QNA_MODEL = "mistralai/mistral-small-24b-instruct-2501:free"
 export const REGEX_FOR_QNA: RegExp = /Question:\s*(.*?)\s*Answer:\s*(.*?)(?=Question:|$)/gs;
+

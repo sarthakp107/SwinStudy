@@ -9,6 +9,7 @@ interface ListProps{
 export const DropDownList: React.FC<ListProps>  = ({options, handleClick, label=""}) =>{
     const [isOpen, setIsOpen] = useState(false)
     const [selected, setSelected] = useState<number>()
+
     return (
         <div className="w-full p-3 border rounded-lg cursor-pointer bg-gray-100" onClick={() => setIsOpen(!isOpen)}>
         {selected ? selected : label}
