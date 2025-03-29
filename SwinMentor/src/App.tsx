@@ -11,21 +11,26 @@ import { SignUpSurvey } from './pages/Survey/SignupSurvey';
 import { CreateFlashcard1 } from './pages/UploadPage';
 
 import { UnitBuddies } from './pages/UnitBuddies/UnitBuddies';
+import { useSurveyStatus } from './Hooks/Database/update/useSurveyStatus';
 
 
 const App: React.FC = () => {
   const { user } = useAuthContext();
+  const{hasSubmittedSurvey} = useSurveyStatus();
 
   return (
     <Router>
       <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage/>} />
+       <Route path="/survey" element={ !hasSubmittedSurvey && user ? (<SignUpSurvey />) : (
+      <Navigate replace to={"/dashboard"} />
+    )} />
             {user ? (
               <>
                 {/* {Logged In}  */}
-                <Route path="/survey" element={<SignUpSurvey />} />
-                <Route path="/survey" element={<SignUpSurvey />} />
+                
+
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/flashcard" element={<CreateFlashcard1 />} />
                 <Route path="/signup" element={<Navigate to="/" replace />} />

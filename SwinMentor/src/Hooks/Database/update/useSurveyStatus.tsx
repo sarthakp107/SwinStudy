@@ -15,6 +15,7 @@ export const useSurveyStatus = () => {
 
 useEffect(() => {
     const fetchSurveyStatus = async () => {
+        setIsLoading(true);
         //boolean 
         try {
             const { data: fetchData, error } = await supabase
