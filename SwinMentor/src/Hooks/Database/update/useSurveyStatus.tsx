@@ -1,44 +1,43 @@
 import supabase from "@/config/supabase-client";
 import { useAuthContext } from "@/Hooks/Context/useAuthContext";
-// import { fetchData } from "pdfjs-dist/types/src/display/node_utils";
-import {  useEffect, useState } from "react";
-
+import { useEffect, useState } from "react";
 
 export const useSurveyStatus = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [isSuccess, setIsSuccess] = useState(false);
 
-    const[hasSubmittedSurvey, setHasSubmittedSurvey] = useState<boolean>(false);
+    const [hasSubmittedSurvey, setHasSubmittedSurvey] = useState<boolean>(false);
     const { user } = useAuthContext();
 
+    useEffect(() => {
+        const fetchSurveyStatus = async () => {
+            setIsLoading(true);
+            if (!user?.id) { 
+                return; 
+            }    
+            
+            try {
+                const { data: fetchData, error } = await supabase
+                    .from("profile")
+                    .select("hasSubmittedSurvey")
+                    .eq("id", user?.id);
 
-useEffect(() => {
-    const fetchSurveyStatus = async () => {
-        setIsLoading(true);
-        //boolean 
-        try {
-            const { data: fetchData, error } = await supabase
-                .from("profile")
-                .select("hasSubmittedSurvey")
-                .eq("id", user?.id);
+                if (error) {
+                    setError(error.message);
+                }
+                if (fetchData && fetchData.length > 0) {
+                    setHasSubmittedSurvey(fetchData[0].hasSubmittedSurvey);
+                }
 
-            if (error) {
-                setError(error.message);
+            } catch (err: any) {
+                setError('Failed to fetch survey status.');
+            } finally {
+                setIsLoading(false);
             }
-            if(!fetchData){
-                setHasSubmittedSurvey(false);
-            }else{
-                setHasSubmittedSurvey(true);
-            }
-        } catch (err: any) {
-            setError('Failed to fetch survey status.');
-        } finally {
-            setIsLoading(false);
         }
-    }
-    fetchSurveyStatus();
-},[user?.id])
+        fetchSurveyStatus();
+    }, [user?.id])
 
 
     const updateSurveyStatus = async (): Promise<boolean> => {
@@ -47,7 +46,7 @@ useEffect(() => {
         setIsSuccess(false);
 
         if (!user?.id) {
-            console.log("no user id");
+            setError("No user ID");
         }
 
         try {
@@ -78,7 +77,5 @@ useEffect(() => {
         }
 
     }
-
-
     return { hasSubmittedSurvey, updateSurveyStatus, isLoading, error, isSuccess }
 }

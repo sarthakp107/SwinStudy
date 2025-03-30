@@ -16,42 +16,37 @@ import { useSurveyStatus } from './Hooks/Database/update/useSurveyStatus';
 
 const App: React.FC = () => {
   const { user } = useAuthContext();
-  const{hasSubmittedSurvey} = useSurveyStatus();
+  const { hasSubmittedSurvey } = useSurveyStatus();
 
   return (
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<LandingPage/>} />
-       <Route path="/survey" element={ !hasSubmittedSurvey && user ? (<SignUpSurvey />) : (
-      <Navigate replace to={"/dashboard"} />
-    )} />
-            {user ? (
-              <>
-                {/* {Logged In}  */}
-                
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/survey" element={!hasSubmittedSurvey ? (<SignUpSurvey />) : (
+          <Navigate replace to={"/dashboard"} />
+        )} />
+        {user ? (
+          <>
+            {/* {Logged In}  */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/flashcard" element={<CreateFlashcard1 />} />
+            <Route path="/signup" element={<Navigate to="/" replace />} />
+            <Route path="/login" element={<Navigate to="/" replace />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/dashboard/:unitName" element={<UnitBuddies />} />
+          </>
+        ) : (
+          <>
+            {/* {Not Logged In} */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/" element={<LandingPage />} />
+          </>
+        )}
 
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/flashcard" element={<CreateFlashcard1 />} />
-                <Route path="/signup" element={<Navigate to="/" replace />} />
-                <Route path="/login" element={<Navigate to="/" replace />} />          
-                <Route path="/" element={<LandingPage />} />
-
-                <Route path="/dashboard/:unitName" element={<UnitBuddies/>} />
-
-
-              </>
-            ) : (
-              <>
-                {/* {Not Logged In} */}
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<SignupPage />} />
-                <Route path="/" element={<LandingPage />} />
-              </>
-            )}
-
-            {/* Create flashcard page */}
-          <Route path="/create" element={<CreateFlashcard />} />
+        {/* Create flashcard page */}
+        <Route path="/create" element={<CreateFlashcard />} />
       </Routes>
     </Router>
   );

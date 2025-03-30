@@ -26,14 +26,10 @@ export const useHandleSurveySubmit = () => {
         setLoading(true);
         setError(null);
 
-        console.log(user);
-
         try {
             await updateDegree(user.id, state.degree, state.semester);
 
-            //update the hasSubmittedSurvey column in the db
             const statusUpdated = await updateSurveyStatus();
-            console.log(statusUpdated);
             if (!statusUpdated) {
                 setError(`An error occurred while updating survey status: ${statusUpdateError}`);
                 return;
