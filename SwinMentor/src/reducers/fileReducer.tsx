@@ -1,5 +1,5 @@
   import {QnAFormat} from "@/components/Flashcards/QnAConverter";
-  type State = {
+  export type FileState = {
     file: File;
     flashcardCount: number;
     extractedText: string;
@@ -9,7 +9,7 @@
 
   };
   
-  type Action =
+  export type Action =
     | { type: "SET_FILE"; payload: File }
     | { type: "REMOVE_FILE" }
     | {type: "SET_EXTRACTED_TEXT"; payload: string}
@@ -18,7 +18,7 @@
     | {type: "SET_QNA"; payload: QnAFormat[]}
     | { type: "SET_FLASHCARD_COUNT"; payload: number };
   
-  export const fileReducer = (state: State, action: Action): State => {
+  export const fileReducer = (state: FileState, action: Action): FileState => {
     switch (action.type) {
       case "SET_FILE":
         return { ...state, file: action.payload };
@@ -37,8 +37,8 @@
     }
   };
   
-  export const initialFileState: State = {
-    file: new File([""], "default.txt", { type: "text/plain" }),
+  export const initialFileState: FileState = {
+    file: new File([""], "", { type: "text/plain" }),
     flashcardCount: 0,
     extractedText: "",
     embeddedText: [],

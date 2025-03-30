@@ -8,10 +8,9 @@ import LoginPage from './pages/Authentication/LoginPage';
 import SignupPage from './pages/Authentication/SignupPage';
 import { useAuthContext } from './Hooks/Context/useAuthContext';
 import { SignUpSurvey } from './pages/Survey/SignupSurvey';
-import { CreateFlashcard1 } from './pages/UploadPage';
-
+import { UploadPage } from './pages/UploadPage';
 import { UnitBuddies } from './pages/UnitBuddies/UnitBuddies';
-
+import { Flashcards } from './pages/Flashcards';
 
 const App: React.FC = () => {
   const { user } = useAuthContext();
@@ -27,14 +26,12 @@ const App: React.FC = () => {
                 <Route path="/survey" element={<SignUpSurvey />} />
                 <Route path="/survey" element={<SignUpSurvey />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/flashcard" element={<CreateFlashcard1 />} />
+                <Route path="/upload" element={<UploadPage />} />
+                <Route path='/flashcard/:questionID' element = {<Flashcards />}/>
                 <Route path="/signup" element={<Navigate to="/" replace />} />
                 <Route path="/login" element={<Navigate to="/" replace />} />          
                 <Route path="/" element={<LandingPage />} />
-
                 <Route path="/dashboard/:unitName" element={<UnitBuddies/>} />
-
-
               </>
             ) : (
               <>
@@ -44,7 +41,6 @@ const App: React.FC = () => {
                 <Route path="/" element={<LandingPage />} />
               </>
             )}
-
             {/* Create flashcard page */}
           <Route path="/create" element={<CreateFlashcard />} />
       </Routes>
