@@ -1,23 +1,39 @@
-
-
 interface ButtonProps {
     label: string;
     onClick: () => void;
     icon: JSX.Element;  // Accepting a JSX Element for the icon
+    isdisabled?: boolean;
+    disabledLabel?: string
 }
 
-export const SwinButton = ({ label, onClick, icon }: ButtonProps) => {
+export const SwinButton = ({ label, onClick, icon, isdisabled = false, disabledLabel = "Processing"}: ButtonProps) => {
     return (
-        <button
-            onClick={onClick}
-            className="flex items-center bg-red-500 text-white p-3 rounded-md hover:bg-blue-600 transition-colors"
-        >
-            {/* React Icon */}
-            <span className="mr-2">{icon}</span>
-            
-            {/* Button label */}
-            <span>{label}</span>
-        </button>
+        <>
+            {isdisabled ? (
+                <button
+                    onClick={onClick}
+                    className="flex items-center bg-red-400 text-white p-3 rounded-md hover:bg-blue-600 transition-colors"
+                    disabled = {true}
+                >   
+                    {/* React Icon */}
+                    <span className="mr-2">{icon}</span>
+                    
+                    {/* Button label */}
+                    <span>{disabledLabel}</span>
+                </button>
+            ):(
+                <button
+                    onClick={onClick}
+                    className="flex items-center bg-red-500 text-white p-3 rounded-md hover:bg-blue-600 transition-colors"
+                >   
+                    {/* React Icon */}
+                    <span className="mr-2">{icon}</span>
+                    
+                    {/* Button label */}
+                    <span>{label}</span>
+                </button>
+            )}
+        </>
     );
 };
 
