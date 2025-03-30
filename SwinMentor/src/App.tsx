@@ -30,7 +30,7 @@ const App: React.FC = () => {
           <>
             {/* {Logged In}  */}
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/flashcard" element={<Flashcards/>} />
+            <Route path="/flashcard/:questionID" element={<Flashcards/>} />
             <Route path="/upload" element={<UploadPage />} />
             <Route path="/signup" element={<Navigate to="/" replace />} />
             <Route path="/login" element={<Navigate to="/" replace />} />
