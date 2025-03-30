@@ -20,21 +20,17 @@ export const useGetUnitMembers = (unit: string) => {
       // Fetch the user_id from testTable for the selected unit
       const { data, error } = await supabase
         .from("testTable")
-        .select("user_id") // Get user_id from testTable
+        .select("user_id") 
         .eq("selected_units", unit);
 
       if (error) {
-        console.error("Error fetching users:", error);
         setError(error.message);
       } else {
-        console.log("Fetched Users:", data);
 
-        // Now fetch the display_name from the appropriate table (assuming 'profiles' table)
         const userIds = data.map((row) => row.user_id); // Get user_ids array
 
-        // Adjust this query if 'profiles' table or columns have different names
         const { data: profiles, error: profileError } = await supabase
-          .from("profile") // Assuming 'profiles' table has display_name and user_id
+          .from("profile") 
           .select("id, display_name")
           .in("id", userIds); // Filter by the fetched user_ids
 
