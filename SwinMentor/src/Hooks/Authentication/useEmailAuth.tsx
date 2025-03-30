@@ -58,15 +58,12 @@ export const useEmailAuth = () => {
                     id: user.id,
                     display_name: displayName
                 })
-                console.log("User ID:", user.id);
-                console.log("Display Name:", displayName);
-
 
                 if (displayNameResponse.error) throw displayNameResponse.error.message;
 
                 if (user) {
                     dispatch({ type: "LOGIN", payload: user });
-                    // navigate("/survey")
+                    navigate("/survey")
                 } else {
                     setError(error);
                 }
