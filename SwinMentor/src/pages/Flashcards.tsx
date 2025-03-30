@@ -1,7 +1,7 @@
 import { useFlashcardCount } from "@/Hooks/useFlashcardCount"
 import { useQnA } from "@/Hooks/useQnA"
 import { SwinButton } from "@/components/Buttons/SwinButton"
-import { SkeletonUserGroups } from "@/components/Loading/SkeletonUserGroups"
+import { Flashcard } from "@/components/Flashcards/FlashCard"
 import {FaArrowLeft, FaArrowRight} from "react-icons/fa"
 import {useParams, useNavigate} from "react-router-dom"
 
@@ -14,23 +14,24 @@ export const Flashcards = () =>{
     const QnA = QnAF
 
     const handleNext = () =>{
-        if (current_question<count-1){navigate (`/flashcard/${current_question + 1}`)}
+        if (current_question<count-1){
+            navigate (`/flashcard/${current_question + 1}`)
+        }
     }
     const handlePrevious = () =>{
-        if (current_question>0){navigate (`/flashcard/${current_question - 1}`)}
+        if (current_question>0){
+            navigate (`/flashcard/${current_question - 1}`)
+        }
     }
 
     return(
         <>
             {QnA.length>0 && QnA[current_question] ? (
             <> 
-                <div>
-                Question: {QnA[current_question].question}
-                Answer: {QnA[current_question].answer}
-                </div>
+                <Flashcard question={QnA[current_question].question} answer={QnA[current_question].answer}/>
             </>    
             ):(
-                <SkeletonUserGroups /> //Just a concept, to use SKELETON FLASHCARDS LATER
+                <> </> //Spinner to be added here
             )}
 
             <SwinButton icon={<FaArrowRight />} label="Next" onClick={handleNext} isdisabled= {current_question == count - 1 } disabledLabel="Next" />
