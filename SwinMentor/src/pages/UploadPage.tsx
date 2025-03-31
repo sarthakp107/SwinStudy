@@ -22,24 +22,22 @@ export const UploadPage = () => {
     dispatch({ type: "SET_FILE", payload: file })
     try {
       const responseFromParser = await PDFParser(file)
-      setExtractedText(responseFromParser)
+      await setExtractedText(responseFromParser)
+      console.log("extracted text", extractedText)
+      setError("")
       await dispatch({ type: "SET_EXTRACTED_TEXT", payload: responseFromParser })
-    } catch (error: any) {
-      setError("Error in Extraction of Text:" + error.message)
-      throw new Error("Error in Extraction of Text")
-    }
 
-    try {
-      // const QnAText = await FetchQnA(extractedText)
+      // const QnAText = await FetchQnA(responseFromParser)
       const QnAText = TEST_QnA
       await dispatch({ type: "SET_QNA_TEXT", payload: QnAText })
 
       const QnAFormatted = QnAConverter(QnAText)
       await dispatch({ type: "SET_QNA", payload: QnAFormatted })
     } catch (error: any) {
-      setError("Error in Fetching:" + error.message)
-      throw new Error("Error in Fetching:")
+      setError("Error in Extraction of Text:" + error.message)
+      throw new Error("Error in Q/Ans Generation")
     }
+
   }
 
   const handleSelect = (option: number) => {
@@ -59,20 +57,17 @@ export const UploadPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
-
         {/* Title Section */}
         <h1 className="text-3xl font-bold text-gray-800 mb-8 ">Create Flashcards</h1>
-
+        {error && <div className="error">{error}</div>}
         {/* File Upload Section */}
         <div className="bg-white p-8 rounded-xl shadow-md mb-8">
           <div className="flex flex-col space-y-6">
             <div>
               <DragDrop onUpload={handleUpload} />
               {state.extractedText && <div className="text-gray-700 mt-2 mb-0">Uploaded File: {state.file.name}</div>}
-              {error && <div className="error">{error}</div>}
               <UploadGuidelines />
             </div>
-            
           </div>
         </div>
 
