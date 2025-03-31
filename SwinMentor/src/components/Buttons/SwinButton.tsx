@@ -2,8 +2,8 @@ interface ButtonProps {
     label: string;
     onClick: () => void;
     icon: JSX.Element;  // Accepting a JSX Element for the icon
-    isdisabled?: boolean;
-    disabledLabel?: string
+    isdisabled?: boolean;//Optional parameter we can pass to invoke a disabled Button. Is enabled by default
+    disabledLabel?: string //Optional Label if the button is disabled.
 }
 
 export const SwinButton = ({ label, onClick, icon, isdisabled = false, disabledLabel = "Processing"}: ButtonProps) => {

@@ -1,10 +1,8 @@
 import { LOCATION_OF_PDF_WORKER } from '@/config/Constants';
 import { pdfjs } from 'react-pdf';
+//Function that takes any PDF and extracts Text from it. Returns a string of extracted text.
 
-
-pdfjs.GlobalWorkerOptions.workerSrc = LOCATION_OF_PDF_WORKER
-
-
+pdfjs.GlobalWorkerOptions.workerSrc = LOCATION_OF_PDF_WORKER //Initialising Worker
 
 export  const PDFParser = async(file:File): Promise<string> =>
         {
@@ -19,8 +17,7 @@ export  const PDFParser = async(file:File): Promise<string> =>
                     const pageText = textContent.items.map((item: any) => item.str).join(' ');
                     fullText += pageText + '\n';
                 }
-                return fullText
-                
+                return fullText //Return one string of extracted text
             } catch (error) {
                 console.error('Error extracting PDF text:', error);
                 throw new Error('Could not read PDF file');
