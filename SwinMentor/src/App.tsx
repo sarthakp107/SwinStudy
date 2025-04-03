@@ -9,7 +9,6 @@ import SignupPage from './pages/Authentication/SignupPage';
 import { useAuthContext } from './Hooks/Context/useAuthContext';
 import { SignUpSurvey } from './pages/Survey/SignupSurvey';
 import { CreateFlashcard1 } from './pages/UploadPage';
-
 import { UnitBuddies } from './pages/UnitBuddies/UnitBuddies';
 import { useSurveyStatus } from './Hooks/Database/update/useSurveyStatus';
 
@@ -23,9 +22,8 @@ const App: React.FC = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/survey" element={!hasSubmittedSurvey ? (<SignUpSurvey />) : (
-          <Navigate replace to={"/dashboard"} />
-        )} />
+        <Route path="/*" element= {<LandingPage />} />
+
         {user ? (
           <>
             {/* {Logged In}  */}
@@ -35,6 +33,9 @@ const App: React.FC = () => {
             <Route path="/login" element={<Navigate to="/" replace />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="/dashboard/:unitName" element={<UnitBuddies />} />
+            <Route path="/survey" element={!hasSubmittedSurvey ? (<SignUpSurvey />) : (
+          <Navigate replace to={"/dashboard"} />
+        )} />
           </>
         ) : (
           <>
