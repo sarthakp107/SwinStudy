@@ -19,7 +19,7 @@ export const useAvailableDegrees = () => {
 
             try {
                 const { data, error } = await supabase
-                    .from("available_degrees")
+                    .from("all_degrees")
                     .select("degree_id, degree_name");
 
                 if (error) {
