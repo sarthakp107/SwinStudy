@@ -24,10 +24,8 @@ export const UserUnitsCard: React.FC = () => {
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {units.length > 0 ? (
                     units.map((unit, index) => (
-                        <Link to={`/dashboard/${unit}`}>
-
-                            <li
-                                key={index}
+                        <Link key={index} to={`/dashboard/${unit}`}>
+                            <li  
                                 className="bg-white shadow-lg rounded-lg p-6 transform transition-transform duration-300 hover:scale-105"
                             >
                                 <div className="flex items-center justify-center mb-4">

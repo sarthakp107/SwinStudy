@@ -2,8 +2,6 @@ import { SearchableDropdown } from './SearchableDropdown';
 import { useAvailableDegrees } from '@/Hooks/Database/useAvailableDegrees';
 import { useSurveyContext } from '@/Hooks/Context/useSurveyContext';
 import { useState } from 'react';
-// import { DropDownList } from './DropDownList';
-// import { SEMESTER_OPTIONS } from '@/config/Constants';
 
 export const DegreeAndSem = () =>{
 
@@ -19,7 +17,6 @@ export const DegreeAndSem = () =>{
 
     const handleSemesterChange = (semester: number) => {    
         dispatch({ type: 'SET_SEMESTER', payload: semester });
-        console.log(semester)
         setOption(`Semester ${semester}`)
     };
 
