@@ -5,7 +5,6 @@ import { useEmailAuth } from '@/Hooks/Authentication/useEmailAuth';
 import { useOAuth } from '@/Hooks/Authentication/useOAuth';
 import Spinner from '@/components/Loading/Spinner';
 
-
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -30,7 +29,11 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-gray-100 to-gray-300">
+    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-red-50 to-gray-100">
+      {/* Two Corner Half-Circles */}
+      <div className="fixed top-0 right-0 w-64 h-64 bg-red-500 opacity-10 rounded-bl-full"></div>
+      <div className="fixed bottom-0 left-0 w-96 h-96 bg-red-500 opacity-10 rounded-tr-full"></div>
+
       <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Welcome Back</h2>
 
@@ -96,13 +99,11 @@ const LoginPage: React.FC = () => {
             <span className="text-lg">Log in with GitHub</span>
           </button>
         
-
         {/* {Google Sign In} */}
           <button onClick={signInWithGoogle} className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-600 transition-colors duration-300 shadow-md">
             <FaGoogle className="text-xl" />
             <span className="text-lg">Log in with Google</span>
           </button>
-
 
         <p className="text-sm text-gray-600 text-center mt-4">
           Don't have an account? 

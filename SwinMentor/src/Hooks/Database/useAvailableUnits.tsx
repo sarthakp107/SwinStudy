@@ -19,7 +19,7 @@ export const useAvailableUnits = () => {
 
             try {
                 const { data, error } = await supabase
-                    .from("available_units")
+                    .from("all_units")
                     .select("unit_id, unit_name");
 
                 if (error) {
