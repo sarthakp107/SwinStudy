@@ -21,6 +21,7 @@ export const UploadButton: React.FC<UploadButtonProps>=({onUpload, label})=>{
             className="bg-red-600 text-white px-4 py-2 rounded-lg mt-4 cursor-pointer"
             >
             {label}
+            {/* Hidden Input that enabled the uploading function possible. Accept PDF, DOCX Files */}
                 <input
                     type = "file"
                     accept=".pdf, .docx"

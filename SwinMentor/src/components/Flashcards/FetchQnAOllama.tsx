@@ -1,5 +1,4 @@
-
-
+//API Call to a model in Ollama(hosted in Local Server for Testing). Responds with a paragraph of question/answer pair
 export const FetchQnAOllama = async (text: string)=>{
     const response = await fetch ("http://localhost:11434/api/generate/", {
         method: "POST",
