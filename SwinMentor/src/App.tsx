@@ -12,6 +12,7 @@ import { UploadPage } from './pages/UploadPage';
 import { UnitBuddies } from './pages/UnitBuddies/UnitBuddies';
 import { Flashcards } from './pages/Flashcards';
 import { useSurveyStatus } from './Hooks/Database/update/useSurveyStatus';
+import InProgress from './pages/InProgress/InProgress';
 
 
 const App: React.FC = () => {
@@ -23,7 +24,7 @@ const App: React.FC = () => {
       <Navbar />
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/*" element= {<LandingPage />} />
+        <Route path="/*" element= {<InProgress />} />
 
         {user ? (
           <>

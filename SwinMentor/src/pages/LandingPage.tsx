@@ -29,10 +29,12 @@ const LandingPage: React.FC = () => {
                 Upload your study materials and instantly create interactive flashcards. Learn smarter, not harder with Cheetos.
               </p>
               <div className="flex gap-4">
-                <Link to="/create" className="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors">
+               {user ? (<Link to="/upload" className="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors">
                   Create Flashcards
-                </Link>
-                <Link to="/demo" className="border-2 border-red-600 text-red-600 px-8 py-3 rounded-lg hover:bg-red-50 transition-colors">
+                </Link>) : (<Link to="/signup" className="bg-red-600 text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors">
+                  Create Flashcards
+                </Link>)}
+                <Link to="/inprogress" className="border-2 border-red-600 text-red-600 px-8 py-3 rounded-lg hover:bg-red-50 transition-colors">
                   Try Demo
                 </Link>
               </div>

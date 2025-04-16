@@ -32,14 +32,14 @@ const Navbar: React.FC = () => {
         <Link to="/about" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
           About
         </Link>
-        <Link to="/" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
+        {/* <Link to="/" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
           Mentors
-        </Link>
-        <Link to="/" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
+        </Link> */}
+        <Link to="/dashboard" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
           Unit Buddy
         </Link>
-        <Link to="/" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
-          AI Study
+        <Link to="/upload" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
+          Flashcard
         </Link>
         { !user && <li className='list-none text-gray-700 mr-5 hover:text-red-600 transition-colors duration-300'>
                 <Link to="/login">Login</Link>

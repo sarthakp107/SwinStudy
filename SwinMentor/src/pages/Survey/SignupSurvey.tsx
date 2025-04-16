@@ -15,7 +15,7 @@ export const SignUpSurvey: React.FC = () => {
       
       {/* User's Name and Sepearator */}
       <div className="flex flex-col items-center">
-        <h1 className="text-4xl font-bold text-gray-800 tracking-tight">{displayName}</h1>
+        <h1 className="text-4xl font-bold text-gray-800 tracking-tight">Hello {displayName}</h1>
         <div className="h-1 w-32 bg-gradient-to-r from-red-400 to-red-600 rounded-full my-3"></div>
       </div>
       
