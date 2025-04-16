@@ -11,8 +11,10 @@ import { SignUpSurvey } from './pages/Survey/SignupSurvey';
 import { UploadPage } from './pages/UploadPage';
 import { UnitBuddies } from './pages/UnitBuddies/UnitBuddies';
 import { Flashcards } from './pages/Flashcards';
+import Chat from './pages/Chat';
 import { useSurveyStatus } from './Hooks/Database/update/useSurveyStatus';
 import InProgress from './pages/InProgress/InProgress';
+
 
 
 const App: React.FC = () => {
@@ -32,6 +34,7 @@ const App: React.FC = () => {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/flashcard/:questionID" element={<Flashcards/>} />
             <Route path="/upload" element={<UploadPage />} />
+            <Route path="/chat" element={<Chat/>} />
             <Route path="/signup" element={<Navigate to="/" replace />} />
             <Route path="/login" element={<Navigate to="/" replace />} />
             <Route path="/" element={<LandingPage />} />
