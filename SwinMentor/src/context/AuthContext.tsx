@@ -5,6 +5,7 @@ import { supabase } from "../config/supabase-client"
 interface AuthContextType {
     user: User | null;
     dispatch: React.Dispatch<AuthAction>;
+    authIsChecked: boolean;
 }
 
 interface AuthState {

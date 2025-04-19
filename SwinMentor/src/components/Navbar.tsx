@@ -41,10 +41,12 @@ const Navbar: React.FC = () => {
         <Link to="/upload" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
           Flashcard
         </Link>
-        { !user && <li className='list-none text-gray-700 mr-5 hover:text-red-600 transition-colors duration-300'>
-                <Link to="/login">Login</Link>
-                <Link to="/signup" className='ml-5 text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300'>Signup</Link>
-            </li>}
+        {!user && 
+          <li className='list-none text-gray-700 mr-5 hover:text-red-600 transition-colors duration-300'>
+          <Link to="/login">Login</Link>
+          <Link to="/signup" className='ml-5 text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300'>Signup</Link>
+          </li>
+        }
         {user && <li className='list-none'>
                 {!isPending && <button className='text-white bg-red-500 hover:bg-red-600 border border-red-600 rounded-md px-4 py-2 transition-all duration-300' onClick={handleSignOut}>Logout</button>}
                 {isPending && <Spinner/>}

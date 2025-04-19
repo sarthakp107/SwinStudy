@@ -8,9 +8,7 @@ import Spinner from '@/components/Loading/Spinner';
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const navigate = useNavigate();
   const [error, setError] = useState("");
-  // const [isLoading, setisLoading] = useState(false);
 
   const {signInWithPassword, isPending ,error: emailAuthError} = useEmailAuth();
   const{signInWithGithub, signInWithGoogle}=useOAuth();
@@ -22,7 +20,6 @@ const LoginPage: React.FC = () => {
 
     try {
       await signInWithPassword(email, password);
-        // navigate('/');
     } catch (err: any) {
       setError(`Error: ${err.message || err}`);
     }
@@ -31,7 +28,7 @@ const LoginPage: React.FC = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-red-50 to-gray-100">
       {/* Two Corner Half-Circles */}
-      <div className="fixed top-0 right-0 w-64 h-64 bg-red-500 opacity-10 rounded-bl-full"></div>
+      {/* <div className="fixed top-0 right-0 w-64 h-64 bg-red-500 opacity-10 rounded-bl-full"></div>  */}
       <div className="fixed bottom-0 left-0 w-96 h-96 bg-red-500 opacity-10 rounded-tr-full"></div>
 
       <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
