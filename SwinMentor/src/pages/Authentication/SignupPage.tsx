@@ -15,14 +15,13 @@ const SignupPage: React.FC = () => {
   // Signup Handling Function
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(email,password,displayName);
     await signUpWithEmail(email,password, displayName);
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-red-50 to-gray-100">
       {/* Two Corner Half-Circles */}
-      <div className="fixed top-0 right-0 w-64 h-64 bg-red-500 opacity-10 rounded-bl-full"></div>
+      {/* <div className="fixed top-0 right-0 w-64 h-64 bg-red-500 opacity-10 rounded-bl-full"></div> */} {/* <--- Causing Issue in Navigation */}
       <div className="fixed bottom-0 left-0 w-96 h-96 bg-red-500 opacity-10 rounded-tr-full"></div>
       <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Create an account</h2>
