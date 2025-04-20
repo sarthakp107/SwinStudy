@@ -4,7 +4,7 @@ import { SwinButton } from "@/components/Buttons/SwinButton";
 import { Flashcard } from "@/components/Flashcards/FlashCard";
 import {  SkeletonFlashcards } from "@/components/Loading/SkeletonFlashcards";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 export const Flashcards = () => {
     const { questionID } = useParams<{ questionID: string }>(); //Gets data from App.tsx
@@ -41,6 +41,11 @@ export const Flashcards = () => {
                     <SwinButton icon={<FaArrowRight />} label="Next" onClick={handleNext} isdisabled={current_question === count - 1} disabledLabel="Next"/>
                 </div>
             </div>
+            <Link to="/" className="border-2 border-red-600 text-red-600 px-10 py-4 rounded-lg font-semibold text-lg hover:bg-red-50 transition-colors mt-10">
+                        Home
+                    </Link>
+
+
         </div>):(
         <SkeletonFlashcards />
         

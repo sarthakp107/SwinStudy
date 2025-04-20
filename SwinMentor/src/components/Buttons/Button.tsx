@@ -10,7 +10,7 @@ export const Button = ({ label, onClick, icon }: ButtonProps) => {
     return (
         <button
             onClick={onClick}
-            className="flex items-center bg-red-500 text-white p-3 rounded-md hover:bg-blue-600 transition-colors"
+            className="flex items-center bg-red-600 text-white p-3 rounded-md hover:bg-red-700 transition-colors"
         >
             {/* React Icon */}
             <span className="mr-2">{icon}</span>
