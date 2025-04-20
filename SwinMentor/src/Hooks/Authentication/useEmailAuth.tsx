@@ -24,7 +24,6 @@ export const useEmailAuth = () => {
 
             if (res.data.user) {
                 console.log(res.data);
-                navigate("/survey")
                 dispatch({ type: "LOGIN", payload: res.data.user });
             } else {
                 setError(res.error?.message);
@@ -45,7 +44,7 @@ export const useEmailAuth = () => {
         setIsPending(true);
 
         try {
-            const { data, error } = await supabase.auth.signUp({ email, password });
+            const { data, error } = await supabase.auth.signUp({ email, password});
 
             if (error) {
                 throw new Error(error.message)
@@ -63,7 +62,6 @@ export const useEmailAuth = () => {
 
                 if (user) {
                     dispatch({ type: "LOGIN", payload: user });
-                    navigate("/survey")
                 } else {
                     setError(error);
                 }

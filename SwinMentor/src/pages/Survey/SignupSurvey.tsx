@@ -10,7 +10,7 @@ export const SignUpSurvey: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-gray-100 flex flex-col items-center justify-center p-6">
       {/* Two Corner Half-Circles */}
-      <div className="fixed top-0 right-0 w-64 h-64 bg-red-500 opacity-10 rounded-bl-full"></div>
+      {/* <div className="fixed top-0 right-0 w-64 h-64 bg-red-500 opacity-10 rounded-bl-full"></div> */}
       <div className="fixed bottom-0 left-0 w-96 h-96 bg-red-500 opacity-10 rounded-tr-full"></div>
       
       {/* User's Name and Sepearator */}

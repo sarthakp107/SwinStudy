@@ -4,12 +4,10 @@ import { FaUser, FaLock, FaGoogle, FaGithub } from 'react-icons/fa';
 import { useEmailAuth } from '@/Hooks/Authentication/useEmailAuth';
 import { useOAuth } from '@/Hooks/Authentication/useOAuth';
 import Spinner from '@/components/Loading/Spinner';
-
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const {signInWithPassword, isPending ,error: emailAuthError} = useEmailAuth();
   const{signInWithGithub, signInWithGoogle}=useOAuth();
 
@@ -17,7 +15,6 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(""); // Reset previous errors
-
     try {
       await signInWithPassword(email, password);
     } catch (err: any) {
