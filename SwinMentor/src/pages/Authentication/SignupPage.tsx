@@ -4,9 +4,11 @@ import { useEmailAuth } from '@/Hooks/Authentication/useEmailAuth';
 import { useOAuth } from '@/Hooks/Authentication/useOAuth';
 import { Link } from 'react-router-dom';
 import Spinner from '@/components/Loading/Spinner';
+import { useNavigate } from 'react-router-dom';
 
 const SignupPage: React.FC = () => {
-    const[displayName, setDisplayName] = useState("");
+  const[displayName, setDisplayName] = useState("");
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const {signUpWithEmail, error : emailAuthError, isPending} = useEmailAuth();
@@ -16,6 +18,10 @@ const SignupPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await signUpWithEmail(email,password, displayName);
+    if (isPending){
+      <Spinner />
+    }
+    navigate("/survey")
   };
 
   return (

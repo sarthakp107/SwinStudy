@@ -13,7 +13,8 @@ export const useOAuth = () => {
 
         try {
             const res = await supabase.auth.signInWithOAuth({
-                provider: 'github'
+                provider: 'github',
+                options: {redirectTo: "google.com"}
             });
             if (res.error) {
                 throw res.error;
@@ -39,7 +40,8 @@ export const useOAuth = () => {
 
         try {
             const res = await supabase.auth.signInWithOAuth({
-                provider: 'google'
+                provider: 'google',
+                options: {redirectTo: "localhost:5173/dashboard"}
             });
             if (res.error) {
                 throw res.error;

@@ -15,7 +15,7 @@ const Feature1 = () =>{
             <p className="text-lg text-gray-700 mb-6">
               Find unit buddies, form study groups, and connect with mentors across Swinburne. Share resources and tackle challenging units together.
             </p>
-            <Link to="/unit-buddies" className="text-red-600 font-semibold hover:underline">
+            <Link to="/buddies" className="text-red-600 font-semibold hover:underline">
                 Explore Unit Buddies & Mentors <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>

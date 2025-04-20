@@ -1,7 +1,7 @@
 import React from "react";
 import { Navigate, Outlet, RouteObject, createBrowserRouter } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import LandingPage from "./pages/HomePage";
+import LandingPage from "./pages/LandingPage";
 import { useAuthContext } from "./Hooks/Context/useAuthContext";
 import { useSurveyStatus } from "./Hooks/Database/update/useSurveyStatus";
 import { SignUpSurvey } from "./pages/Survey/SignupSurvey";
@@ -11,9 +11,9 @@ import Dashboard from "./pages/Dashboard";
 import { UnitBuddies } from "./pages/UnitBuddies/UnitBuddies";
 import { Flashcards } from "./pages/Flashcards";
 import { UploadPage } from "./pages/UploadPage";
-import CreateFlashcard from "./pages/CreateFlashcard";
 import InProgress from "./pages/InProgress/InProgress";
 import Spinner from "./components/Loading/Spinner";
+import FeatureBlock from "./components/LandingPage/FeatureBlock";
 
 const PublicOnlyRoute = ({element}: {element: React.ReactElement}) => {
     
@@ -45,40 +45,44 @@ const PublicPrivateRoute = ({element}: {element: React.ReactElement})=>{
     return (element)
 }
 
-const UploadGate = () =>{
-    const {user} = useAuthContext();
-    const {hasSubmittedSurvey} = useSurveyStatus();
-    if(!user){
-        return (
-            <div> 
-                Please Login First
-            </div>
-        )
-    }
-    if(user && !hasSubmittedSurvey){
-        return(
-            <div>
-                Please complete survey first!
-            </div>
-        )
-    }
-    return <UploadPage />;
-}
+// const UploadGate = () =>{
+//     const {user} = useAuthContext();
+//     const {hasSubmittedSurvey} = useSurveyStatus();
+//     if(!user){
+//         return (
+//             <div> 
+//                 Please Login First
+//             </div>
+//         )
+//     }
+//     if(user && !hasSubmittedSurvey){
+//         return(
+//             <div>
+//                 Please complete survey first!
+//             </div>
+//         )
+//     }
+//     return <UploadPage />;
+// }
 
 const SurveyGate = () => {
-    const { user } = useAuthContext();
-    const { hasSubmittedSurvey } = useSurveyStatus();
-
-     if (!user) {
-        return <Navigate to="/login" replace />;
-    }
+    // const { user } =  useAuthContext();
+    const {isLoading, hasSubmittedSurvey } = useSurveyStatus();
+    
+    // if (!user) {
+    //     console.log("NOT A USER")
+    //     return <Navigate to="/" replace />;
+    // }
     console.log(hasSubmittedSurvey);
+    if (isLoading){
+        return <Spinner />
+    }
     if (!hasSubmittedSurvey) {
         return <SignUpSurvey />;
+    }else{
+        console.log("HAS ALREADY SUBMITTED SURVEY")
+        return <Navigate to="/" replace />;
     }
-    
-    return <Navigate replace to="/survey" />;
-    
 };
 
 const routes: RouteObject[] = [
@@ -95,6 +99,7 @@ const routes: RouteObject[] = [
                 index: true,
                 element: <LandingPage />
             },
+            //Visible To Non-Users ONLY
             {
                 path: 'login', 
                 element: <PublicOnlyRoute element={<LoginPage />} />
@@ -103,11 +108,28 @@ const routes: RouteObject[] = [
                 path: 'signup', 
                 element: <PublicOnlyRoute element={<SignupPage />} />
             },
+            //Visible To ALL Users
             {
                 path: 'about',
-                element:<PublicOnlyRoute element={<InProgress />} />
+                element:<PublicPrivateRoute element={<InProgress />} />
             },
-            //PROTECTED
+            {
+                path: 'buddies',
+                element:<PublicPrivateRoute element={<InProgress />} />
+            },
+            {
+                path: 'smartstudy',
+                element:<PublicPrivateRoute element={<InProgress />} />
+            },
+            {
+                path: 'features',
+                element: <PublicPrivateRoute element={<FeatureBlock />}/>
+            },            
+            {
+                path: 'upload', 
+                element: <PublicPrivateRoute element={<UploadPage />} />
+            },
+            //Visible To Users ONLY
             {
                 path: 'dashboard',
                 element: <ProtectedRoute element={<Dashboard />} />
@@ -121,16 +143,12 @@ const routes: RouteObject[] = [
                 element: <ProtectedRoute element={<Flashcards/>} />
             },
             {
-                path: 'upload', 
-                element: <PublicPrivateRoute element={<UploadGate />} />
-            },
-            {
-                path: 'create',
-                element: <ProtectedRoute element={<CreateFlashcard />} />
-            },
-            {
                 path: 'survey',
-                element: <ProtectedRoute element={<SurveyGate />} />
+                element: <ProtectedRoute element={<SurveyGate/>}/>
+            },
+            {
+                path: 'mentors',
+                element: <ProtectedRoute element={<InProgress/>}/>
             }
         ],
     },

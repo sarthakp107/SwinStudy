@@ -16,7 +16,7 @@ const Feature3 = () =>{
                 Organize your workload unit by unit. Create flexible study schedules that fit your life and help you stay on track throughout the semester.
                 </p>
                 {/* Link to Study Plan Feature - update path */}
-                <Link to="/study-plans" className="text-red-600 font-semibold hover:underline">
+                <Link to="/smartstudy" className="text-red-600 font-semibold hover:underline">
                     Plan Your Semester <span aria-hidden="true">&rarr;</span>
                 </Link>
             </div>

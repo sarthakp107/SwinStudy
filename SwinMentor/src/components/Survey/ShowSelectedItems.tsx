@@ -17,7 +17,7 @@ export const ShowSelectedItems: React.FC<ShowSelectedItemsProps> = ({ selectedIt
                             key={index}
                             className={`flex justify-center items-center h-24 w-full border-2 rounded-lg shadow-md transition-all ${
                                 item
-                                    ? "bg-purple-100 border-red-400 text-purple-700 font-medium"
+                                    ? "bg-red-100 border-red-400 text-black-700 font-medium"
                                     : "border-dashed border-gray-400 text-gray-400"
                             }`}
                         >
@@ -26,7 +26,7 @@ export const ShowSelectedItems: React.FC<ShowSelectedItemsProps> = ({ selectedIt
                                     <span>{item}</span>
                                     <button
                                         onClick={() => onRemove(item)}
-                                        className="text-purple-800 hover:text-purple-900 focus:outline-none"
+                                        className="ml-2 p-1.5 rounded-full hover:bg-purple-200 outline-none ring-2 ring-purple-400 transition-all"
                                     >
                                         ✖
                                     </button>
