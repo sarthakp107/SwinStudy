@@ -6,6 +6,7 @@ import FeatureBlock from '@/components/LandingPage/FeatureBlock';
 import ProblemBlock from '@/components/LandingPage/ProblemBlock';
 import BuiltForSwinBlock from '@/components/LandingPage/BuiltForSwinBlock';
 import CTABlock from '@/components/LandingPage/CTABlock';
+import SupaDemoFlashcards from '@/components/LandingPage/SupaDemoFlashcards';
 
 const LandingPage: React.FC = () => {
   const { loading } = useUserProfile(); 
@@ -14,7 +15,9 @@ const LandingPage: React.FC = () => {
   return (
     <div className="overflow-hidden"> 
       <LandingHero />
+      
       <ProblemBlock />
+      <SupaDemoFlashcards />  
       <FeatureBlock />
       <BuiltForSwinBlock />
       <CTABlock />
