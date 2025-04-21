@@ -1,4 +1,6 @@
   import {QnAFormat} from "@/components/Flashcards/QnAConverter";
+import getRandomNumber from "@/components/Maths/getRandomNumber";
+import { NUMBER_OF_API } from "@/config/Constants";
   export type FileState = {
     file: File;
     flashcardCount: number;
@@ -6,7 +8,7 @@
     embeddedText: string[];
     QnAText: string;
     QnA: QnAFormat[];
-
+    Current_API: number;
   };
   
   export type Action =
@@ -16,7 +18,8 @@
     | {type: "SET_EMBEDDED_TEXT"; payload: string[]}
     | {type: "SET_QNA_TEXT"; payload: string}
     | {type: "SET_QNA"; payload: QnAFormat[]}
-    | { type: "SET_FLASHCARD_COUNT"; payload: number };
+    | { type: "SET_FLASHCARD_COUNT"; payload: number }
+    | {type:"SET_CURRENT_API"; payload: number};
   
   export const fileReducer = (state: FileState, action: Action): FileState => {
     switch (action.type) {
@@ -43,6 +46,7 @@
     extractedText: "",
     embeddedText: [],
     QnAText: "",
-    QnA: []
+    QnA: [],
+    Current_API: getRandomNumber(0,NUMBER_OF_API)
   };
   

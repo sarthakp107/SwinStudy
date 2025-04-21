@@ -10,6 +10,7 @@ import { SwinButton } from "@/components/Buttons/SwinButton"
 import { useFileContext } from "@/Hooks/Context/useFileContext"
 import { FetchQnA } from "@/components/Flashcards/FetchQnA"
 import { UploadGuidelines } from "@/components/Flashcards/UploadGuidelines"
+import { useRandomAPI } from "@/Hooks/useRandomAPI"
 
 export const UploadPage = () => {
   const { state, dispatch } = useFileContext() //Update in FileContext to access it from Flashcard Page
@@ -17,6 +18,7 @@ export const UploadPage = () => {
   const [extractedText, setExtractedText] = useState("") //Used for Validation
   const [flashcardCount, setFlashcardCount] = useState(0) //Used for Validation
   const [error, setError] = useState("")
+  const API = useRandomAPI();  
 
   //Main Function, Starts: User Uploads File
   const handleUpload = async (file: File) => { 
@@ -25,7 +27,8 @@ export const UploadPage = () => {
       const responseFromParser = await PDFParser(file) //2. Extract Text
       setExtractedText(responseFromParser) 
       dispatch({ type: "SET_EXTRACTED_TEXT", payload: responseFromParser })//3.Set Extracted Text
-      const QnAText = await FetchQnA(responseFromParser) //4. Send Extracted Text to AI to generate Question
+      console.log("USING API", API)
+      const QnAText = await FetchQnA(responseFromParser, API) //4. Send Extracted Text to AI to generate Question
       console.log(QnAText);
       dispatch({ type: "SET_QNA_TEXT", payload: QnAText }) //5. Set QnA (Text) received from AI
       const QnAFormatted = await QnAConverter(QnAText) //6. Format QnA in QnA Format
