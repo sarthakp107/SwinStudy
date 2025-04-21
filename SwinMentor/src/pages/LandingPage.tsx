@@ -6,15 +6,19 @@ import FeatureBlock from '@/components/LandingPage/FeatureBlock';
 import ProblemBlock from '@/components/LandingPage/ProblemBlock';
 import BuiltForSwinBlock from '@/components/LandingPage/BuiltForSwinBlock';
 import CTABlock from '@/components/LandingPage/CTABlock';
+import SupaDemoFlashcards from '@/components/LandingPage/SupaDemoFlashcards';
+import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 
 const LandingPage: React.FC = () => {
-  const { loading } = useUserProfile(); 
+  const {user} = useAuthContext();
+  const {loading } = useUserProfile(); 
 
   if (loading) return <Spinner />; 
   return (
     <div className="overflow-hidden"> 
       <LandingHero />
-      <ProblemBlock />
+      {!user && <ProblemBlock />}
+      {!user && <SupaDemoFlashcards />}
       <FeatureBlock />
       <BuiltForSwinBlock />
       <CTABlock />
