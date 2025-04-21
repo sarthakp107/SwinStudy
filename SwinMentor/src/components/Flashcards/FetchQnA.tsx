@@ -1,4 +1,4 @@
-import { OPEN_ROUTER_API, FETCH_QNA_MODEL, GENERATE_FLASHCARD_PROMPT } from "@/config/Constants";
+import { GENERATE_FLASHCARD_PROMPT } from "@/config/Constants";
 
 //API Call to a model in Open Router. Responds with a paragraph of question/answer pair
 export const FetchQnA = async (text: string) => {
@@ -6,12 +6,12 @@ export const FetchQnA = async (text: string) => {
     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
         method: "POST",
         headers: {
-            "Authorization": `Bearer ${OPEN_ROUTER_API}`,
+            "Authorization": `Bearer ${import.meta.env.OPEN_ROUTER_API}`,
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
 
-            "model": FETCH_QNA_MODEL,
+            "model": import.meta.env.FETCH_QNA_MODEL,
             "messages": [
                 {
                     "role": "system",
