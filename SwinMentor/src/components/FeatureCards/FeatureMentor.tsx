@@ -1,28 +1,17 @@
-import { FaChalkboardTeacher } from "react-icons/fa"
+import { FaGraduationCap } from "react-icons/fa"
 import { Link } from "react-router-dom"
 
 const FeatureMentor = () =>{
     return (
     <>
     {/* Find a Mentor Card */}
-     <div className="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-lg border-t-4 border-red-500">
-        <div className="p-6">
-            <div className="flex items-center mb-4">
-            <div className="p-3 bg-red-100 rounded-full mr-4">
-                <FaChalkboardTeacher className="text-red-600 text-xl" />
-            </div>
-            <h3 className="text-xl font-semibold text-gray-800">Find a Mentor</h3>
-            </div>
-            <p className="text-gray-600 mb-6">
-            Get matched with industry experts who can guide your learning and career.
-            </p>
-            <Link to="/mentors" className="inline-block px-4 py-2 bg-red-600 text-white rounded-md font-medium transition hover:bg-red-700">
-            Learn More
+        <div className="bg-white text-gray-800 p-6 rounded-lg shadow-md flex flex-col items-center justify-center text-center transition duration-300 hover:bg-gray-50 hover:shadow-lg cursor-pointer border border-gray-200">
+            <Link to="/mentors" className="w-full h-full flex flex-col items-center justify-center"> 
+            <FaGraduationCap className="w-10 h-10 mb-3 text-black" /> 
+                <span className="text-lg font-semibold">Explore Mentors</span>
             </Link>
         </div>
-     </div>
     </>
     )
 }
-
 export default FeatureMentor;
