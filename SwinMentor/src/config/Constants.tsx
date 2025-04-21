@@ -1,7 +1,7 @@
 export const NUMBER_OF_CURRENT_UNITS = 4;
 export const SEMESTER_OPTIONS: string[] = ['Semester 1', 'Semester 2', 'Semester 3', 'Semester 4', 'Semester 5', 'Semester 6', 'Semester 7', 'Semester 8']
 export const NUMBER_OF_FLASHCARDS: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-export const LOCATION_OF_PDF_WORKER = '/node_modules/pdfjs-dist/build/pdf.worker.mjs'
+export const LOCATION_OF_PDF_WORKER = '/pdf.worker.mjs'
 // export const OPEN_ROUTER_API ="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"
 export const OPEN_ROUTER_API ="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"
 export const FETCH_QNA_MODEL = "mistralai/mistral-small-24b-instruct-2501:free"
