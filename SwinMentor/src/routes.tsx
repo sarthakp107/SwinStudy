@@ -14,6 +14,7 @@ import { UploadPage } from "./pages/UploadPage";
 import InProgress from "./pages/InProgress/InProgress";
 import Spinner from "./components/Loading/Spinner";
 import FeatureBlock from "./components/LandingPage/FeatureBlock";
+import { Footer } from "./components/Footer";
 
 const PublicOnlyRoute = ({element}: {element: React.ReactElement}) => {
     
@@ -92,6 +93,7 @@ const routes: RouteObject[] = [
             <>
                 <Navbar />
                 <Outlet />
+                <Footer />
             </>
         ),
         children: [

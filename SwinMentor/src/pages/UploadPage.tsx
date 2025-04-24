@@ -27,9 +27,7 @@ export const UploadPage = () => {
       const responseFromParser = await PDFParser(file) //2. Extract Text
       setExtractedText(responseFromParser) 
       dispatch({ type: "SET_EXTRACTED_TEXT", payload: responseFromParser })//3.Set Extracted Text
-      console.log("USING API", API)
       const QnAText = await FetchQnA(responseFromParser, API) //4. Send Extracted Text to AI to generate Question
-      console.log(QnAText);
       dispatch({ type: "SET_QNA_TEXT", payload: QnAText }) //5. Set QnA (Text) received from AI
       const QnAFormatted = await QnAConverter(QnAText) //6. Format QnA in QnA Format
       dispatch({ type: "SET_QNA", payload: QnAFormatted }) //7. Set QnA (Formatted)
