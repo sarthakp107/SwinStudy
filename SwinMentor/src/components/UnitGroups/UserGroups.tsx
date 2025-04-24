@@ -6,7 +6,6 @@ export const UserGroups: React.FC = () => {
     return (
         <div>
             <UserUnitsCard />
-
         </div>
 
     );
