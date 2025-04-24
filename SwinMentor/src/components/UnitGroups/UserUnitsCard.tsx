@@ -2,7 +2,10 @@ import { useUserUnits } from "@/Hooks/GetUserInfo/useUserUnits";
 import { SkeletonUserGroups } from "../Loading/SkeletonUserGroups";
 import { Link } from "react-router-dom";
 import { UnitBuddiesButton } from "../Buttons/UnitButtons/UnitBuddiesButton";
+
 // import UnitActions from "./UnitActions";
+
+
 
 export const UserUnitsCard: React.FC = () => {
     const { units, loading, error } = useUserUnits();
@@ -37,7 +40,7 @@ export const UserUnitsCard: React.FC = () => {
                     ))
                 ) : (
                     <li className="bg-yellow-100 text-yellow-800 p-4 rounded-lg shadow-md col-span-full text-center">
-                        Seems like you haven't completed the survey yet!
+                        Seems like you haven't completed the survey yet!😄
                     </li>
                 )}
             </ul>
