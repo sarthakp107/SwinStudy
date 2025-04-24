@@ -39,7 +39,7 @@ const DragDrop: React.FC<DragDropProps> = ({ onUpload }) => {
         </h3>
         {/* Instructions Div */}
         <p className="text-gray-500 mb-4">
-        Support for PDF, DOCX, and TXT files
+        Support for PDF upto 10 MB
         </p>
         {/* Button within Div, only a placeholder. When user clicks, the div gets clicked, and therefore this button doesn't need a onClick Function  */}
         <button className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">
@@ -48,7 +48,7 @@ const DragDrop: React.FC<DragDropProps> = ({ onUpload }) => {
         {/* Hidden Input Field that accepts PDF and DOCX */}
         <input
           type="file"
-          accept=".pdf, .docx"
+          accept=".pdf"
           ref={fileInputRef}
           className="hidden"
           onChange={handleFileSelect}

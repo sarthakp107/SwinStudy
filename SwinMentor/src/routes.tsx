@@ -47,22 +47,10 @@ const PublicPrivateRoute = ({element}: {element: React.ReactElement})=>{
 }
 
 // const UploadGate = () =>{
-//     const {user} = useAuthContext();
-//     const {hasSubmittedSurvey} = useSurveyStatus();
-//     if(!user){
-//         return (
-//             <div> 
-//                 Please Login First
-//             </div>
-//         )
-//     }
-//     if(user && !hasSubmittedSurvey){
-//         return(
-//             <div>
-//                 Please complete survey first!
-//             </div>
-//         )
-//     }
+//     const {state, dispatch} = useFileContext();
+//     state.file && dispatch({type: "REMOVE_FILE"})
+//     console.log("Removed File:", state.file)
+//     console.log("New File:", state.file.name)
 //     return <UploadPage />;
 // }
 
@@ -110,6 +98,10 @@ const routes: RouteObject[] = [
                 path: 'signup', 
                 element: <PublicOnlyRoute element={<SignupPage />} />
             },
+            {
+                path: 'flashcard/:questionID',
+                element: <PublicPrivateRoute element={<Flashcards/>} />
+            },
             //Visible To ALL Users
             {
                 path: 'about',
@@ -139,10 +131,6 @@ const routes: RouteObject[] = [
             {
                 path: 'dashboard/:unitName', 
                 element: <ProtectedRoute element={<UnitBuddies />} />
-            },
-            {
-                path: 'flashcard/:questionID',
-                element: <ProtectedRoute element={<Flashcards/>} />
             },
             {
                 path: 'survey',

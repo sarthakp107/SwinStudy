@@ -12,7 +12,7 @@ export const SwinButton = ({ label, onClick, icon, isdisabled = false, disabledL
             {isdisabled ? (
                 <button
                     onClick={onClick}
-                    className="flex items-center bg-red-400 text-white p-3 rounded-md hover:bg-red-800 transition-colors"
+                    className="flex items-center bg-red-500 text-white p-3 rounded-md hover:bg-red-800 transition-colors cursor-not-allowed"
                     disabled = {true}
                 >   
                     {/* React Icon */}
@@ -24,7 +24,7 @@ export const SwinButton = ({ label, onClick, icon, isdisabled = false, disabledL
             ):(
                 <button
                     onClick={onClick}
-                    className="flex items-center bg-red-500 text-white p-3 rounded-md hover:bg-red-800 transition-colors"
+                    className="flex items-center bg-red-600 text-white p-3 rounded-md hover:bg-red-800 transition-colors cursor-pointer"
                 >   
                     {/* React Icon */}
                     <span className="mr-2">{icon}</span>

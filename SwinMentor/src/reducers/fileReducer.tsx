@@ -23,6 +23,8 @@ import { NUMBER_OF_API } from "@/config/Constants";
   
   export const fileReducer = (state: FileState, action: Action): FileState => {
     switch (action.type) {
+      case "REMOVE_FILE":
+        return{...state, file: new File([""], "", { type: "text/plain" })};
       case "SET_FILE":
         return { ...state, file: action.payload };
       case "SET_FLASHCARD_COUNT":

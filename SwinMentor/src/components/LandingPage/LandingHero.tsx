@@ -1,4 +1,4 @@
-import HeroDemo from "./HeroDemo"; 
+import HeroPhoto from "./HeroPhoto"; 
 import TitleAndButton from "./TitleAndButton";
 
 const LandingHero = () => {
@@ -16,7 +16,7 @@ const LandingHero = () => {
                     {/* Flex Container*/}
                     <div className="flex items-center lg:justify-between">
                         <TitleAndButton />{/* Text and Button (Left) */}
-                        <HeroDemo /> {/* Image (Right) */}
+                        <HeroPhoto /> {/* Image (Right) */}
                     </div> {/* Flex Container End*/}
                 </div>
             </section>

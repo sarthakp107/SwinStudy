@@ -12,7 +12,7 @@ export const SkeletonFlashcards = () => {
           clearInterval(interval);
           return 100;
         }
-        return oldProgress + 7; //Adds 7 per second, meaning it takes 15 seconds to reach till 100.
+        return oldProgress + 5; //Adds 5 per second, meaning it takes 20 seconds to reach till 100.
       });
     }, 1000); // Updates every second for a smooth transition
 
