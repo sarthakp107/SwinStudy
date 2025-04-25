@@ -41,11 +41,9 @@ export const Flashcards = () => {
                     <SwinButton icon={<FaArrowRight />} label="Next" onClick={handleNext} isdisabled={current_question === count - 1} disabledLabel="Next"/>
                 </div>
             </div>
-            <Link to="/" className="border-2 border-red-600 text-red-600 px-10 py-4 rounded-lg font-semibold text-lg hover:bg-red-50 transition-colors mt-10">
-                        Home
-                    </Link>
-
-
+            <Link to="/dashboard" className="border-2 border-red-600 text-red-600 px-10 py-4 rounded-lg font-semibold text-lg hover:bg-red-50 transition-colors mt-10">
+                Home
+            </Link>
         </div>):(
         <SkeletonFlashcards />
         

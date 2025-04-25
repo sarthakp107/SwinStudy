@@ -4,7 +4,7 @@ export const UploadGuidelines = () =>{
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="p-4 bg-gray-50 rounded-lg">
               <h4 className="font-semibold text-gray-700 mb-2">Supported Formats</h4>
-              <p className="text-gray-600 text-sm">PDF, DOCX, TXT files up to 10MB</p>
+              <p className="text-gray-600 text-sm">PDF files up to 10MB. Support for DOCX, TXT coming soon</p>
             </div>
             <div className="p-4 bg-gray-50 rounded-lg">
               <h4 className="font-semibold text-gray-700 mb-2">Processing Time</h4>

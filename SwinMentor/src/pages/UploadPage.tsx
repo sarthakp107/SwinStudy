@@ -1,4 +1,4 @@
-import { FaGamepad } from "react-icons/fa"
+import { FaBolt } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import DragDrop from "../components/Flashcards/DragDrop"
@@ -11,6 +11,7 @@ import { useFileContext } from "@/Hooks/Context/useFileContext"
 import { FetchQnA } from "@/components/Flashcards/FetchQnA"
 import { UploadGuidelines } from "@/components/Flashcards/UploadGuidelines"
 import { useRandomAPI } from "@/Hooks/useRandomAPI"
+import { ShowSelection } from "@/components/Survey/ShowSelection"
 
 export const UploadPage = () => {
   const { state, dispatch } = useFileContext() //Update in FileContext to access it from Flashcard Page
@@ -21,7 +22,8 @@ export const UploadPage = () => {
   const API = useRandomAPI();  
 
   //Main Function, Starts: User Uploads File
-  const handleUpload = async (file: File) => { 
+  const handleUpload = async (file: File) => {
+    dispatch({type: "SET_QNA", payload:[] }) //0. Remove any previous questions first
     dispatch({ type: "SET_FILE", payload: file }) //1. Set File
     try {
       const responseFromParser = await PDFParser(file) //2. Extract Text
@@ -65,7 +67,8 @@ export const UploadPage = () => {
           <div className="flex flex-col space-y-6">
             <div>
               <DragDrop onUpload={handleUpload} />
-              {state.extractedText && <div className="text-gray-700 mt-2 mb-0">Uploaded File: {state.file.name}</div>}
+              {state.extractedText && <div className="text-gray-700 mt-2 mb-0"><ShowSelection element={state.file.name}/></div>}
+              
               <UploadGuidelines />
             </div>
           </div>
@@ -83,7 +86,7 @@ export const UploadPage = () => {
 
         {/* Generate Button */}
         <div className="mb-8 flex justify-end">
-          <SwinButton label="Generate" onClick={handleGenerate} icon={<FaGamepad />} isdisabled={!(flashcardCount > 0 && extractedText)} disabledLabel="Generate"/>
+          <SwinButton label="Generate" onClick={handleGenerate} icon={<FaBolt />} isdisabled={!(flashcardCount > 0 && extractedText)} disabledLabel="Generate"/>
         </div>
         
       </div>
