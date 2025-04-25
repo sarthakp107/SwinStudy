@@ -21,7 +21,8 @@ const PublicOnlyRoute = ({element}: {element: React.ReactElement}) => {
     const {user, authIsChecked} = useAuthContext();
 
     if(!authIsChecked){
-        return <Spinner />
+
+        return <Spinner />     
     }
     
     if(user){
