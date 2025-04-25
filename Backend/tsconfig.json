@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    /* Language and Environment Options */
+    "target": "es2016", // Or a more recent target like "es2020" or "esnext"
+    "lib": ["es6"], // Ensure you have libraries needed for Node.js (es6 or later)
+    "module": "commonjs", // Node.js uses CommonJS modules
+    "rootDir": "./src", // We'll put our source code in a 'src' directory
+    "outDir": "./dist", // Compiled JavaScript will go into a 'dist' directory
+    "esModuleInterop": true, // Recommended for easier importing of CommonJS modules
+    "forceConsistentCasingInFileNames": true, // Good practice
+
+    /* Type Checking Options */
+    "strict": true, // Enable all strict type-checking options - highly recommended for TypeScript benefits
+    "noImplicitAny": true, // Ensure types are explicit or inferable
+    "skipLibCheck": true // Skip type checking of declaration files (improves build speed)
+  },
+  "include": ["src/**/*.ts"], // Tell TypeScript to compile all .ts files in the src directory
+  "exclude": ["node_modules"] // Exclude node_modules
+}
