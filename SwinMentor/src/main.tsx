@@ -7,26 +7,24 @@ import { SurveyProvider } from './context/SurveyContext.tsx';
 import { FileProvider } from './context/FileContext.tsx';
 import { RouterProvider } from 'react-router-dom';
 import router from './routes.tsx';
-
 const client = new QueryClient();
 
-const App = () => {
-  return (
+const App: React.FC = () => {
+   return (
      <QueryClientProvider client={client}>
-        <AuthContextProvider>
-           <SurveyProvider>
-              <FileProvider>
-                 <RouterProvider router={router} />
-              </FileProvider>
-           </SurveyProvider>
-        </AuthContextProvider>
+       <AuthContextProvider>
+         <SurveyProvider>
+           <FileProvider>
+               <RouterProvider router={router} />
+           </FileProvider>
+         </SurveyProvider>
+       </AuthContextProvider>
      </QueryClientProvider>
-  );
-};
-
+   );
+ };
 
 createRoot(document.getElementById('root')!).render(
 <StrictMode>
-  <App /> {/* Render the App component */}
+  <App /> 
 </StrictMode>
 );
