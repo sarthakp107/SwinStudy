@@ -1,0 +1,30 @@
+@import "tailwindcss";
+@layer components {
+  .error {
+    @apply bg-red-100 border border-red-500 text-red-700 p-4 mb-5 rounded-md shadow-md flex items-center gap-2 w-fit;
+  }
+  /* @layer components { */
+    @keyframes smoothFadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+  
+    .fade-up {
+      animation: smoothFadeUp 1s ease-out forwards;
+    }
+  
+    .fade-up-delay {
+      animation: smoothFadeUp 1s ease-out forwards;
+      animation-delay: 1.2s;
+      opacity: 0; /* so it starts invisible */
+    }
+   
+  
+}
+  
