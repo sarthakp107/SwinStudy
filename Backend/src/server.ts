@@ -18,16 +18,12 @@ app.use(morgan("dev")); // logs the requests
 
 
 app.use("/api/units", unitRoutes )
-
-app.get("/", (req, res)=>{
-    console.log(res.getHeaders());
-    res.send("Welcome to SwinStudy!");
-})
+app.use("/", unitRoutes)
 
 async function startServer() {
     try{
         await establishConnectionToDB();
-        app.listen(port, ()=>{console.log('Connected to Swin_Express', port)})
+        app.listen(port, ()=>{console.log("Connected to Swin_Express", port)})
     }catch(error){
         console.error('Failed starting server: ', error)
     }

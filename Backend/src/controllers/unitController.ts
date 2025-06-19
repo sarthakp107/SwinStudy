@@ -1,5 +1,5 @@
 // import {establishConnectionToDB, query} from '../database'
-import express from 'express';
+import {establishConnectionToDB, query} from '../database'
 import { Request, Response } from "express";
 
 export const getAllUnits = async(req: Request, res : Response) => {
@@ -12,3 +12,7 @@ export const getAllUnits = async(req: Request, res : Response) => {
     // }
    await res.send("controller is good");
 };
+
+export const getHome = async(req: Request, res : Response) => {
+    await res.send("Welcome to SwinStudy! test ");
+}
