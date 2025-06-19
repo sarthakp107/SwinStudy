@@ -9,7 +9,8 @@ import unitRoutes from "./routes/unitRoutes"
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 1313;
+const port = parseInt(process.env.PORT || "1313", 10);
+
 
 app.use(express.json());
 app.use(cors());
@@ -23,7 +24,7 @@ app.use("/", unitRoutes)
 async function startServer() {
     try{
         await establishConnectionToDB();
-        app.listen(port, ()=>{console.log("Connected to Swin_Express", port)})
+        app.listen(port, "0.0.0.0", ()=>{console.log("Connected to Swin_Express", port)})
     }catch(error){
         console.error('Failed starting server: ', error)
     }
