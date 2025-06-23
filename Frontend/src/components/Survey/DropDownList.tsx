@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface ListProps {
   options: number[];
@@ -9,9 +9,22 @@ interface ListProps {
 export const DropDownList: React.FC<ListProps> = ({ options, handleClick, label = "" }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<number>()
+  const dropdownRef = useRef<HTMLDivElement>(null);
+      // Function to Listen close dropdown list if clicked anywhere else on the screen
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };  
+  }, []);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full" ref={dropdownRef}>
       {/* Dropdown Trigger */}
       <div
         className="w-full p-2 border-2 border-gray-300 rounded-lg text-gray-700 cursor-pointer text-lg bg-white shadow-md hover:bg-gray-50 transition-colors flex justify-between items-center"

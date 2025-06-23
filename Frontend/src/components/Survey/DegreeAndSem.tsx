@@ -1,7 +1,8 @@
 import { SearchableDropdown } from './SearchableDropdown';
-import { useAvailableDegrees } from '@/Hooks/Database/useAvailableDegrees';
-import { useSurveyContext } from '@/Hooks/Context/useSurveyContext';
-import { useState } from 'react';
+import { useAvailableDegrees } from '../../Hooks/Database/useAvailableDegrees';
+import {useSurveyContext} from '../../Hooks/Context/useSurveyContext';
+import { useState, useEffect, useRef } from 'react';
+import * as React from 'react';
 import {SkeletonDegreeandSem} from "../Loading/SkeletonDegreeandSem";
 import { ShowSelection } from './ShowSelection';
 import { FaArrowRight, FaBars } from 'react-icons/fa6';
@@ -11,7 +12,7 @@ export const DegreeAndSem = () => {
     const [option, setOption] = useState("")
     const { degrees, loading, error } = useAvailableDegrees();
     const { dispatch, state } = useSurveyContext();
-
+    const dropdownRef = useRef<HTMLDivElement>(null);
     const handleDegreeChange = (degreeId: string) => {
         dispatch({ type: 'SET_DEGREE', payload: degreeId });
     };
@@ -23,6 +24,18 @@ export const DegreeAndSem = () => {
         e.preventDefault();
         dispatch({ type: "NEXT_STEP" })
     };
+    // Function to Listen close dropdown list if clicked anywhere else on the screen
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+          if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+            setIsOpen(false);
+          }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
 
     return (
     <>
@@ -52,7 +65,7 @@ export const DegreeAndSem = () => {
                     <label className="block text-gray-700 font-medium mb-1">Current Semester</label>
                     <p className="text-sm text-gray-500 mb-4">Which semester are you currently enrolled in?</p>
 
-                    <div className="relative">
+                    <div className="relative" ref={dropdownRef}>
                         <div className="relative">
                             <input type="text" placeholder="Select Semester" value={option} onChange={(e) => setOption(e.target.value)} readOnly onFocus={() => setIsOpen(true)}
                                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all pl-10"
@@ -68,7 +81,7 @@ export const DegreeAndSem = () => {
                                     {[1, 2, 3, 4, 5, 6, 7, 8].map((option) => (
                                         <li
                                             key={option}
-                                            className="p-3 cursor-pointer border-b last:border-b-0 hover:bg-red-50 flex items-center transition"
+                                            className="p-3 cursor-pointer last:border-b-0 hover:bg-red-50 flex items-center transition"
                                             onClick={() => { handleSemesterChange(option); setIsOpen(false) }}>
                                             <span className="w-8 h-8 mr-3 flex items-center justify-center bg-red-100 text-red-600 rounded-full font-medium">{option}</span>
                                             Semester {option}
@@ -80,7 +93,7 @@ export const DegreeAndSem = () => {
                     </div>
                 </div>
                 {/* Button's Section */}
-                <button type="submit" disabled={!state.degree || !state.semester} className={`w-full py-4 rounded-lg flex items-center justify-center transition-all duration-300 ${ state.degree && state.semester   ? 'bg-red-500 hover:bg-red-600 text-white shadow-md hover:shadow-lg' : 'bg-gray-200 text-gray-400 cursor-not-allowed' }`}>
+                <button type="submit" disabled={!state.degree || !state.semester} className={`w-full py-4 rounded-lg flex items-center justify-center transition-all duration-300 ${ state.degree && state.semester   ? 'bg-red-500 hover:bg-red-600 cursor-pointer text-white shadow-md hover:shadow-lg' : 'bg-gray-200 text-gray-400 cursor-not-allowed' }`}>
                     <span className="font-medium">Continue to Unit Selection</span>
                     <FaArrowRight className='ml-2 h-5 w-5' />
                 </button>

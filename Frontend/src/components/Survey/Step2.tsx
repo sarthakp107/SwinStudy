@@ -1,8 +1,9 @@
-import { useSurveyContext } from "@/Hooks/Context/useSurveyContext";
+import { useSurveyContext } from "../../Hooks/Context/useSurveyContext"
 import { CurrentUnits } from "./CurrentUnits";
-import { NUMBER_OF_CURRENT_UNITS } from "@/config/Constants";
-import { useHandleSurveySubmit } from "@/Hooks/Database/useHandleSurveySubmit";
+import { NUMBER_OF_CURRENT_UNITS } from "../../config/Constants";
+import { useHandleSurveySubmit } from "../../Hooks/Database/useHandleSurveySubmit";
 import { FaBook, FaArrowLeft } from "react-icons/fa";
+import * as React from 'react';
 
 export const Step2: React.FC = () => {
     const { state, dispatch } = useSurveyContext();
@@ -25,12 +26,12 @@ export const Step2: React.FC = () => {
                 <CurrentUnits />
                 {/* Buttons Div*/}
                 <div className="flex justify-between mt-7 mb-3">
-                    <button type="button" onClick={() => dispatch({ type: "PREV_STEP" })} className={`w-full py-4 rounded-lg flex items-center justify-center transition-all duration-300 bg-red-500 text-white} text-white mr-4`}>
+                    <button type="button" onClick={() => dispatch({ type: "PREV_STEP" })} className={`w-full py-4 rounded-lg flex items-center justify-center transition-all duration-300 bg-red-500 text-white} hover:cursor-pointer text-white mr-4`}>
                         <FaArrowLeft className='ml-2 h-5 w-5 mr-1' />
                         Previous
                     </button>
                     <button type="submit" onClick={handleSurveySubmit} disabled={state.selectedUnits.length !== NUMBER_OF_CURRENT_UNITS || loading} 
-                    className={`w-full py-4 rounded-lg flex items-center justify-center transition-all duration-300 ${ (state.selectedUnits).length>=4   ? 'bg-red-500 hover:bg-red-600 text-white shadow-md hover:shadow-lg' : 'bg-gray-200 text-gray-400 cursor-not-allowed' }`}>
+                    className={`w-full py-4 rounded-lg flex items-center justify-center transition-all duration-300 ${ (state.selectedUnits).length>=4   ? 'bg-red-500 hover:bg-red-600 text-white shadow-md hover:shadow-lg cursor-pointer' : 'bg-gray-200 text-gray-400 cursor-not-allowed' }`}>
                         {loading ? "Processing..." : "Submit"}
                     </button>
                 </div>

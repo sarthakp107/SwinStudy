@@ -1,5 +1,5 @@
 import React, { createContext, useReducer,  ReactNode } from 'react';
-import { surveyReducer, initialState, SurveyState, Action } from '@/reducers/surveyReducer';
+import { surveyReducer, initialState, SurveyState, Action } from '../reducers/surveyReducer';
 
 type SurveyContextType = {
   state: SurveyState;
