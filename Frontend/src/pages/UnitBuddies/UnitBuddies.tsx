@@ -25,7 +25,7 @@ export const UnitBuddies = () => {
     if (error) return <div className="error">Error: {error}</div>;
 
     return (
-        <div className="max-w-xl mx-auto p-10 bg-white rounded-3xl shadow-2xl border border-gray-300 mt-12 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-xl mx-10 p-10 bg-white rounded-3xl shadow-2xl border border-gray-300 mt-12 bg-gradient-to-b from-gray-50 to-white">
             <h2 className="text-3xl font-extrabold text-gray-900 mb-8 flex items-center gap-3">
                 <FaUserFriends className="text-red-500 text-4xl" /> Unit Buddies for {safeUnitName}
             </h2>
