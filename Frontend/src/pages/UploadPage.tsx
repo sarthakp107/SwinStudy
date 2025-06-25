@@ -2,7 +2,6 @@ import { FaBolt } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import DragDrop from "../components/Flashcards/DragDrop"
-import * as React from 'react'
 import { DropDownList } from "../components/Survey/DropDownList"
 import {NUMBER_OF_FLASHCARDS} from '../config/Constants'
 import { PDFParser } from "../components/Flashcards/PDFParser"
