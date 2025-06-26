@@ -32,16 +32,17 @@ app.use("/api/chat", chatRoutes);
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173", // need changes
+    origin: "http://localhost:5173", // need changes swinstudy.com
+    // origin: "http://swinstudy.com", // need changes swinstudy.com
     methods: ["GET", "POST"]
   }
 });
 
 io.on("connection", (socket) => {
-  console.log("Socket connected:", socket.id);
+  console.log("Socket server connected:", socket.id);
 
   socket.on("disconnect", () => {
-    console.log("Socket disconnected:", socket.id);
+    console.log("Socket server disconnected:", socket.id);
   });
 });
 

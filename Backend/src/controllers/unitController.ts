@@ -7,8 +7,8 @@ export const getAllUnits = async(req: Request, res : Response) => {
     // try{
     //    const result = await query('SELECT * FROM all_units');
     //     res.json(result.rows);
-    // }catch{
-    //     // console.log("Error: ", error);
+    // }catch(error){
+    //     console.log("Error: ", error);
     // }
    await res.send("controller is good");
 };
