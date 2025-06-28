@@ -21,9 +21,12 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
 
     socket.emit("join_unit", unitName); // join the unit's room
 
-    socket.on("unit_message", ({ sender, message }: ChatMessage) => {
-      setChat((prev) => [...prev, { sender, message }]);
-    }); 
+   socket.on("unit_message", ({ sender, message }: ChatMessage) => {
+  setChat((prev) => [
+    ...prev,
+    { sender: sender === currentUser ? "You" : sender, message },
+  ]);
+});
 
     return () => {
       socket.off("unit_message");
@@ -41,12 +44,8 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
 
     socket.emit("unit_message", msg);
 
-    // Also append your own message locally
-    setChat((prev) => [...prev, { sender: "You", message }]);
     setMessage("");
   };
-
-  console.log( "bottom ref: "+ bottomRef);
 
   return (
     <div className="flex flex-col h-[500px] border rounded-xl p-4 bg-white shadow-md overflow-hidden">
