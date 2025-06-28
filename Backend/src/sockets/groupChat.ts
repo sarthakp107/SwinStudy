@@ -1,5 +1,5 @@
-import { Socket } from "socket.io";
 import { io } from "../server";
+import { saveMessages } from "../models/messageModels";
 
 export const handleGroupChat = () => {
     io.on("connection", (socket) => {
@@ -14,8 +14,15 @@ export const handleGroupChat = () => {
             console.log(`${socket.id} joined ${unitName}`);
         })
 
-        socket.on("unit_message", ({ unitName, sender, message }) => {
-            io.to(unitName).emit("unit_message", { sender, message });
+        socket.on("unit_message", async({ unitName, sender, message }) => {
+            try{
+                //save mssage
+                await saveMessages(unitName, sender, message);
+                io.to(unitName).emit("unit_message", { sender, message });
+            }
+            catch(err){
+                console.log(err);
+            }
         })
     });
 }

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState,useEffect, useRef } from "react";
 import { useUnitChat } from "@/Hooks/Chat/useUnitChat";
 type ChatMessage = {
   sender: string;
@@ -7,18 +7,22 @@ type ChatMessage = {
 
 type GroupChatProps = {
   unitName: string;
-  currentUser: string; 
+  currentUser: string;
 };
 
 export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
   const [message, setMessage] = useState("");
   const bottomRef = useRef<HTMLDivElement | null>(null);
-  const {chat, sendMessage} = useUnitChat(unitName, currentUser);
+  const { chat, sendMessage } = useUnitChat(unitName, currentUser);
 
   const handleSend = () => {
     sendMessage(message);
     setMessage("");
   }
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [chat]);
+
 
   return (
     <div className="flex flex-col h-[500px] border rounded-xl p-4 bg-white shadow-md overflow-hidden">
@@ -30,11 +34,10 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
             className={`flex ${msg.sender === "You" ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-xs p-3 rounded-lg shadow-md ${
-                msg.sender === "You"
+              className={`max-w-xs p-3 rounded-lg shadow-md ${msg.sender === "You"
                   ? "bg-red-500 text-white"
                   : "bg-gray-200 text-gray-800"
-              }`}
+                }`}
             >
               <p className="text-base break-words">{msg.message}</p>
               <p className="text-xs mt-1 text-right opacity-70">

@@ -45,7 +45,7 @@ handleGroupChat();
 
 async function startServer() {
     try{
-        // await establishConnectionToDB();
+        await establishConnectionToDB();
         httpServer.listen(port, "0.0.0.0", ()=>{console.log("Connected to Swin_Express", port)})
     }catch(error){
         console.error('Failed starting server: ', error)
