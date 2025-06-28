@@ -36,7 +36,8 @@ export const io = new Server(httpServer, {
   cors: {
     // origin: allowedOrigins,
     // origin: "http://localhost:5173",
-    origin: process.env.CORS_ORIGIN,
+    // origin: process.env.CORS_ORIGIN,
+    origin:"https://swinstudy.com",
     methods: ["GET", "POST"]
   }
 });
