@@ -27,6 +27,7 @@ export const useUnitChat = (unitName: string, currentUser: string) => {
 
     const sendMessage = (message: string) => {
         if (!message.trim()) return;
+        console.log("sending messg");
 
         socket.emit("unit_message", {
             unitName,
