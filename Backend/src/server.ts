@@ -5,6 +5,7 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 import unitRoutes from "./routes/unitRoutes"
+import flashcardRoutes from "./routes/flashcardRoutes"
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(morgan("dev")); // logs the requests
 
 
 app.use("/api/units", unitRoutes )
+app.use("/flashcards", flashcardRoutes)
 app.use("/", unitRoutes)
 
 async function startServer() {

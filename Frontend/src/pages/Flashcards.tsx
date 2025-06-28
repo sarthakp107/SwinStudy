@@ -21,6 +21,7 @@ export const Flashcards = () => {
         if (current_question > 0) navigate(`/flashcard/${current_question - 1}`)
     };
 
+
     return (
     <>
         {/* Show flashcard if QnA has loaded, or else shows Skeleton */}
@@ -44,7 +45,12 @@ export const Flashcards = () => {
             <Link to="/dashboard" className="border-2 border-red-600 text-red-600 px-10 py-4 rounded-lg font-semibold text-lg hover:bg-red-50 transition-colors mt-10">
                 Home
             </Link>
-        </div>):(
+            {/* <div className="hover:cursor-pointer">
+                <SwinButton label="Save" icon={<FaStar />} onClick={()=>handleSaveFlashcard()} />
+            </div> */}
+        </div>
+        
+        ):(
         <SkeletonFlashcards />
         
         )}
