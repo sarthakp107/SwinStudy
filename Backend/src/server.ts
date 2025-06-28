@@ -9,6 +9,7 @@ import chatRoutes from "./routes/chatRoutes"
 
 import { Server } from 'socket.io';
 import { createServer } from 'http';
+import { handleGroupChat } from './sockets/groupChat';
 
 dotenv.config();
 
@@ -30,30 +31,16 @@ app.use("/api/chat", chatRoutes);
 
 
 const httpServer = createServer(app);
-const io = new Server(httpServer, {
+const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
+export const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173", // need changes swinstudy.com
-    // origin: "http://swinstudy.com", // need changes swinstudy.com
+    origin: allowedOrigins,
+    //  // need changes swinstudy.com
     methods: ["GET", "POST"]
   }
 });
 
-io.on("connection", (socket) => {
-  console.log("Socket server connected:", socket.id);
-
-  socket.on("disconnect", () => {
-    console.log("Socket server disconnected:", socket.id);
-  });
-
-  socket.on("join_unit", (unitName) => {
-    socket.join(unitName);
-    console.log(`${socket.id} joined ${unitName}`);
-  })
-
-  socket.on("unit_message", ({ unitName, sender, message }) => {
-     io.to(unitName).emit("unit_message", { sender, message });
-  })
-});
+handleGroupChat();
 
 
 async function startServer() {

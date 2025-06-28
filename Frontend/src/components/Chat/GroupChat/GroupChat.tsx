@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { socket } from "../../../socket"; // Make sure this exports an initialized socket.io-client instance
-
+import { useState, useRef } from "react";
+import { useUnitChat } from "@/Hooks/Chat/useUnitChat";
 type ChatMessage = {
   sender: string;
   message: string;
@@ -12,40 +11,14 @@ type GroupChatProps = {
 };
 
 export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
-  const [chat, setChat] = useState<ChatMessage[]>([]);
   const [message, setMessage] = useState("");
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  const {chat, sendMessage} = useUnitChat(unitName, currentUser);
 
-  useEffect(() => {
-    if (!unitName || !currentUser) return;
-
-    socket.emit("join_unit", unitName); // join the unit's room
-
-   socket.on("unit_message", ({ sender, message }: ChatMessage) => {
-  setChat((prev) => [
-    ...prev,
-    { sender: sender === currentUser ? "You" : sender, message },
-  ]);
-});
-
-    return () => {
-      socket.off("unit_message");
-    };
-  }, [unitName, currentUser]);
-
-  const sendMessage = () => {
-    if (!message.trim()) return;
-
-    const msg = {
-      unitName,
-      message,
-      sender: currentUser,
-    };
-
-    socket.emit("unit_message", msg);
-
+  const handleSend = () => {
+    sendMessage(message);
     setMessage("");
-  };
+  }
 
   return (
     <div className="flex flex-col h-[500px] border rounded-xl p-4 bg-white shadow-md overflow-hidden">
@@ -80,11 +53,11 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          onKeyDown={(e) => e.key === "Enter" && handleSend()}
           placeholder="Type a message..."
         />
         <button
-          onClick={sendMessage}
+          onClick={handleSend}
           className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
         >
           Send
