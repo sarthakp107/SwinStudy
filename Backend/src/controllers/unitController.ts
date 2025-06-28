@@ -1,5 +1,5 @@
 // import {establishConnectionToDB, query} from '../database'
-import {establishConnectionToDB, query} from '../database'
+import {query} from '../database'
 import { Request, Response } from "express";
 
 export const getAllUnits = async(req: Request, res : Response) => {
