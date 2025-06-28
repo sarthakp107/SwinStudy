@@ -1,9 +1,5 @@
 import { useState,useEffect, useRef } from "react";
 import { useUnitChat } from "@/Hooks/Chat/useUnitChat";
-type ChatMessage = {
-  sender: string;
-  message: string;
-};
 
 type GroupChatProps = {
   unitName: string;

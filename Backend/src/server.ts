@@ -31,16 +31,17 @@ app.use("/api/chat", chatRoutes);
 
 
 const httpServer = createServer(app);
-const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
+// const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
 export const io = new Server(httpServer, {
   cors: {
-    origin: allowedOrigins,
-    //  // need changes swinstudy.com
+    // origin: allowedOrigins,
+    // origin: "http://localhost:5173",
+    origin: process.env.CORS_ORIGIN,
     methods: ["GET", "POST"]
   }
 });
 
-handleGroupChat();
+handleGroupChat(io);
 
 
 async function startServer() {
