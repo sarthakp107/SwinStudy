@@ -6,7 +6,7 @@ export const FlashcardStats = () =>{
     const {numberOfSavedFlashcards} = useSavedFlashcardCount(user?.id);
     return (
     <>
-    {user &&         <div> 
+    {user &&   <div> 
             <h1>Your Progress So Far: </h1>
             <h2> Flashcards Studied: </h2>
             <h2> Flashcards Saved: {numberOfSavedFlashcards} </h2>

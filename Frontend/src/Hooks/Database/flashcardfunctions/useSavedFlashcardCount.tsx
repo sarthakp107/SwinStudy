@@ -1,12 +1,17 @@
 import { typeFlashcardForQuery } from "@/types";
 import { useEffect, useState } from "react"
 
+
 export const useSavedFlashcardCount = (userId:string|undefined) =>{
     // const {user} = useAuthContext();
     const [numberOfSavedFlashcards, setNumberOfSavedFlashcard] = useState(0);
     const [useSavedFlashcardCountError, setUseSavedFlashcardCountError ] = useState<string|null>(null);
     const [useSavedFlashcardCountLoading, setUseSavedFlashcardCountLoading ] = useState(false);
     useEffect(()=>{
+        if (!userId) {
+            setUseSavedFlashcardCountLoading(false);
+            return;
+        }
         const getSavedFlashcardsCount = async () =>{
             try{
                 setUseSavedFlashcardCountLoading(true);
@@ -21,6 +26,6 @@ export const useSavedFlashcardCount = (userId:string|undefined) =>{
             }
         }
         getSavedFlashcardsCount();
-    }, [])
+    }, [userId])
     return {numberOfSavedFlashcards, useSavedFlashcardCountError, useSavedFlashcardCountLoading}
 }

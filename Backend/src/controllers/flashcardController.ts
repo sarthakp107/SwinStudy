@@ -90,3 +90,48 @@ export const deleteUserSavedFlashcard = async(req: Request, res:Response)=>{
         })
     }
 }
+
+export const postUserGeneratedFlashcards = async (req: Request, res:Response)=>{
+    try{
+        const {question, answer, userId} = req.body;
+        if (!question || !answer || !userId) {
+            res.status(400).json({ error: "Missing required fields: question, answer, or userId." });
+        }
+        const insertQuery_build = `
+        WITH inserted_flashcard AS(
+            INSERT INTO m_allflashcards(question, answer)
+            VALUES($1, $2)
+            RETURNING m_allflashcards_pkey
+        )
+        INSERT INTO m_usergeneratedflashcards(userid, qnareference)
+        SELECT $3, m_allflashcards_pkey FROM inserted_flashcard;
+        `
+        const result = await query(insertQuery_build, [ question, answer, userId ]);
+        res.status(201).json({
+            message:"Flaschard added successfully!"
+        })
+    }catch(error:any){
+        console.log("An error occured when posting: ", error.message)
+        res.status(500).json({message: "Failed to add flashcard"})
+    }
+
+}
+
+export const getUserGeneratedFlashcards = async (req: Request, res:Response)=>{
+    try{
+        const {userId} = req.query;
+        if (!userId) {
+            res.status(400).json({ error: "Missing required field: userId." });
+        }
+        const insertQuery_build = `
+        SELECT flashcard.question, flashcard.answer, flashcard.created_date FROM m_usergeneratedflashcards m
+        LEFT JOIN m_allflashcards flashcard on m.qnareference = flashcard.m_allflashcards_pkey
+        where m.userid = $1
+        `
+        const getResult = await query(insertQuery_build, [ userId ]);
+        res.json(getResult.rows);
+    }catch(error:any){
+        console.log("An error occured when getting: ", error.message)
+        res.status(500).json({message: "Failed to get flashcard"})
+    }
+}

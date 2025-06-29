@@ -123,7 +123,7 @@ const routes: RouteObject[] = [
                 element: <PublicPrivateRoute element={<FeatureBlock />}/>
             },            
             {
-                path: 'upload', 
+                path: 'flashcardupload', 
                 element: <PublicPrivateRoute element={<UploadPage />} />
             },
             {
