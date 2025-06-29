@@ -13,6 +13,9 @@ export const saveMessages = async (res: Response, req: Request) => {
   try{
 
    const result =  await query(sql, [unitName, sender, message]);
+   res.status(200).json({
+    message : "reached here"
+   })
   }
   catch(err){
     console.log(err);

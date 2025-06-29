@@ -25,7 +25,7 @@ export const handleGroupChat = (io: Server) => {
                     headers: {
                         "content-type" : "application/json",
                     },
-                    body: JSON.stringify({unitName: unitName , sender: sender , message: message})
+                    body: JSON.stringify({unit_name: unitName , sender: sender , message: message})
                 })
             }
             catch(err){
