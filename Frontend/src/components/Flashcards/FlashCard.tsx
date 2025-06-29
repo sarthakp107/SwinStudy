@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import { SwinButton } from "../Buttons/SwinButton";
 import { FaStar } from "react-icons/fa";
 import { useAuthContext } from "@/Hooks/Context/useAuthContext";
+import { useFlashcardSaveStatus } from "@/Hooks/Database/flashcardfunctions/useFlashcardSaveStatus";
+import { useSaveAFlashcard } from "@/Hooks/Database/flashcardfunctions/useSaveAFlashcard";
+import { useDeleteAFlaschard } from "@/Hooks/Database/flashcardfunctions/useDeleteAFlashcard";
 //Flashcard CARDS. Takes Question and Answer as Prop and displays them in a card
 interface FlashcardProps {
   question: string;
   answer: string;
-}
-type Flashcard={
-  userid:string;
-  question:string;
-  answer:string
-  date: string;
 }
 
 export const Flashcard: React.FC<FlashcardProps> = ({ question, answer }) => {
@@ -19,81 +16,64 @@ export const Flashcard: React.FC<FlashcardProps> = ({ question, answer }) => {
   const [isQuestion, setIsQuestion] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const {user} = useAuthContext();
+  const {isFlashcardSaved, useFlaschardSaveStatusError} = useFlashcardSaveStatus(question, answer, user?.id)
+  const {SaveAFlashcard, useSaveAFlashcardError} = useSaveAFlashcard();
+  const {DeleteAFlashcard, useDeleteAFlashcardError} = useDeleteAFlaschard();
+
   const handleClick = () => {
     setIsQuestion(!isQuestion); //Simply switch value of isQuestion on Click
   };
-
   const handleSaveFlashcard = async () =>{
-    // console.log("Retrieving value for userId: ", user)
-    // const result = await fetch(`https://www.swinstudy.com/api/flashcards/getUserSavedFlashcard?userId=${user?.id}`)
-    // const data: Flashcard[] = await result.json();
-    // console.log(data[0].userid);
-    // console.log(data[0].question);
-    // console.log(data[0].answer);
     if(isSaved){
-      console.log("Deleting question for user: ", user?.id);
-      const deleteResult = await fetch(`https://www.swinstudy.com/api/flashcards/deleteUserSavedFlashcard?userId=${user?.id}&question=${question}&answer=${answer}`,{
-        method: "DELETE"
-      })
-      console.log("Delete Flashcard Result: ", deleteResult);
+      DeleteAFlashcard(question, answer, user?.id)
+      if (useDeleteAFlashcardError){console.error("An error occured when unsaving Flashcard", useDeleteAFlashcardError)}
       setIsSaved(false);
     }else{
-    console.log("Posting result for user: ", user);
-    const postResult = await fetch("https://www.swinstudy.com/api/flashcards/postUserSavedFlashcard",{
-      method:"POST",
-      headers:{
-        "content-type":"application/json",
-      },
-      body: JSON.stringify(
-        {
-          userId: user?.id,
-          question:question,
-          answer:answer
-        }
-      ) 
-    })
-    console.log("Saved Flashcard!", postResult);
-    setIsSaved(true);
+      SaveAFlashcard(question, answer, user?.id);
+      if(useSaveAFlashcardError){console.error("An Error occured when saving Flashcard: ", useSaveAFlashcardError)}
+      setIsSaved(true);
     }
-    
-    
   };
-
-  //isQuestion retains state. So, if an answer is displaying and user clicks "Next", the card displays answer itself for the next question as well. 
-  //So, resetting the isQuestion to true each time new question is passed(user presses next)
-
+  //Resetting the isQuestion to true each time new question is passed(user presses next)
   useEffect(() => {
-    console.log("Use Effect Triggered")
     setIsQuestion(true); 
-    console.log("IsQuestion Set to True")
-    async function checkFlashcardIsSaved(){
-      console.log("Query sent, awaiting result")
-      const getResult = await fetch(`https://www.swinstudy.com/api/flashcards/getSpecificSavedFlashcard?userId=${user?.id}&question=${question}&answer=${answer}`)
-      const data:Flashcard[] = await getResult.json();
-      console.log("Data Returned. Data: ", data);
-      if (data.length>0){
-        console.log("IsSaved set to TRUE");
-        setIsSaved(true);
-      }else{
-        console.log("IsSaved set to FALSE");
-        setIsSaved(false);
-      }
+    if(useFlaschardSaveStatusError){
+      console.error("An Error occured in Checking Flashcard Save Status: ", useFlaschardSaveStatusError)
     }
-    console.log("Calling the Check function NOW")
-    checkFlashcardIsSaved();
-  }, [question]); 
+    if(isFlashcardSaved == true){
+      setIsSaved(true)
+    }else{
+      setIsSaved(false)
+    }
+  }, [question, isFlashcardSaved, useFlaschardSaveStatusError] ); 
 
   return (
     <>
-    <div className="pl-150">
-    {isSaved?
-    (
-    <SwinButton label="Save" icon={<FaStar className="text-yellow-400"/>} onClick={()=>handleSaveFlashcard()} />
-    ):(
+    {user? (
+      <div className="pl-150">
+      {isSaved?
+      (
+      <SwinButton label="Save" icon={<FaStar className="text-yellow-400"/>} onClick={()=>handleSaveFlashcard()} />
+      ):(
       <SwinButton label="Save" icon={<FaStar />} onClick={()=>handleSaveFlashcard()} />
-    )
-    }
+      )
+      }
+      </div>
+    ):(
+    <div className="relative pl-150 group">
+      <SwinButton
+        label="Save"
+        icon={<FaStar className="disabled" />}
+        onClick={handleSaveFlashcard}
+        isdisabled
+        disabledLabel="Save"
+      />
+      {/* Tooltip shown only when hovering over the disabled button's group parent */}
+      <div className="absolute hidden group-hover:block left-full ml-2 top-1/2 -translate-y-1/2 w-max px-4 py-2 text-sm text-white bg-gray-800 rounded-md shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform">
+        Please login to save
+      </div>
     </div>
+    )}
    
     {/* Main div */}
     <div 

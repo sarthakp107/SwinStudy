@@ -4,9 +4,10 @@ interface ButtonProps {
     icon: JSX.Element;  // Accepting a JSX Element for the icon
     isdisabled?: boolean;//Optional parameter we can pass to invoke a disabled Button. Is enabled by default
     disabledLabel?: string //Optional Label if the button is disabled.
+    title?: string; //Optional Label to show title message to indicate why a button is disabled
 }
 
-export const SwinButton = ({ label, onClick, icon, isdisabled = false, disabledLabel = "Processing"}: ButtonProps) => {
+export const SwinButton = ({ label, onClick, icon, isdisabled = false, disabledLabel = "Processing", title}: ButtonProps) => {
     return (
         <>
             {isdisabled ? (
@@ -14,6 +15,7 @@ export const SwinButton = ({ label, onClick, icon, isdisabled = false, disabledL
                     onClick={onClick}
                     className="flex items-center bg-red-500 text-white p-3 rounded-md hover:bg-red-800 transition-colors cursor-not-allowed"
                     disabled = {true}
+                    data-tip={title}
                 >   
                     {/* React Icon */}
                     <span className="mr-2">{icon}</span>
