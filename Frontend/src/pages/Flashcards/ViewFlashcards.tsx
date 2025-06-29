@@ -1,8 +1,11 @@
+import { useAuthContext } from "@/Hooks/Context/useAuthContext";
+import { useSaveMultipleFlashcards } from "@/Hooks/Database/flashcardfunctions/useSaveMultipleFlashcards";
 import { useFlashcardCount } from "@/Hooks/useFlashcardCount";
 import { useQnA } from "@/Hooks/useQnA";
 import { SwinButton } from "@/components/Buttons/SwinButton";
 import { Flashcard } from "@/components/Flashcards/FlashCard";
 import {  SkeletonFlashcards } from "@/components/Loading/SkeletonFlashcards";
+import { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
@@ -13,13 +16,21 @@ export const ViewFlashcards = () => {
     const { QnAF } = useQnA(); //hook that returns list of QnA (formatted)
     const { count } = useFlashcardCount(); //hook that returns count of Flashcard chosen by user
     const QnA = QnAF;
-
+    const {user} = useAuthContext();
+    const {SaveMultipleFlashcards} = useSaveMultipleFlashcards();
+    const [hasFlashcardSavedToDB, setHasFlashcardSavedToDB] = useState(false);
     const handleNext = () => {
         if (current_question < count - 1) navigate(`/flashcard/${current_question + 1}`);
     };
     const handlePrevious = () => {
         if (current_question > 0) navigate(`/flashcard/${current_question - 1}`)
     };
+    useEffect(()=>{
+        if(QnA.length > 0 && user?.id && !hasFlashcardSavedToDB ){
+            SaveMultipleFlashcards(QnA, user.id);
+            setHasFlashcardSavedToDB(true);
+        }
+    }, [QnA, user?.id, SaveMultipleFlashcards])
 
     return (
     <>
