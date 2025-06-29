@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { saveMessages } from "../models/messageModels";
 
 export const getAllChats = async(req: Request, res : Response) => {
 
@@ -8,5 +9,4 @@ export const getChatId = async(req: Request, res : Response) => {
     const id = req.params.id;
     await res.send(id);
 }
-
 

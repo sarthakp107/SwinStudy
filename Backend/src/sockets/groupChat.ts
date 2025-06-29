@@ -18,8 +18,15 @@ export const handleGroupChat = (io: Server) => {
         socket.on("unit_message", async({ unitName, sender, message }) => {
             try{
                 //save mssage
-                await saveMessages(unitName, sender, message);
                 io.to(unitName).emit("unit_message", { sender, message });
+                // await saveMessages(unitName, sender, message);
+                const res = await fetch("https://swinstudy.com/api/api/chat/postMessage" , {
+                    method: "POST",
+                    headers: {
+                        "content-type" : "application/json",
+                    },
+                    body: JSON.stringify({unitName: unitName , sender: sender , message: message})
+                })
             }
             catch(err){
                 console.log(err);
