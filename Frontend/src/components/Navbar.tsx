@@ -38,7 +38,7 @@ const Navbar: React.FC = () => {
         <Link to="/buddies" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
           Unit Buddy
         </Link>
-        <Link to="/upload" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
+        <Link to="/flashcards" className="text-gray-700 hover:text-red-600 transition-colors duration-300">
           Flashcard
         </Link>
         {!user && 
