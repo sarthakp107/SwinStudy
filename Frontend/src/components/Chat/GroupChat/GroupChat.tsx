@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useUnitChat } from "@/Hooks/Chat/useUnitChat";
+import { formatTimestamp } from "@/config/ChatUtils";
 
 type GroupChatProps = {
   unitName: string;
@@ -40,7 +41,7 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
                 {msg.sender}
               </p>
               <p className="text-[10px] text-right text-gray-500">
-                {new Date(msg.created_at).toLocaleString()}
+                {formatTimestamp(new Date(msg.created_at))}
               </p>
             </div>
           </div>
