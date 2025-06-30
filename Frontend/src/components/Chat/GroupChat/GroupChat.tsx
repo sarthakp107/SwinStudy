@@ -21,7 +21,7 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const res = await fetch(`/api/chat/getUnitMessage?unitName=${unitName}`);
+      const res = await fetch(`https://swinstudy.com/api/chat/getUnitMessage?unitName=${unitName}`);
       const data = await res.json();
       setMessage(data); 
     };
