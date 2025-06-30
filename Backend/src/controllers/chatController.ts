@@ -40,7 +40,7 @@ export const getUnitChats = async (req: Request, res: Response) => {
     try {
         const result = await query(sql, [unitName]);
         res.status(200).json({
-            message: "reached here"
+            message: "reached getUnitChats"
         })
         console.log("fetching all the messages");
     } catch (err) {
