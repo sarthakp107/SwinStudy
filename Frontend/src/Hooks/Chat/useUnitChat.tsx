@@ -10,6 +10,24 @@ export const useUnitChat = (unitName: string, currentUser: string) => {
     const [chat, setChat] = useState<ChatMessage[]>([]);
 
     useEffect(() => {
+
+        //to get prev chat
+        const fetchChatHistory = async () => {
+            try {
+                const res = await fetch(`https://swinstudy.com/api/chat/getUnitMessage?unitName=${unitName}`);
+                const data = await res.json();
+                const formattedMessages = data.map((msg: ChatMessage) => ({
+                    sender: msg.sender === currentUser ? "You" : msg.sender,
+                    message: msg.message,
+                }));
+                setChat(formattedMessages);
+            } catch (err) {
+                console.error("Error fetching chat history:", err);
+            }
+        }
+        
+        fetchChatHistory();
+
         socket.emit("join_unit_room", unitName); //to join the unit room
         const handleMessage = ({ sender, message }: ChatMessage) => {
             setChat((prev) => [

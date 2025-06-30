@@ -15,20 +15,10 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
     sendMessage(message);
     setMessage("");
   }
+  
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat]);
-
-  useEffect(() => {
-    const fetchMessages = async () => {
-      const res = await fetch(`https://swinstudy.com/api/chat/getUnitMessage?unitName=${unitName}`);
-      const data = await res.json();
-      setMessage(data); 
-    };
-
-    fetchMessages();
-  }, [unitName])
-
 
   return (
     <div className="flex flex-col h-[500px] border rounded-xl p-4 bg-white shadow-md overflow-hidden">
