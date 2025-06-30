@@ -4,6 +4,7 @@ import { socket } from "@/socket";
 type ChatMessage = {
     sender: string;
     message: string;
+    created_at: Date;
 };
 
 export const useUnitChat = (unitName: string, currentUser: string) => {
@@ -19,6 +20,7 @@ export const useUnitChat = (unitName: string, currentUser: string) => {
                 const formattedMessages = data.map((msg: ChatMessage) => ({
                     sender: msg.sender === currentUser ? "You" : msg.sender,
                     message: msg.message,
+                    created_at: new Date(msg.created_at)
                 }));
                 setChat(formattedMessages);
             } catch (err) {
@@ -29,10 +31,10 @@ export const useUnitChat = (unitName: string, currentUser: string) => {
         fetchChatHistory();
 
         socket.emit("join_unit_room", unitName); //to join the unit room
-        const handleMessage = ({ sender, message }: ChatMessage) => {
+        const handleMessage = ({ sender, message, created_at }: ChatMessage) => {
             setChat((prev) => [
                 ...prev,
-                { sender: sender === currentUser ? "You" : sender, message },
+                { sender: sender === currentUser ? "You" : sender, message, created_at},
             ])
         };
 
@@ -45,7 +47,6 @@ export const useUnitChat = (unitName: string, currentUser: string) => {
 
     const sendMessage = (message: string) => {
         if (!message.trim()) return;
-        console.log("sending messg");
 
         socket.emit("unit_message", {
             unitName,

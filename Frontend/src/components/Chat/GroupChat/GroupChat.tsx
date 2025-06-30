@@ -15,7 +15,7 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
     sendMessage(message);
     setMessage("");
   }
-  
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat]);
@@ -38,6 +38,9 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
               <p className="text-base break-words">{msg.message}</p>
               <p className="text-xs mt-1 text-right opacity-70">
                 {msg.sender}
+              </p>
+              <p className="text-[10px] text-right text-gray-500">
+                {new Date(msg.created_at).toLocaleString()}
               </p>
             </div>
           </div>
