@@ -27,18 +27,15 @@ app.use("/api/units", unitRoutes )
 app.use("/", unitRoutes)
 
 //chats
-app.use("/api/chat", chatRoutes);
+app.use("/chat", chatRoutes);
 
 
 const httpServer = createServer(app);
-// const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
 export const io = new Server(httpServer, {
   cors: {
-    // origin: allowedOrigins,
     // origin: "http://localhost:5173",
-    // origin: process.env.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN,
     // origin:"https://swinstudy.com",
-    origin:"*",
     methods: ["GET", "POST"]
   }
 });

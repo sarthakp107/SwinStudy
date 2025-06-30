@@ -1,15 +1,11 @@
 import express from 'express';
-import { getAllChats, getChatId } from '../controllers/chatController';
-import { saveMessages } from '../models/messageModels';
-
+import { getAllChats, getChatId, saveMessages } from '../controllers/chatController';
 
 const chatRouter = express.Router();
 
-
 //chat
+chatRouter.post("/postMessage", saveMessages)
 chatRouter.get("/" , getAllChats );
 chatRouter.get("/:id", getChatId);
-chatRouter.post("/postMessage", saveMessages)
-
 
  export default chatRouter;

@@ -1,6 +1,4 @@
-import { io } from "../server";
 import { Socket, Server} from "socket.io";
-import { saveMessages } from "../models/messageModels";
 
 export const handleGroupChat = (io: Server) => {
     io.on("connection", (socket: Socket) => {
@@ -19,13 +17,12 @@ export const handleGroupChat = (io: Server) => {
             try{
                 //save mssage
                 io.to(unitName).emit("unit_message", { sender, message });
-                // await saveMessages(unitName, sender, message);
-                const res = await fetch("https://swinstudy.com/api/api/chat/postMessage" , {
+                const res = await fetch("https://swinstudy.com/api/chat/postMessage" , {
                     method: "POST",
                     headers: {
                         "content-type" : "application/json",
                     },
-                    body: JSON.stringify({unit_name: unitName , sender: sender , message: message})
+                    body: JSON.stringify({unitName: unitName , sender: sender , message: message})
                 })
             }
             catch(err){
