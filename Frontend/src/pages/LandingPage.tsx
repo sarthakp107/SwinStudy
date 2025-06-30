@@ -11,7 +11,7 @@ import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import SplashScreen from '@/components/SplashScreen';
 
 const LandingPage: React.FC = () => {
-  const {user} = useAuthContext();
+  const {user, authIsChecked} = useAuthContext();
   const {loading } = useUserProfile(); 
   const [splashDone, setSplashDone] = useState(false);
   const [hasSeenSplash] = useState(() => {
