@@ -7,9 +7,11 @@ import { SurveyProvider } from './context/SurveyContext.tsx';
 import { FileProvider } from './context/FileContext.tsx';
 import { RouterProvider } from 'react-router-dom';
 import router from './routes.tsx';
+
 const client = new QueryClient();
 
 const App: React.FC = () => {
+
    return (
      <QueryClientProvider client={client}>
        <AuthContextProvider>

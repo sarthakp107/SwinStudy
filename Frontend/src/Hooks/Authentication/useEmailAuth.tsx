@@ -9,8 +9,6 @@ export const useEmailAuth = () => {
     const [error, setError] = useState<string | null>()
     const [isPending, setIsPending] = useState(false)
     const { dispatch } = useAuthContext()
-    // const navigate = useNavigate();
-
 
     //login to existing acc
     const signInWithPassword = async (email: string, password: string) => {
@@ -23,7 +21,6 @@ export const useEmailAuth = () => {
             //can add online status
 
             if (res.data.user) {
-                console.log(res.data);
                 dispatch({ type: "LOGIN", payload: res.data.user });
             } else {
                 setError(res.error?.message);
