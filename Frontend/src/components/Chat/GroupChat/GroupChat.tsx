@@ -1,4 +1,4 @@
-import { useState,useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useUnitChat } from "@/Hooks/Chat/useUnitChat";
 
 type GroupChatProps = {
@@ -19,6 +19,16 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [chat]);
 
+  useEffect(() => {
+    const fetchMessages = async () => {
+      const res = await fetch(`/api/chat/messages?unitName=${unitName}`);
+      const data = await res.json();
+      setMessage(data); 
+    };
+
+    fetchMessages();
+  }, [unitName])
+
 
   return (
     <div className="flex flex-col h-[500px] border rounded-xl p-4 bg-white shadow-md overflow-hidden">
@@ -31,8 +41,8 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
           >
             <div
               className={`max-w-xs p-3 rounded-lg shadow-md ${msg.sender === "You"
-                  ? "bg-red-500 text-white"
-                  : "bg-gray-200 text-gray-800"
+                ? "bg-red-500 text-white"
+                : "bg-gray-200 text-gray-800"
                 }`}
             >
               <p className="text-base break-words">{msg.message}</p>
