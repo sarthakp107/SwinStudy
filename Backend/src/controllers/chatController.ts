@@ -39,9 +39,7 @@ export const getUnitChats = async (req: Request, res: Response) => {
      ORDER BY created_at ASC`;
     try {
         const result = await query(sql, [unitName]);
-        res.status(200).json({
-            message: "reached getUnitChats"
-        })
+        res.status(200).json(result.rows);
         console.log("fetching all the messages");
     } catch (err) {
         console.log("DB error fetching mesages" + err)
