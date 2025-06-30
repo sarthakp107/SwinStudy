@@ -10,7 +10,7 @@ export const useSavedFlashcards = (userId:string|undefined) =>{
             setUseSavedFlashcardsLoading(false);
             return;
         }
-        const getSavedFlashcardsCount = async () =>{
+        const getSavedFlashcards = async () =>{
             try{
                 setUseSavedFlashcardsLoading(true);
                 setUseSavedFlashcardsError(null);
@@ -23,7 +23,7 @@ export const useSavedFlashcards = (userId:string|undefined) =>{
                 setUseSavedFlashcardsLoading(false);
             }
         }
-        getSavedFlashcardsCount();
+        getSavedFlashcards();
     }, [userId])
     return {savedFlashcards, useSavedFlashcardsError, useSavedFlashcardsLoading}
 }

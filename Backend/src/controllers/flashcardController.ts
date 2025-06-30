@@ -124,7 +124,7 @@ export const getUserGeneratedFlashcards = async (req: Request, res:Response)=>{
             res.status(400).json({ error: "Missing required field: userId." });
         }
         const insertQuery_build = `
-        SELECT flashcard.question, flashcard.answer, flashcard.created_date FROM m_usergeneratedflashcards m
+        SELECT m.userid, flashcard.question, flashcard.answer, flashcard.created_date as date FROM m_usergeneratedflashcards m
         LEFT JOIN m_allflashcards flashcard on m.qnareference = flashcard.m_allflashcards_pkey
         where m.userid = $1
         `

@@ -17,6 +17,7 @@ import FeatureBlock from "./components/LandingPage/FeatureBlock";
 import { Footer } from "./components/Footer";
 import { Flashcards } from "./pages/Flashcards/Flashcards_ForLoggedIn";
 import { ViewSavedFlashcards } from "./pages/Flashcards/ViewSavedFlashcards";
+import { ViewAllGeneratedFlashcards } from "./pages/Flashcards/ViewAllGeneratedFlashcards";
 
 const PublicOnlyRoute = ({element}: {element: React.ReactElement}) => {
     
@@ -129,6 +130,10 @@ const routes: RouteObject[] = [
             {
                 path: 'flashcards',
                 element:<PublicPrivateRoute element={<Flashcards/>} />
+            },
+            {
+                path:'flashcardrandom',
+                element:<PublicPrivateRoute element={<ViewAllGeneratedFlashcards />} />
             },
             //Visible To Users ONLY
             {
