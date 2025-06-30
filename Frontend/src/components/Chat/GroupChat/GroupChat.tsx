@@ -40,7 +40,9 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
               <p className="text-xs mt-1 text-right opacity-70">
                 {msg.sender}
               </p>
-              <p className="text-[10px] text-right text-gray-500">
+              <p className={ `text-[10px] text-right  ${msg.sender === "You"
+                ? " text-black-300"
+                : " text-gray-500"}`}>
                 {formatTimestamp(new Date(msg.created_at))}
               </p>
             </div>
