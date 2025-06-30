@@ -47,12 +47,12 @@ export const SearchableDropdown: React.FC<SearchableDropdownProps> = ({options,s
 
       {/* Div For Options List */}
       {isOpen && filteredOptions.length > 0 && (
-        <ul className="absolute w-full bg-white border border-gray-200 shadow-lg rounded-lg mt-1 max-h-60 overflow-y-auto z-10 animate-fadeIn">
+        <ul className="absolute w-full bg-white border-gray-200 shadow-lg rounded-lg mt-1 max-h-60 overflow-y-auto z-10 animate-fadeIn">
           {filteredOptions.slice(0, 8).map((option, index) => {
             const isSelected = selectedOptions.includes(option);
             return (
               <li key={option} onClick={() => {onSelect(option); setSearchTerm(""); setIsOpen(false);}}
-                className={`p-3 cursor-pointer border-b last:border-b-0 flex items-center justify-between transition-all ${index === highlightedIndex? "bg-red-50": isSelected? "bg-red-50": "hover:bg-gray-50"}`}>
+                className={`p-3 cursor-pointer last:border-b-0 flex items-center justify-between transition-all ${index === highlightedIndex? "bg-red-50": isSelected? "bg-red-50": "hover:bg-red-100"}`}>
                 <span>{option}</span>
                 {isSelected && (<FaCheck className="h-5 w-5 text-red-500" />)}
               </li>

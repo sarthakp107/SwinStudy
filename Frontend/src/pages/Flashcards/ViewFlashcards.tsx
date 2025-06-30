@@ -6,7 +6,7 @@ import {  SkeletonFlashcards } from "@/components/Loading/SkeletonFlashcards";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
-export const Flashcards = () => {
+export const ViewFlashcards = () => {
     const { questionID } = useParams<{ questionID: string }>(); //Gets data from App.tsx
     const navigate = useNavigate();
     const current_question = questionID ? parseInt(questionID, 10) : 0; //Changes questionID to number and stores it
@@ -44,7 +44,9 @@ export const Flashcards = () => {
             <Link to="/dashboard" className="border-2 border-red-600 text-red-600 px-10 py-4 rounded-lg font-semibold text-lg hover:bg-red-50 transition-colors mt-10">
                 Home
             </Link>
-        </div>):(
+        </div>
+        
+        ):(
         <SkeletonFlashcards />
         
         )}

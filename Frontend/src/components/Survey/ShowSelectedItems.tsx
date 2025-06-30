@@ -26,7 +26,7 @@ export const ShowSelectedItems: React.FC<ShowSelectedItemsProps> = ({ selectedIt
                                     <span>{item}</span>
                                     <button
                                         onClick={() => onRemove(item)}
-                                        className="ml-2 p-1.5 rounded-full hover:bg-purple-200 outline-none ring-2 ring-purple-400 transition-all"
+                                        className="ml-2 p-1.5 rounded-full hover:bg-purple-200 outline-none ring-2 ring-purple-400 transition-all cursor-pointer"
                                     >
                                         ✖
                                     </button>

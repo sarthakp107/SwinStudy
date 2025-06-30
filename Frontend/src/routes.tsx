@@ -9,12 +9,14 @@ import LoginPage from "./pages/Authentication/LoginPage";
 import SignupPage from "./pages/Authentication/SignupPage";
 import Dashboard from "./pages/Dashboard";
 import { UnitBuddies } from "./pages/UnitBuddies/UnitBuddies";
-import { Flashcards } from "./pages/Flashcards";
+import { ViewFlashcards } from "./pages/Flashcards/ViewFlashcards";
 import { UploadPage } from "./pages/UploadPage";
 import InProgress from "./pages/InProgress/InProgress";
 import Spinner from "./components/Loading/Spinner";
 import FeatureBlock from "./components/LandingPage/FeatureBlock";
 import { Footer } from "./components/Footer";
+import { Flashcards } from "./pages/Flashcards/Flashcards_ForLoggedIn";
+import { ViewSavedFlashcards } from "./pages/Flashcards/ViewSavedFlashcards";
 
 const PublicOnlyRoute = ({element}: {element: React.ReactElement}) => {
     
@@ -101,7 +103,7 @@ const routes: RouteObject[] = [
             },
             {
                 path: 'flashcard/:questionID',
-                element: <PublicPrivateRoute element={<Flashcards/>} />
+                element: <PublicPrivateRoute element={<ViewFlashcards />} />
             },
             //Visible To ALL Users
             {
@@ -121,8 +123,12 @@ const routes: RouteObject[] = [
                 element: <PublicPrivateRoute element={<FeatureBlock />}/>
             },            
             {
-                path: 'upload', 
+                path: 'flashcardupload', 
                 element: <PublicPrivateRoute element={<UploadPage />} />
+            },
+            {
+                path: 'flashcards',
+                element:<PublicPrivateRoute element={<Flashcards/>} />
             },
             //Visible To Users ONLY
             {
@@ -140,6 +146,10 @@ const routes: RouteObject[] = [
             {
                 path: 'mentors',
                 element: <ProtectedRoute element={<InProgress/>}/>
+            },
+            {
+                path:'flashcardsaved',
+                element: <PublicPrivateRoute element={<ViewSavedFlashcards/>} />
             }
         ],
     },

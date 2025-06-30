@@ -8,8 +8,9 @@ import unitRoutes from "./routes/unitRoutes"
 import chatRoutes from "./routes/chatRoutes"
 
 import { Server } from 'socket.io';
-import { createServer } from 'http';
 import { handleGroupChat } from './sockets/groupChat';
+import flashcardRoutes from "./routes/flashcardRoutes"
+import { createServer } from 'http';
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ const port = parseInt(process.env.PORT || "1313", 10);
 app.use(express.json());
 app.use(cors());
 app.use(helmet()); // for security reasons; adds different HTTP headers
-app.use(morgan("dev")); // logs the requests 
+app.use(morgan("dev")); // logs the requests
 
 
 app.use("/api/units", unitRoutes )
@@ -28,6 +29,9 @@ app.use("/", unitRoutes)
 
 //chats
 app.use("/chat", chatRoutes);
+
+//flashcards
+app.use("/flashcards", flashcardRoutes);
 
 
 const httpServer = createServer(app);
@@ -42,7 +46,6 @@ export const io = new Server(httpServer, {
 
 handleGroupChat(io);
 
-
 async function startServer() {
     try{
         await establishConnectionToDB();
@@ -53,4 +56,5 @@ async function startServer() {
 }
 
 startServer();
+
 
