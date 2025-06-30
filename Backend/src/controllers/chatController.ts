@@ -34,7 +34,7 @@ export const saveMessages = async (req: Request, res: Response) => {
 export const getUnitChats = async (req: Request, res: Response) => {
     const { unitName } = req.query;
     const sql =
-        `SELECT sender message
+        `SELECT sender, message, created_at
      FROM unit_messages WHERE unit_name = $1
      ORDER BY created_at ASC`;
     try {
