@@ -6,7 +6,7 @@ import { SwinButton } from "@/components/Buttons/SwinButton";
 import { Flashcard } from "@/components/Flashcards/FlashCard";
 import {  SkeletonFlashcards } from "@/components/Loading/SkeletonFlashcards";
 import { useEffect, useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaStar } from "react-icons/fa";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
 export const ViewFlashcards = () => {
@@ -19,6 +19,7 @@ export const ViewFlashcards = () => {
     const {user} = useAuthContext();
     const {SaveMultipleFlashcards} = useSaveMultipleFlashcards();
     const [hasFlashcardSavedToDB, setHasFlashcardSavedToDB] = useState(false);
+    const [deckSaved, setDeckSaved] = useState(false);
     const handleNext = () => {
         if (current_question < count - 1) navigate(`/flashcard/${current_question + 1}`);
     };
@@ -31,6 +32,9 @@ export const ViewFlashcards = () => {
             setHasFlashcardSavedToDB(true);
         }
     }, [QnA, user?.id, SaveMultipleFlashcards])
+    const handleSaveDeck = () =>{
+        setDeckSaved(!deckSaved);
+    }
 
     return (
     <>
@@ -52,9 +56,12 @@ export const ViewFlashcards = () => {
                     <SwinButton icon={<FaArrowRight />} label="Next" onClick={handleNext} isdisabled={current_question === count - 1} disabledLabel="Next"/>
                 </div>
             </div>
-            <Link to="/dashboard" className="border-2 border-red-600 text-red-600 px-10 py-4 rounded-lg font-semibold text-lg hover:bg-red-50 transition-colors mt-10">
-                Home
-            </Link>
+            <div className="flex gap-x-4">
+                <Link to="/dashboard" className="border-2 border-red-600 text-red-600 px-10 py-4 rounded-lg font-semibold text-lg hover:bg-red-50 transition-colors mt-10">
+                    Home
+                </Link>
+                <SwinButton label="Save Deck" onClick={handleSaveDeck} icon={<FaStar className= {`${deckSaved? 'text-yellow-500' : ''}`}/>} classname="border-2 border-red-600 text-red-600 px-10 py-4 rounded-lg font-semibold text-lg hover:bg-red-50 transition-colors mt-10" />
+            </div>
         </div>
         
         ):(
