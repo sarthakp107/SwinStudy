@@ -36,7 +36,11 @@ const PublicOnlyRoute = ({element}: {element: React.ReactElement}) => {
 
 const ProtectedRoute = ({element}: {element: React.ReactElement})=>{
     
-    const {user} = useAuthContext();
+    const {user, authIsChecked} = useAuthContext();
+    
+    if(!authIsChecked){
+        return <Spinner/>
+    }
     
     if (!user){
        return <Navigate to="/login" replace/>

@@ -14,8 +14,6 @@ const useUserProfile = () => {
             setError(null);
 
             // Fetch the currently authenticated user
-            // const { data: { user }, error: userError } = await supabase.auth.getUser();
-            console.log(user);
             if (!user) {
                 setError("Error fetching user.");
                 setLoading(false);
