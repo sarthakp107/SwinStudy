@@ -18,7 +18,7 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
   }
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    bottomRef.current?.scrollIntoView();
   }, [chat]);
 
   return (
