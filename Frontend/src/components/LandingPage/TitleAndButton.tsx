@@ -2,14 +2,14 @@ import { useAuthContext } from "@/Hooks/Context/useAuthContext"
 import useUserProfile from "@/Hooks/GetUserInfo/useUserProfile";
 import { Link } from "react-router-dom";
 const TitleAndButton = () =>{
-    const {user,authIsChecked} = useAuthContext();
+    const {user} = useAuthContext();
     const {displayName} = useUserProfile();
     return(
         <>
             <div className="lg:w-1/2 lg:pr-16 mb-12 lg:mb-0 text-center lg:text-left">
                 <p className="text-red-600 text-lg font-semibold mb-3">Your Swinburne Study Advantage</p>
                 {/* Dynamic Headline */}
-                {authIsChecked ? (
+                {user ? (
                     <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
                         Welcome back, <span className="text-red-600">{displayName || 'Swinburne Student'}!</span>
                         <br /> Let's boost your <span className="text-red-600">studies</span>.
