@@ -1,11 +1,13 @@
 import { useAuthContext } from "@/Hooks/Context/useAuthContext";
+import { useUserDegree } from "@/Hooks/GetUserInfo/useUserDegree";
 import useUserProfile from "@/Hooks/GetUserInfo/useUserProfile";
 import { useUserUnits } from "@/Hooks/GetUserInfo/useUserUnits";
 
 export const ProfilePage = () => {
     const { displayName } = useUserProfile();
     const { user} = useAuthContext();
-    const { units, degree } = useUserUnits();
+    const { units } = useUserUnits();
+    const {degree} = useUserDegree();
     console.log(user?.id);
     console.log(degree);
 
