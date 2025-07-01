@@ -1,10 +1,13 @@
 import supabase from "@/config/supabase-client";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "../Context/useAuthContext";
 
 export const useUserUnits = () => {
     const [units, setUnits] = useState<any[]>([]);
+    const [degree, setDegree] = useState<any[] | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
+    const {user} = useAuthContext();
 
     useEffect(() => {
         const fetchUserUnits = async () => {
@@ -12,9 +15,9 @@ export const useUserUnits = () => {
             setError(null);
 
             // Get the authenticated user from supabase
-            const { data: { user }, error: userError } = await supabase.auth.getUser();
+            
 
-            if (userError || !user) {
+            if (!user) {
                 setError("Error fetching user.");
                 setLoading(false);
                 return;
@@ -35,10 +38,34 @@ export const useUserUnits = () => {
             setLoading(false);
         };
 
-        fetchUserUnits();
+      
+
+        const fetchUserDegree = async () => {
+
+            if (!user) {
+                setError("Error fetching user.");
+                setLoading(false);
+                return;
+            }
+
+             const { data , error} = await supabase
+            .from("profile")
+            .select("id, degree")
+            .eq("id", user.id);
+
+            if (error) {
+                setError(error.message);
+            } else {
+                setDegree(data);
+            }
+            setLoading(false);
+            fetchUserUnits();
+            fetchUserDegree();
+
+        }
     }, [])
 
     // return {  loading, error };
-    return { units, loading, error };
+    return { units, degree, loading, error };
 
 }
