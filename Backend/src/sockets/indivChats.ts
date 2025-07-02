@@ -26,6 +26,7 @@ export const handleIndivChat = (io: Server) => {
                     },
                     body: JSON.stringify({ sender_id: sender, receiver_id: receiver, message: message })
                 })
+                console.log(res);
             } catch (err) {
                 console.log(err);
             }

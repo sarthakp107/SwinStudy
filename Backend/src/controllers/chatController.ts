@@ -50,6 +50,10 @@ export const postIndivMessages = async(req: Request, res: Response) => {
     
     const {sender_id, receiver_id, message} = req.body;
 
+    if(!sender_id || !receiver_id || !message){
+         res.status(400).json({ error: "Missing required fields" });
+    }
+
     console.log("Incoming request body:", req.body); 
     
     const sql = `INSERT INTO indiv_messages (sender_id, receiver_id, message)
@@ -58,7 +62,7 @@ export const postIndivMessages = async(req: Request, res: Response) => {
     try{
         const result = await query(sql, [sender_id, receiver_id, message]);
         res.status(200).json({
-            message: "reached here"
+            message: "message sent"
         })
     }catch(err){
         console.log(err);
