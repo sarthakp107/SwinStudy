@@ -4,11 +4,12 @@ import { useState, useRef, useEffect } from "react";
 type DirectChatProps = {
   roomName: string;
   currentUser: string;
+  otherUser  : string;
 };
 
-const DirectChat = ({ roomName, currentUser }: DirectChatProps) => {
+const DirectChat = ({ roomName, currentUser, otherUser }: DirectChatProps) => {
   const [message, setMessage] = useState("");
- const {chat, sendMessage} = usePrivateChat(roomName, currentUser);
+ const {chat, sendMessage} = usePrivateChat(roomName, currentUser, otherUser);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const handleSend = () => {

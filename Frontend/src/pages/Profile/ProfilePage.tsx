@@ -22,7 +22,7 @@ export const ProfilePage = () => {
         <Indiv_ProfileCard />
       {/* Chat Box - fills remaining space */}
       <main className="flex-1 bg-white rounded-xl shadow-md p-4 flex flex-col">
-        <DirectChat roomName={roomName} currentUser={displayName} />
+        <DirectChat roomName={roomName} currentUser={displayName} otherUser={otherId} />
       </main>
     </div>
   );

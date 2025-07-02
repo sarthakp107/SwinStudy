@@ -7,7 +7,7 @@ type ChatMessage = {
     created_at: Date;
 };
 
-export const usePrivateChat = (roomName : string, currentUser: string) => {
+export const usePrivateChat = (roomName : string, currentUser: string , otherUser: string) => {
     const [chat, setChat] = useState<ChatMessage[]>([]);
 
         useEffect(() => {
@@ -16,7 +16,7 @@ export const usePrivateChat = (roomName : string, currentUser: string) => {
             const handleMessage = ({ sender, message, created_at }: ChatMessage) => {
             setChat((prev) => [
                 ...prev,
-                { sender: sender === currentUser ? "You" : sender, message, created_at},
+                { sender: sender === currentUser ? "You" : sender, message, otherUser, created_at},
             ])
         }; 
 
