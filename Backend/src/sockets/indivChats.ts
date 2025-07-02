@@ -8,9 +8,15 @@ export const handleIndivChat = (io: Server) => {
         })
         try{
             
-            socket.on("private_message", ({ roomName, sender, message }) => {
+            socket.on("private_message", async({ roomName, sender, message }) => {
                 io.to(roomName).emit("private_message", { sender, message });
-                console.log("message emitted opn server")
+                const res = await fetch("https://swinstudy.com/api/chat/postIndividualMessage" , {
+                    method: "POST",
+                     headers: {
+                        "content-type" : "application/json",
+                    },
+                    body: JSON.stringify({roomName: roomName , sender: sender , message: message})
+                })
             })
         }catch(err){
             console.log(err);

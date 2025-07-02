@@ -10,9 +10,6 @@ export const ProfilePage = () => {
   const {displayName} =useUserProfile();
   const {user}= useAuthContext();
 
-  console.log(user?.id);
-  console.log(otherId);
-
   //creating same room id for the user
   const roomName = [user?.id, otherId].sort().join("_");
 

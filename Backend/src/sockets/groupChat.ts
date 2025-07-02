@@ -14,8 +14,8 @@ export const handleGroupChat = (io: Server) => {
 
         socket.on("unit_message", async({ unitName, sender, message }) => {
             try{
-                //save mssage
                 io.to(unitName).emit("unit_message", { sender, message });
+                //save mssage
                 const res = await fetch("https://swinstudy.com/api/chat/postMessage" , {
                     method: "POST",
                     headers: {

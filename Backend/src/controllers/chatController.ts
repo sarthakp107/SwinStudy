@@ -21,7 +21,6 @@ export const saveMessages = async (req: Request, res: Response) => {
     try {
 
         const result = await query(sql, [unitName, sender, message]);
-        console.log("reached here at message model");
         res.status(200).json({
             message: "reached here"
         })
@@ -44,6 +43,20 @@ export const getUnitChats = async (req: Request, res: Response) => {
     } catch (err) {
         console.log("DB error fetching mesages" + err)
         throw err;
+    }
+}
+
+export const postIndivMessages = async(req: Request, res: Response) => {
+    
+    const {sender_id, receiver_id, message} = req.body;
+    const sql = `INSERT INTO indiv_messages (sender_id, receiver_id, message)
+                    VALUES ($1, $2, $3);`;
+
+    try{
+        const result = await query(sql, [sender_id, receiver_id, message]);
+        res.status(200).json(result.rows);
+    }catch(err){
+        console.log(err);
     }
 }
 
