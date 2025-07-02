@@ -1,23 +1,25 @@
+import { usePrivateChat } from "@/Hooks/Chat/usePrivateChat";
 import { useState, useRef, useEffect } from "react";
 
-const DirectChat = () => {
+type DirectChatProps = {
+  roomName: string;
+  currentUser: string;
+};
+
+const DirectChat = ({ roomName, currentUser }: DirectChatProps) => {
   const [message, setMessage] = useState("");
-  const [chat, setChat] = useState([
-    { sender: "Alice", message: "Hey there!" },
-    { sender: "You", message: "Hi! How are you?" },
-    { sender: "Alice", message: "Doing great, thanks!" },
-  ]);
+ const {chat, sendMessage} = usePrivateChat(roomName, currentUser);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
   const handleSend = () => {
-    if (!message.trim()) return;
-    setChat((prev) => [...prev, { sender: "You", message }]);
+    sendMessage(message);
     setMessage("");
-  };
+    console.log(message);
+}
 
   // Auto-scroll to bottom when chat updates
   useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    chatEndRef.current?.scrollIntoView();
   }, [chat]);
 
   return (
@@ -28,7 +30,7 @@ const DirectChat = () => {
           <div
             key={idx}
             className={`flex ${msg.sender === "You" ? "justify-end" : "justify-start"}`}
-          >
+         >
             <div
               className={`max-w-xs px-4 py-2 rounded-lg ${
                 msg.sender === "You"
@@ -56,13 +58,14 @@ const DirectChat = () => {
         />
         <button
           onClick={handleSend}
-          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
         >
           Send
         </button>
       </div>
     </div>
   );
+
 };
 
 export default DirectChat;

@@ -10,7 +10,6 @@ export const handleGroupChat = (io: Server) => {
 
         socket.on("join_unit_room", (unitName: string) => {
             socket.join(unitName);
-            console.log(`${socket.id} joined ${unitName}`);
         })
 
         socket.on("unit_message", async({ unitName, sender, message }) => {

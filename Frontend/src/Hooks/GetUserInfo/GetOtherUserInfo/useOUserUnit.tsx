@@ -21,10 +21,9 @@ export const useOUserUnits = () => {
 
             const { data, error } = await supabase
             .from("testTable")
-            .select("user_id, selected_units")
+            .select("selected_units")
             .eq("user_id", id);
 
-            console.log( " other " + data)
             if (error) {
                 setError(error.message);
             } else {

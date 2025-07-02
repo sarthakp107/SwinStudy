@@ -11,6 +11,7 @@ import { Server } from 'socket.io';
 import { handleGroupChat } from './sockets/groupChat';
 import flashcardRoutes from "./routes/flashcardRoutes"
 import { createServer } from 'http';
+import { handleIndivChat } from './sockets/indivChats';
 
 dotenv.config();
 
@@ -38,13 +39,15 @@ const httpServer = createServer(app);
 export const io = new Server(httpServer, {
   cors: {
     // origin: "http://localhost:5173",
-    origin: process.env.CORS_ORIGIN,
+    // origin: process.env.CORS_ORIGIN,
+    origin: "*",
     // origin:"https://swinstudy.com",
     methods: ["GET", "POST"]
   }
 });
 
 handleGroupChat(io);
+handleIndivChat(io);
 
 async function startServer() {
     try{
