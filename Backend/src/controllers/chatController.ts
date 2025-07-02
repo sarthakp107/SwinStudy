@@ -54,7 +54,9 @@ export const postIndivMessages = async(req: Request, res: Response) => {
 
     try{
         const result = await query(sql, [sender_id, receiver_id, message]);
-        res.status(200).json(result.rows);
+        res.status(200).json({
+            message: "reached here"
+        })
     }catch(err){
         console.log(err);
     }
