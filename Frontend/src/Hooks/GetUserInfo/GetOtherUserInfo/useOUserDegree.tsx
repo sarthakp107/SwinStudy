@@ -1,12 +1,12 @@
 import supabase from "@/config/supabase-client";
 import { useEffect, useState } from "react";
-import { useAuthContext } from "../Context/useAuthContext";
+import { useParams } from "react-router-dom";
 
-export const useUserDegree = () => {
+export const useOUserDegree = () => {
     const [degree, setDegree] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-const {user} = useAuthContext();
+    const {id} = useParams();
 
     useEffect(() => {
 
@@ -16,7 +16,7 @@ const {user} = useAuthContext();
             setLoading(true);
             setError(null);
 
-            if (!user) {
+            if (!id) {
                 setError("Error fetching user.");
                 setLoading(false);
                 return;
@@ -25,7 +25,7 @@ const {user} = useAuthContext();
             const { data, error } = await supabase
                 .from("profile")
                 .select("degree")
-                .eq("id", user.id);
+                .eq("id", id);
 
             if (error) {
                 setError(error.message);

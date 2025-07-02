@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import supabase from "@/config/supabase-client";
-import { useAuthContext } from "../Context/useAuthContext";
+import { useParams } from "react-router-dom";
 
-const useUserProfile = () => {
+const useOUserProfile = () => {
     const [displayName, setDisplayName] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const {user} = useAuthContext();
+    const {id} = useParams();
 
     useEffect(() => {
         const fetchUserDisplayName = async () => {
@@ -14,7 +14,7 @@ const useUserProfile = () => {
             setError(null);
 
             // Fetch the currently authenticated user
-            if (!user) {
+            if (!id) {
                 setError("Error fetching user.");
                 setLoading(false);
                 return;
@@ -24,7 +24,7 @@ const useUserProfile = () => {
             const { data, error } = await supabase
                 .from("profile")
                 .select("display_name")
-                .eq("id", user.id)
+                .eq("id", id)
                 .single();
 
             if (error) {
@@ -48,4 +48,4 @@ const useUserProfile = () => {
     return { displayName, loading, error };
 };
 
-export default useUserProfile;
+export default useOUserProfile;

@@ -1,45 +1,16 @@
-import IndividualChatButton from "@/components/Buttons/Chat/IndividualChatButton";
-import { useAuthContext } from "@/Hooks/Context/useAuthContext";
-import { useUserDegree } from "@/Hooks/GetUserInfo/useUserDegree";
-import useUserProfile from "@/Hooks/GetUserInfo/useUserProfile";
-import { useUserUnits } from "@/Hooks/GetUserInfo/useUserUnits";
-import { useParams } from "react-router-dom";
+import DirectChat from "@/components/Buttons/Chat/DirectChat";
+import { Indiv_ProfileCard } from "@/components/Profile/Indiv_ProfileCard";
 
 export const ProfilePage = () => {
-    const { displayName } = useUserProfile();
-    const {id} = useParams();
-    const { units } = useUserUnits();
-    const {degree} = useUserDegree();
 
   return (
-    <div className="max-w-3xl mx-auto px-6 py-12">
-      <div className="bg-white shadow-xl rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-8">
+    <div className="max-w-7xl mx-auto p-6 h-[calc(100vh-2rem)] flex gap-6">
       
-        <div className="flex-1">
-          {/* <h2 className="text-2xl font-semibold text-gray-800">{dummyProfile.name}</h2> */}
-          <h2 className="text-2xl font-semibold text-gray-800">{displayName}</h2>
-          <IndividualChatButton recipientId={id}/>
-
-          <div className="mt-6">
-            <h3 className="text-sm font-medium text-gray-600 uppercase">Degree</h3>
-            <p className="text-red-600 font-semibold">{degree}</p>
-          </div>
-
-          <div className="mt-6">
-            <h3 className="text-sm font-medium text-gray-600 uppercase mb-2">Current Units</h3>
-            <div className="flex flex-wrap gap-2">
-              {units.map((interest, idx) => (
-                <span
-                  key={idx}
-                  className="bg-red-100 text-red-700 px-3 py-1 text-sm rounded-full"
-                >
-                  {interest}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
+        <Indiv_ProfileCard />
+      {/* Chat Box - fills remaining space */}
+      <main className="flex-1 bg-white rounded-xl shadow-md p-4 flex flex-col">
+        <DirectChat />
+      </main>
     </div>
   );
 };

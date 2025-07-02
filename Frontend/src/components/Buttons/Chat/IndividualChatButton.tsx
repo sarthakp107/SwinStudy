@@ -16,7 +16,7 @@ const IndividualChatButton: React.FC<Props> = ({ recipientId }) => {
   return (
     <button
       onClick={handleChat}
-      className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+      className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
     >
       Message
     </button>

@@ -146,7 +146,7 @@ const routes: RouteObject[] = [
             {
                 path: 'profile/:id',
                 element: <ProtectedRoute element={<ProfilePage />} />
-            }
+            },
         ],
     },
     {
