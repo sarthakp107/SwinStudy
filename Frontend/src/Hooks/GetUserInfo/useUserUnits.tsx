@@ -1,22 +1,19 @@
 import supabase from "@/config/supabase-client";
 import { useEffect, useState } from "react";
-import { useAuthContext } from "../Context/useAuthContext";
+import { useParams } from "react-router-dom";
 
 export const useUserUnits = () => {
     const [units, setUnits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const {user} = useAuthContext();
+    const {id} = useParams();
 
     useEffect(() => {
         const fetchUserUnits = async () => {
             setLoading(true);
             setError(null);
 
-            // Get the authenticated user from supabase
-            
-
-            if (!user) {
+            if (!id) {
                 setError("Error fetching user.");
                 setLoading(false);
                 return;
@@ -25,7 +22,7 @@ export const useUserUnits = () => {
             const { data, error } = await supabase
             .from("testTable")
             .select("user_id, selected_units")
-            .eq("user_id", user.id);
+            .eq("user_id", id);
 
             if (error) {
                 setError(error.message);
@@ -36,12 +33,9 @@ export const useUserUnits = () => {
             }
             setLoading(false);
         };
-
     
             fetchUserUnits();
-            // fetchUserDegree();
 
-        // }
     }, [])
 
     return { units, loading, error };

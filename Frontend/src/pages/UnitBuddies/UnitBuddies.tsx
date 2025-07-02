@@ -1,7 +1,7 @@
 import Spinner from "@/components/Loading/Spinner";
 import { useGetUnitMembers } from "@/Hooks/useGetUnitMembers";
 import { FaUserFriends } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GroupChat } from "@/components/Chat/GroupChat/GroupChat";
 import useUserProfile from '@/Hooks/GetUserInfo/useUserProfile';
 
@@ -10,6 +10,7 @@ export const UnitBuddies = () => {
   const safeUnitName = unitName ?? "";
   const { users, loading, error } = useGetUnitMembers(safeUnitName);
   const { displayName } = useUserProfile();
+  const navigate = useNavigate();
 
   if (loading) return <div className="mt-16"><Spinner /></div>;
   if (error) return <div className="error">Error: {error}</div>;
@@ -23,14 +24,15 @@ export const UnitBuddies = () => {
           Buddies: {safeUnitName}
         </h2>
 
-        <ul className="divide-y divide-gray-300">
+        <ul className="divide-y divide-gray-300" >
           {users.length > 0 ? (
             users.map((user) => (
               <li
                 key={user.user_id}
                 className="py-4 px-3 flex items-center gap-4 hover:bg-indigo-100 rounded-xl transition-all"
+                onClick={() => navigate(`/profile/${user.user_id}`)}
               >
-                <div className="w-10 h-10 flex items-center justify-center bg-red-500 text-white font-bold rounded-full shadow">
+                <div className="w-10 h-10 flex items-center justify-center bg-red-500 text-white font-bold rounded-full shadow" >
                   {user.display_name.charAt(0).toUpperCase()}
                 </div>
                 <span className="text-gray-800 font-medium text-lg">{user.display_name}</span>

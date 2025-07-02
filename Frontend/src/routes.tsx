@@ -144,7 +144,7 @@ const routes: RouteObject[] = [
                 element: <PublicPrivateRoute element={<ViewSavedFlashcards/>} />
             },
             {
-                path: 'profile',
+                path: 'profile/:id',
                 element: <ProtectedRoute element={<ProfilePage />} />
             }
         ],
