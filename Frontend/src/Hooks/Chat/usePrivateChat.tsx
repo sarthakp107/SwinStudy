@@ -16,7 +16,7 @@ export const usePrivateChat = (roomName : string, currentUser: string , otherUse
             const handleMessage = ({ sender, message, created_at }: ChatMessage) => {
             setChat((prev) => [
                 ...prev,
-                { sender: sender === currentUser ? "You" : sender, message, otherUser, created_at},
+                { sender: sender === currentUser ? "You" : sender, message, created_at},
             ])
         }; 
 
@@ -25,7 +25,7 @@ export const usePrivateChat = (roomName : string, currentUser: string , otherUse
             socket.off("private_message", handleMessage);
         }
 
-        }, [roomName, currentUser]);
+        }, [roomName, currentUser, otherUser]);
 
         const sendMessage = (message: string) => {
         if (!message.trim()) return;
@@ -33,6 +33,7 @@ export const usePrivateChat = (roomName : string, currentUser: string , otherUse
         socket.emit("private_message", {
             roomName,
             sender: currentUser,
+            receiver: otherUser,
             message,
         });
     };

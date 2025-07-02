@@ -15,7 +15,6 @@ const DirectChat = ({ roomName, currentUser, otherUser }: DirectChatProps) => {
   const handleSend = () => {
     sendMessage(message);
     setMessage("");
-    console.log(message);
 }
 
   // Auto-scroll to bottom when chat updates
