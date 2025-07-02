@@ -8,6 +8,7 @@ export const handleIndivChat = (io: Server) => {
         })
 
         socket.on("private_message", async ({ roomName, sender, receiver, message }) => {
+            console.log("Received private_message event", { roomName, sender, receiver, message });
             try {
                 io.to(roomName).emit("private_message", { sender, message });
                 const res = await fetch("https://swinstudy.com/api/chat/postIndividualMessage", {
