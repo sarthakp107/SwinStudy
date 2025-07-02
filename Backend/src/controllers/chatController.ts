@@ -49,6 +49,9 @@ export const getUnitChats = async (req: Request, res: Response) => {
 export const postIndivMessages = async(req: Request, res: Response) => {
     
     const {sender_id, receiver_id, message} = req.body;
+
+    console.log("Incoming request body:", req.body); 
+    
     const sql = `INSERT INTO indiv_messages (sender_id, receiver_id, message)
                     VALUES ($1, $2, $3);`;
 
