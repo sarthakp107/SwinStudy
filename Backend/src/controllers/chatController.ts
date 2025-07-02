@@ -60,7 +60,9 @@ export const postIndivMessages = async(req: Request, res: Response) => {
                     VALUES ($1, $2, $3);`;
 
     try{
+        console.log("Before DB insert");
         const result = await query(sql, [sender_id, receiver_id, message]);
+        console.log("After DB insert");
         res.status(200).json({
             message: "message sent"
         })
