@@ -16,7 +16,7 @@ export const handleIndivChat = (io: Server) => {
                     headers: {
                         "content-type": "application/json",
                     },
-                    body: JSON.stringify({ sender: sender,receiver: receiver, message: message })
+                    body: JSON.stringify({ sender_id: sender,receiver_id: receiver, message: message })
                 })
             } catch (err) {
                 console.log(err);
