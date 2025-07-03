@@ -69,13 +69,13 @@ export const postIndivMessages = async(req: Request, res: Response) => {
 }
 
 export const getIndivMessage = async(req: Request, res: Response) => {
-    const {sender_id, receiver_id} = req.body;
+    const {user1, user2} = req.query;
     const sql = `SELECT sender_id, receiver_id, message, created_at FROM indiv_messages WHERE (sender_id = $1 AND receiver_id = $2) OR
             (sender_id = $2 AND receiver_id = $1)
         ORDER BY created_at ASC;`
 
         try{
-            const result = await query(sql, [sender_id, receiver_id]);
+            const result = await query(sql, [user1, user2]);
             res.status(200).json(result.rows);
         }
         catch(err){
