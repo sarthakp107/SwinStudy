@@ -39,7 +39,6 @@ export const getUnitChats = async (req: Request, res: Response) => {
     try {
         const result = await query(sql, [unitName]);
         res.status(200).json(result.rows);
-        console.log("fetching all the messages");
     } catch (err) {
         console.log("DB error fetching mesages" + err)
         throw err;
@@ -53,8 +52,6 @@ export const postIndivMessages = async(req: Request, res: Response) => {
     if(!sender_id || !receiver_id || !message){
          res.status(400).json({ error: "Missing required fields" });
     }
-
-    console.log("Incoming request body:", req.body); 
     
     const sql = `INSERT INTO indiv_messages (sender_id, receiver_id, message)
                     VALUES ($1, $2, $3);`;
@@ -71,3 +68,18 @@ export const postIndivMessages = async(req: Request, res: Response) => {
     }
 }
 
+export const getIndivMessage = async(req: Request, res: Response) => {
+    const {sender_id, receiver_id} = req.body;
+    const sql = `SELECT sender_id, receiver_id, message FROM indiv_messages WHERE (sender_id = $1 AND receiver_id = $2) OR
+            (sender_id = $2 AND receiver_id = $1)
+        ORDER BY created_at ASC;`
+
+        try{
+            const result = await query(sql, [sender_id, receiver_id]);
+            res.status(200).json(result.rows);
+        }
+        catch(err){
+            console.log(err);
+        }
+          
+}
