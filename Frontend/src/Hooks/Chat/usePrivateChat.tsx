@@ -16,6 +16,7 @@ export const usePrivateChat = (roomName: string, currentUser: string, otherUser:
             try {
                 const res = await fetch(`https://swinstudy.com/api/chat/getIndividualMessage?user1=${currentUser}&user2=${otherUser}`);
                 const data = await res.json();
+                console.log("Fetched private messages:", data);
 
                 const formattedMessage = data.map((msg: ChatMessage) => ({
                     sender: msg.sender === currentUser ? "You" : msg.sender,

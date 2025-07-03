@@ -1,5 +1,6 @@
 import { usePrivateChat } from "@/Hooks/Chat/usePrivateChat";
 import { useState, useRef, useEffect } from "react";
+import { formatTimestamp } from "@/config/ChatUtils";
 
 type DirectChatProps = {
   roomName: string;
@@ -40,6 +41,11 @@ const DirectChat = ({ roomName, currentUser, otherUser }: DirectChatProps) => {
             >
               <p className="text-sm">{msg.message}</p>
               <p className="text-[10px] mt-1 text-right opacity-60">{msg.sender}</p>
+              <p className={ `text-[10px] text-right  ${msg.sender === "You"
+                              ? " text-black-300"
+                              : " text-gray-500"}`}>
+                              {formatTimestamp(new Date(msg.created_at))}
+                            </p>
             </div>
           </div>
         ))}
