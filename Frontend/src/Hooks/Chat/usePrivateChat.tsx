@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { socket } from "@/socket";
 
 type ChatMessage = {
-    sender: string;
+    sender_id: string;
     message: string;
     created_at: Date;
     isSelf? : boolean;
@@ -20,10 +20,10 @@ export const usePrivateChat = (roomName: string, currentUser: string, otherUser:
                 console.log("Fetched private messages:", data);
 
                 const formattedMessage = data.map((msg: ChatMessage) => ({
-                    sender: msg.sender,
+                    sender: msg.sender_id,
                     message: msg.message,
                     created_at: new Date(msg.created_at),
-                    isSelf : msg.sender === currentUser
+                    isSelf : msg.sender_id === currentUser
                 }))
                 setChat(formattedMessage);
             } catch (err) {
@@ -33,10 +33,10 @@ export const usePrivateChat = (roomName: string, currentUser: string, otherUser:
         fetchIndividualChatHistory();
 
         socket.emit("join_private_room", roomName);
-        const handleMessage = ({ sender, message, created_at }: ChatMessage) => {
+        const handleMessage = ({ sender_id, message, created_at }: ChatMessage) => {
             setChat((prev) => [
                 ...prev,
-                { sender, message, created_at, isSelf: sender === currentUser},
+                { sender_id, message, created_at, isSelf: sender_id === currentUser},
             ])
         };
 
