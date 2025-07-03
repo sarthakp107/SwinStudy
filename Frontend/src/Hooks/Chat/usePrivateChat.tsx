@@ -20,7 +20,7 @@ export const usePrivateChat = (roomName: string, currentUser: string, otherUser:
                 console.log("Fetched private messages:", data);
 
                 const formattedMessage = data.map((msg: ChatMessage) => ({
-                    sender: msg.sender === currentUser ? "You" : msg.sender,
+                    sender: msg.sender,
                     message: msg.message,
                     created_at: new Date(msg.created_at),
                     isSelf : msg.sender === currentUser
@@ -36,7 +36,7 @@ export const usePrivateChat = (roomName: string, currentUser: string, otherUser:
         const handleMessage = ({ sender, message, created_at }: ChatMessage) => {
             setChat((prev) => [
                 ...prev,
-                { sender: sender === currentUser ? "You" : sender, message, created_at, isSelf: sender === currentUser},
+                { sender, message, created_at, isSelf: sender === currentUser},
             ])
         };
 
