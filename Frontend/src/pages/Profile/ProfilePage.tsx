@@ -10,6 +10,10 @@ export const ProfilePage = () => {
   const {displayName} =useUserProfile();
   const {user}= useAuthContext();
 
+  if(!user) return;
+  const currentUser = user?.id;
+  console.log(currentUser);
+
   //creating same room id for the user
   const roomName = [user?.id, otherId].sort().join("_");
 
@@ -22,7 +26,7 @@ export const ProfilePage = () => {
         <Indiv_ProfileCard />
       {/* Chat Box - fills remaining space */}
       <main className="flex-1 bg-white rounded-xl shadow-md p-4 flex flex-col">
-        <DirectChat roomName={roomName} currentUser={displayName} otherUser={otherId} />
+        <DirectChat roomName={roomName} currentUser={currentUser} otherUser={otherId} />
       </main>
     </div>
   );

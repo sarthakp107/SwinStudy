@@ -19,6 +19,7 @@ export const handleIndivChat = (io: Server) => {
             console.log("Received private_message event", { roomName, sender, receiver, message });
             try {
                 
+                io.to(roomName).emit("private_message", { sender, receiver, message });
                 const res = await fetch("https://swinstudy.com/api/chat/postIndividualMessage", {
                     method: "POST",
                     headers: {
@@ -26,7 +27,6 @@ export const handleIndivChat = (io: Server) => {
                     },
                     body: JSON.stringify({ sender_id: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",  receiver_id: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11", message: "try chirag" })
                 })
-                io.to(roomName).emit("private_message", { sender, receiver, message });
                 console.log(res);
             } catch (err) {
                 console.log(err);
