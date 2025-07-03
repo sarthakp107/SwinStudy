@@ -30,18 +30,18 @@ const DirectChat = ({ roomName, currentUser, otherUser }: DirectChatProps) => {
         {chat.map((msg, idx) => (
           <div
             key={idx}
-            className={`flex ${msg.sender === "You" ? "justify-end" : "justify-start"}`}
+            className={`flex ${msg.isSelf ? "justify-end" : "justify-start"}`}
          >
             <div
               className={`max-w-xs px-4 py-2 rounded-lg ${
-                msg.sender === "You"
+                msg.isSelf
                   ? "bg-red-600 text-white"
                   : "bg-gray-200 text-gray-800"
               }`}
             >
               <p className="text-sm">{msg.message}</p>
               <p className="text-[10px] mt-1 text-right opacity-60">{msg.sender}</p>
-              <p className={ `text-[10px] text-right  ${msg.sender === "You"
+              <p className={ `text-[10px] text-right  ${msg.isSelf
                               ? " text-black-300"
                               : " text-gray-500"}`}>
                               {formatTimestamp(new Date(msg.created_at))}

@@ -5,6 +5,7 @@ type ChatMessage = {
     sender: string;
     message: string;
     created_at: Date;
+    isSelf? : boolean;
 };
 
 export const usePrivateChat = (roomName: string, currentUser: string, otherUser: string) => {
@@ -21,7 +22,8 @@ export const usePrivateChat = (roomName: string, currentUser: string, otherUser:
                 const formattedMessage = data.map((msg: ChatMessage) => ({
                     sender: msg.sender === currentUser ? "You" : msg.sender,
                     message: msg.message,
-                    created_at: new Date(msg.created_at)
+                    created_at: new Date(msg.created_at),
+                    isSelf : msg.sender === currentUser
                 }))
                 setChat(formattedMessage);
             } catch (err) {
