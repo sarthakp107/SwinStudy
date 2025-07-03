@@ -14,7 +14,13 @@ export const usePrivateChat = (roomName: string, currentUser: string, otherUser:
 
         const fetchIndividualChatHistory = async () => {
             try {
-                const res = await fetch("https://swinstudy.com/api/chat/getIndividualMessage");
+                const res = await fetch("https://swinstudy.com/api/chat/getIndividualMessage", {
+                    method: "GET",
+                    headers: {
+                        "content-type": "application/json",
+                    },
+                    body: JSON.stringify({sender_id: currentUser, receiver_id: otherUser})
+                });
                 const data = await res.json();
 
                 const formattedMessage = data.map((msg: ChatMessage) => ({
