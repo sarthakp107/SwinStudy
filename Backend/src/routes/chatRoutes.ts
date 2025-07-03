@@ -7,6 +7,6 @@ const chatRouter = express.Router();
 chatRouter.post("/postMessage", saveMessages)
 chatRouter.get("/getUnitMessage" , getUnitChats );
 chatRouter.post("/postIndividualMessage", postIndivMessages);
-chatRouter.post("/getIndividualMessage", getIndivMessage);
+chatRouter.get("/getIndividualMessage", getIndivMessage);
 
  export default chatRouter;
