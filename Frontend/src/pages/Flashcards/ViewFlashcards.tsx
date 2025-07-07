@@ -31,7 +31,7 @@ export const ViewFlashcards = () => {
             SaveMultipleFlashcards(QnA, user.id);
             setHasFlashcardSavedToDB(true);
         }
-        
+
     }, [QnA, user?.id, SaveMultipleFlashcards])
     const handleSaveDeck = () =>{
         setDeckSaved(!deckSaved);
@@ -72,3 +72,5 @@ export const ViewFlashcards = () => {
     </>
     );
 };
+
+
