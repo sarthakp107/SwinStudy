@@ -40,7 +40,6 @@ const DirectChat = ({ roomName, currentUser, otherUser }: DirectChatProps) => {
               }`}
             >
               <p className="text-sm">{msg.message}</p>
-              <p className="text-[10px] mt-1 text-right opacity-60">{msg.sender_id}</p>
               <p className={ `text-[10px] text-right  ${msg.isSelf
                               ? " text-black-300"
                               : " text-gray-500"}`}>

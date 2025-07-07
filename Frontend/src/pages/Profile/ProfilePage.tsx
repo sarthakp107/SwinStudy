@@ -12,7 +12,6 @@ export const ProfilePage = () => {
 
   if(!user) return;
   const currentUser = user?.id;
-  console.log(currentUser);
 
   //creating same room id for the user
   const roomName = [user?.id, otherId].sort().join("_");

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { socket } from "@/socket";
+import { formatTimestamp } from "@/config/ChatUtils";
 
 type ChatMessage = {
     sender_id: string;
@@ -17,7 +18,6 @@ export const usePrivateChat = (roomName: string, currentUser: string, otherUser:
             try {
                 const res = await fetch(`https://swinstudy.com/api/chat/getIndividualMessage?user1=${currentUser}&user2=${otherUser}`);
                 const data = await res.json();
-                console.log("Fetched private messages:", data);
 
                 const formattedMessage = data.map((msg: ChatMessage) => ({
                     sender: msg.sender_id,
@@ -33,10 +33,14 @@ export const usePrivateChat = (roomName: string, currentUser: string, otherUser:
         fetchIndividualChatHistory();
 
         socket.emit("join_private_room", roomName);
-        const handleMessage = ({ sender_id, message, created_at }: ChatMessage) => {
+        const handleMessage = ({ sender, message, created_at }: { sender: string, message: string, created_at: Date }) => {
             setChat((prev) => [
                 ...prev,
-                { sender_id, message, created_at, isSelf: sender_id === currentUser},
+                { 
+                    sender_id: sender,
+                    message,
+                    created_at: new Date(created_at),
+                    isSelf: sender === currentUser},
             ])
         };
 
@@ -55,6 +59,7 @@ export const usePrivateChat = (roomName: string, currentUser: string, otherUser:
             sender: currentUser,
             receiver: otherUser,
             message,
+            created_at :new Date().toISOString()
         });
     };
 
