@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 
 export const useAllGeneratedFlashcards = (userId:string|undefined) =>{
     const [allGeneratedFlashcards, setAllGeneratedFlashcards] = useState<typeFlashcardForQuery[]>([]);
+    const [allGeneratedFlashcardsCount, setAllGeneratedFlashcardsCount] = useState (0);
     const [useAllGeneratedFlashcardsError, setUseAllGeneratedFlashcardsError ] = useState<string|null>(null);
     const [useAllGeneratedFlashcardsLoading, setUseAllGeneratedFlashcardsLoading ] = useState(false);
     useEffect(()=>{
@@ -15,7 +16,8 @@ export const useAllGeneratedFlashcards = (userId:string|undefined) =>{
                 setUseAllGeneratedFlashcardsLoading(true);
                 setUseAllGeneratedFlashcardsError(null);
                 const getResult = await fetch(`${import.meta.env.VITE_BASE_API_Flashcards}/getUserGeneratedFlashcards?userId=${userId}`)
-                const data: typeFlashcardForQuery[] = await getResult.json();   
+                const data: typeFlashcardForQuery[] = await getResult.json(); 
+                setAllGeneratedFlashcardsCount(data.length);
                 setAllGeneratedFlashcards(data);
             }catch(error:any){
                 setUseAllGeneratedFlashcardsError(error);
@@ -25,5 +27,5 @@ export const useAllGeneratedFlashcards = (userId:string|undefined) =>{
         }
         getAllGeneratedFlashcards();
     }, [userId])
-    return {allGeneratedFlashcards, useAllGeneratedFlashcardsError, useAllGeneratedFlashcardsLoading}
+    return {allGeneratedFlashcards, allGeneratedFlashcardsCount, useAllGeneratedFlashcardsError, useAllGeneratedFlashcardsLoading}
 }

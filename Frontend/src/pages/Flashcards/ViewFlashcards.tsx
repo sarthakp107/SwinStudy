@@ -28,7 +28,7 @@ export const ViewFlashcards = () => {
     };
     useEffect(()=>{
         if(QnA.length > 0 && user?.id && !hasFlashcardSavedToDB ){
-            SaveMultipleFlashcards(QnA, user.id);
+            SaveMultipleFlashcards(QnA.slice(0, count), user.id);
             setHasFlashcardSavedToDB(true);
         }
 
