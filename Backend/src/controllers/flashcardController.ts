@@ -135,3 +135,30 @@ export const getUserGeneratedFlashcards = async (req: Request, res:Response)=>{
         res.status(500).json({message: "Failed to get flashcard"})
     }
 }
+
+export const getUserLoggedInDates = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.query;
+
+        if (!userId) {
+            res.status(400).json({
+                message: "Missing UserId."
+            });
+        }
+        const getQuery_build = `
+            SELECT DISTINCT TO_CHAR(login_date, 'YYYY-MM-DD') AS login_date
+            FROM m_userlogindates
+            WHERE user_id = $1
+            ORDER BY login_date;
+        `;
+        const result = await query(getQuery_build, [userId]);
+
+        const loggedInDates = result.rows.map((row: any) => row.login_date);
+        res.json(loggedInDates);
+    } catch (error: any) {
+        console.error("An error occurred when fetching login dates: ", error.message);
+        res.status(500).json({
+            message: "Failed to fetch login dates."
+        });
+    }
+}

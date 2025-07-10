@@ -8,12 +8,16 @@ export const Flashcards = () =>{
     
     return(
     <>
-    {/* Header Div */}
-    <div> Welcome Back, {displayName}! </div>
-    {/* Div For Stats */}
-    <div> <FlashcardStats /> </div>
+    <div className="pt-5 ml-150">
+        <h1 className="text-4xl font-extrabold text-gray-800 mb-6">
+            Welcome Back, <span className="text-red-600">{displayName || "User"}</span>!
+        </h1>
+    </div>
+
     {/* Div For Options */}
     <div> <FlashcardOptions /> </div>
+    {/* Div For Stats */}
+    <div> <FlashcardStats /> </div>
     </>
     )
     

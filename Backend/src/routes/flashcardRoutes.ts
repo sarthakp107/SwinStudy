@@ -1,5 +1,5 @@
 import express from "express";
-import { deleteUserSavedFlashcard, getSpecificSavedFlashcard, getUserGeneratedFlashcards, getUserSavedFlashcard, postUserGeneratedFlashcards, postUserSavedFlashcard } from "../controllers/flashcardController";
+import { deleteUserSavedFlashcard, getSpecificSavedFlashcard, getUserGeneratedFlashcards, getUserLoggedInDates, getUserSavedFlashcard, postUserGeneratedFlashcards, postUserSavedFlashcard } from "../controllers/flashcardController";
 
 const router = express.Router();
 
@@ -9,5 +9,6 @@ router.delete("/deleteUserSavedFlashcard", deleteUserSavedFlashcard)
 router.get("/getSpecificSavedFlashcard", getSpecificSavedFlashcard)
 router.post("/postUserGeneratedFlashcards", postUserGeneratedFlashcards)
 router.get("/getUserGeneratedFlashcards", getUserGeneratedFlashcards)
+router.get("/getUserLoggedInDates", getUserLoggedInDates)
 
 export default router;
