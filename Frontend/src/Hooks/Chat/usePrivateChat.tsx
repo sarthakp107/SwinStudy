@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { socket } from "@/socket";
-import { formatTimestamp } from "@/config/ChatUtils";
 
 type ChatMessage = {
     sender_id: string;

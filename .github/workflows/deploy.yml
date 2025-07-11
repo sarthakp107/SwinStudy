@@ -1,0 +1,46 @@
+name: Deploy Backend via Bastion
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          
+          # Save your private key
+          echo "${{ secrets.BACK_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          
+          # Add bastion and backend to known_hosts
+          ssh-keyscan -H ${{ secrets.BASTION_HOST }} >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.BACK_HOST }} >> ~/.ssh/known_hosts
+          
+          # Create SSH config with ProxyJump
+          echo "Host backend-server
+  HostName ${{ secrets.BACK_HOST }}
+  User ${{ secrets.BACK_USER }}
+  IdentityFile ~/.ssh/id_ed25519
+  ProxyJump ${{ secrets.BACK_USER }}@${{ secrets.BASTION_HOST }}
+  StrictHostKeyChecking no
+" > ~/.ssh/config
+
+      - name: SSH into backend and deploy
+        run: |
+          ssh backend-server << 'EOF'
+          cd /var/SwinStudy
+            git pull origin main
+          cd Backend
+            npm install
+            npm run build
+            pm2 restart backend || pm2 start dist/server.js --name backend
+          EOF
