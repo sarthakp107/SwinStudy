@@ -12,7 +12,7 @@ export const FlashcardStats = () =>{
     const {allGeneratedFlashcardsCount} = useAllGeneratedFlashcards(user?.id);
 
     const flashcardsStudiedValue = allGeneratedFlashcardsCount;
-    const flashcardsStudiedMax = 20; 
+    const flashcardsStudiedMax = 200; 
     const flashcardsSavedValue = numberOfSavedFlashcards;
     const flashcardsSavedMax = 10;
 
@@ -20,7 +20,7 @@ export const FlashcardStats = () =>{
     <>
         <div className="w-full max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 mt-8 border border-gray-200">
             {/* Header */}
-            <h1 className="text-4xl font-extrabold text-gray-800 mb-6 ml-80">
+            <h1 className="text-4xl  text-center  font-extrabold text-gray-800 mb-6">
                 Your <span className="text-red-600">Progress</span>
             </h1>
             {user ? (

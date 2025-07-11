@@ -1,5 +1,5 @@
 import { useAuthContext } from '@/Hooks/Context/useAuthContext';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export const DailyCheckinCalendar = () => {
   // IMPORTANT: This is a mock implementation of useAuthContext for demonstration.
@@ -31,12 +31,10 @@ export const DailyCheckinCalendar = () => {
       try {
         // Construct the API URL with the user ID
         const response = await fetch(`${import.meta.env.VITE_BASE_API_Flashcards}/getUserLoggedInDates?userId=${user.id}`);
-
         // Check if the network request was successful
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
         // Parse the JSON response
         const data: string[] = await response.json(); // Explicitly type data as string array
         // Assuming 'data' is an array of date strings (e.g., ["YYYY-MM-DD", "YYYY-MM-DD"])
@@ -173,7 +171,7 @@ export const DailyCheckinCalendar = () => {
         <div className="flex flex-col pr-2 text-sm font-semibold text-gray-800 mt-6"> {/* Theme change: text-gray-800 */}
           {/* Labels for Mon, Wed, Fri only, as per the GitHub screenshot. */}
           {/* However, the vertical spacing is maintained for all 7 days to align with the grid rows. */}
-          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day, index) => (
+          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
             <div key={day} className="h-4 flex items-center justify-end mb-1">
               {['Mon', 'Wed', 'Fri'].includes(day) ? day : ''}
             </div>
