@@ -21,13 +21,14 @@ jobs:
           ssh-keyscan -H ${{ secrets.BASTION_HOST }} >> ~/.ssh/known_hosts
           ssh-keyscan -H ${{ secrets.BACK_HOST }} >> ~/.ssh/known_hosts
 
-          echo "Host backend-server
+          cat <<EOF > ~/.ssh/config
+Host backend-server
   HostName ${{ secrets.BACK_HOST }}
   User ${{ secrets.BACK_USER }}
   IdentityFile ~/.ssh/id_ed25519
   ProxyJump ${{ secrets.BACK_USER }}@${{ secrets.BASTION_HOST }}
   StrictHostKeyChecking no
-" > ~/.ssh/config
+EOF
 
       - name: SSH into backend and deploy
         run: |
