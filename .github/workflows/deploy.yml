@@ -34,6 +34,8 @@ jobs:
         run: |
           ssh backend-server <<'EOF'
             cd /var/SwinStudy
+            git fetch origin
+            git checkout development
             git pull origin development
             cd Backend
             npm install
