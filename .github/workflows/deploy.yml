@@ -45,7 +45,7 @@ jobs:
       - name: SSH into frontend and deploy
         shell: bash
         run: |
-          ssh ${{ secrets.FRONT_HOST }} << 'EOF'
+          ssh 34.129.209.140 << 'EOF'
             cd /var/SwinStudy
             sudo git pull origin development
             cd Frontend
