@@ -68,9 +68,6 @@ export const postIndivMessages = async(req: Request, res: Response) => {
     }
 }
 
-//  SELECT sender_id, receiver_id, message, created_at FROM indiv_messages WHERE (sender_id = '2a2bdd88-3f3d-4efa-ab7c-da337ad0c1a2' AND receiver_id = '44704908-82a5-4aa2-b720-c12126508cc8') OR
-//             (sender_id = '44704908-82a5-4aa2-b720-c12126508cc8' AND receiver_id = '2a2bdd88-3f3d-4efa-ab7c-da337ad0c1a2')
-//         ORDER BY created_at ASC;
 
 export const getIndivMessage = async(req: Request, res: Response) => {
     const {user1, user2} = req.query;
