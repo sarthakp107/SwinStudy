@@ -19,7 +19,7 @@ jobs:
           mkdir -p ~/.ssh
           printf "%s\n" "${{ secrets.BACK_SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          
+
           ssh-keyscan -H ${{ secrets.BASTION_HOST }} >> ~/.ssh/known_hosts
           ssh-keyscan -H ${{ secrets.BACK_HOST }} >> ~/.ssh/known_hosts
 
@@ -42,9 +42,9 @@ jobs:
       #       pm2 restart backend || pm2 start dist/server.js --name backend
       #     EOF
 
-      # - name: Test SSH connection only
-      #   shell: bash
-      #   run: |
-      #     ssh -v backend-server "echo 'SSH successful!'"
+      - name: Test SSH connection only
+        shell: bash
+        run: |
+          ssh -v backend-server "echo 'SSH successful!'"
 
 
