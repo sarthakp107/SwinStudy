@@ -16,11 +16,10 @@ export const Flashcards = () =>{
             Welcome Back, <span className="text-red-600">{displayName || "User"}</span>!
         </h1>
     </div>
-    {/* Div For Stats */}
-    <div> <FlashcardStats /> </div>
     {/* Div For Options */}
     <div> <FlashcardOptions /> </div>
-
+    {/* Div For Stats */}
+    <div> <FlashcardStats /> </div>
     </>
     )
     

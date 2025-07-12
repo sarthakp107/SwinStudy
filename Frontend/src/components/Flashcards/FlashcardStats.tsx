@@ -3,18 +3,16 @@ import { useAllGeneratedFlashcards } from "@/Hooks/Database/flashcardfunctions/u
 import { useSavedFlashcardCount } from "@/Hooks/Database/flashcardfunctions/useSavedFlashcardCount";
 import { ProgressRing } from "./ProgressRings";
 import { DailyCheckinCalendar } from "./DailyCheckInCalendar";
-import useUserProfile from "@/Hooks/GetUserInfo/useUserProfile";
 
 export const FlashcardStats = () =>{
     const {user} = useAuthContext();
-    const {displayName} = useUserProfile();
     const {numberOfSavedFlashcards} = useSavedFlashcardCount(user?.id);
     const {allGeneratedFlashcardsCount} = useAllGeneratedFlashcards(user?.id);
 
     const flashcardsStudiedValue = allGeneratedFlashcardsCount;
-    const flashcardsStudiedMax = 200; 
+    const flashcardsStudiedMax = 500; 
     const flashcardsSavedValue = numberOfSavedFlashcards;
-    const flashcardsSavedMax = 10;
+    const flashcardsSavedMax = 20;
 
     return (
     <>

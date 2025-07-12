@@ -5,7 +5,7 @@ export const useSaveMultipleFlashcards = () => {
     const [useSaveMultipleFlashcardsError, setUseSaveMultipleFlashcardsError ] = useState<string|null>(null);
     const [useSaveMultipleFlashcardsLoading, setUseSaveMultipleFlashcardsLoading ] = useState(false);
     const [useSaveMultipleFlashcardsSuccess, setUseSaveMultipleFlashcardsSuccess ] = useState(false);
-        const SaveMultipleFlashcards = async (flashcards:QnAFormat[], userId:string| undefined) =>{
+        const SaveMultipleFlashcards = async (flashcards:QnAFormat[], userId:string| undefined, deck_name:string = "") =>{
             if(!userId || flashcards.length == 0){
                 setUseSaveMultipleFlashcardsError("Error. Missing userId or Flashcard Empty");
                 return;

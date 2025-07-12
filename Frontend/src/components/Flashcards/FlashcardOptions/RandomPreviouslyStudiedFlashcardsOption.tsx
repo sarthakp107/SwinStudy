@@ -1,4 +1,4 @@
-import { FaBook, FaBookOpen } from "react-icons/fa"
+import {  FaBookOpen } from "react-icons/fa"
 import { Link } from "react-router-dom"
 
 const cardBaseClasses = "flex flex-col items-center justify-center p-6 rounded-lg shadow-md transition-all duration-300 ease-in-out transform hover:scale-105";
