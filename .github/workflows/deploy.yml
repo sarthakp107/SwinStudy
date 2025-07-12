@@ -30,12 +30,6 @@ jobs:
           echo "  ProxyJump ${{ secrets.BACK_USER }}@${{ secrets.BASTION_HOST }}" >> ~/.ssh/config
           echo "  StrictHostKeyChecking no" >> ~/.ssh/config
 
-          echo 'Host frontend-server' >> ~/.ssh/config
-          echo "  HostName ${{ secrets.FRONT_HOST }}" >> ~/.ssh/config
-          echo "  User ${{ secrets.BACK_USER }}" >> ~/.ssh/config
-          echo "  IdentityFile ~/.ssh/id_ed25519" >> ~/.ssh/config
-          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
-
       - name: SSH into backend and deploy
         shell: bash
         run: |
@@ -51,7 +45,7 @@ jobs:
       - name: SSH into frontend and deploy
         shell: bash
         run: |
-          ssh frontend-server << 'EOF'
+          ssh ${{ secrets.FRONT_HOST }} << 'EOF'
             cd /var/SwinStudy
             sudo git pull origin development
             cd Frontend
