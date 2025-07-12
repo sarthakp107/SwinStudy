@@ -29,21 +29,17 @@ jobs:
           echo "  ProxyJump ${{ secrets.BACK_USER }}@${{ secrets.BASTION_HOST }}" >> ~/.ssh/config
           echo "  StrictHostKeyChecking no" >> ~/.ssh/config
 
-      # - name: SSH into backend and deploy
-      #   shell: bash
-      #   run: |
-      #     ssh backend-server <<'EOF'
-      #       cd /var/SwinStudy
-      #       git pull origin main
-      #       cd Backend
-      #       npm install
-      #       npm run build
-      #       pm2 restart backend || pm2 start dist/server.js --name backend
-      #     EOF
-
-      - name: Test SSH connection only
+      - name: SSH into backend and deploy
         shell: bash
         run: |
-          ssh -v backend-server "echo 'SSH successful!'"
+          ssh backend-server <<'EOF'
+            cd /var/SwinStudy
+            git pull origin main
+            cd Backend
+            npm install
+            npm run build
+            pm2 restart backend || pm2 start dist/server.js --name backend
+          EOF
+
 
 
