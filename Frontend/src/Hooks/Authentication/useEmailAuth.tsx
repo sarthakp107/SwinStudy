@@ -57,7 +57,7 @@ export const useEmailAuth = () => {
                 if (displayNameResponse.error) throw displayNameResponse.error.message;
 
                 try{
-                    await fetch("https://swinstudy.com/api/users/create-public-id", {
+                    await fetch("https://swinstudy.com/api/user/create-public-id", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ uuid: user.id })
