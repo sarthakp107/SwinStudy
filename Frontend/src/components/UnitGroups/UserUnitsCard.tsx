@@ -2,7 +2,7 @@ import { useUserUnits } from "@/Hooks/GetUserInfo/useUserUnits";
 import { SkeletonUserGroups } from "../Loading/SkeletonUserGroups";
 import { Link } from "react-router-dom";
 import { UnitBuddiesButton } from "../Buttons/UnitButtons/UnitBuddiesButton";
-// import UnitActions from "./UnitActions";
+import { UnitChat } from "../Buttons/Chat/UnitChat";
 
 export const UserUnitsCard: React.FC = () => {
     const { units, loading, error } = useUserUnits();
@@ -22,7 +22,7 @@ export const UserUnitsCard: React.FC = () => {
                 {units.length > 0 ? (
                     units.map((unit, index) => (
                         <Link key={index} to={`/dashboard/${unit}`}>
-                            <li  
+                            <li
                                 className="bg-white shadow-lg rounded-lg p-6 transform transition-transform duration-300 hover:scale-105"
                             >
                                 <div className="flex items-center justify-center mb-4">
@@ -31,7 +31,10 @@ export const UserUnitsCard: React.FC = () => {
                                 <div className="text-center">
                                     <h4 className="text-xl font-medium">{unit}</h4>
                                 </div>
-                            <UnitBuddiesButton/>
+                                <div className="flex flex-row justify-center gap-3 mt-6">
+                                    <UnitBuddiesButton />
+                                    <UnitChat /> {/* Button */}
+                                </div>
                             </li>
                         </Link>
                     ))

@@ -2,11 +2,12 @@ import supabase from "@/config/supabase-client";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-export const useOUserDegree = () => {
+export const useOUserDegree = (passId? : string) => {
     const [degree, setDegree] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const {id} = useParams();
+    const {id : routeId} = useParams();
+    const id = passId ?? routeId;
 
     useEffect(() => {
 

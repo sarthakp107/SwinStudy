@@ -12,6 +12,7 @@ import { handleGroupChat } from './sockets/groupChat';
 import flashcardRoutes from "./routes/flashcardRoutes"
 import { createServer } from 'http';
 import { handleIndivChat } from './sockets/indivChats';
+import userRoutes from './routes/userRoutes';
 
 dotenv.config();
 
@@ -33,6 +34,9 @@ app.use("/chat", chatRoutes);
 
 //flashcards
 app.use("/flashcards", flashcardRoutes);
+
+//user
+app.use("/user", userRoutes)
 
 
 const httpServer = createServer(app);

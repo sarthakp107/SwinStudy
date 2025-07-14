@@ -14,7 +14,7 @@ export const GroupChat = ({ unitName, currentUser }: GroupChatProps) => {
 
   const handleSend = () => {
     sendMessage(message);
-    setMessage("");
+    setMessage(""); 
   }
 
   useEffect(() => {

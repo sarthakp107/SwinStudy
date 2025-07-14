@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../Context/useAuthContext';
 import supabase from '@/config/supabase-client';
-// import { useNavigate } from 'react-router-dom';
 
 
 export const useEmailAuth = () => {
@@ -56,6 +55,16 @@ export const useEmailAuth = () => {
                 })
 
                 if (displayNameResponse.error) throw displayNameResponse.error.message;
+
+                try{
+                    await fetch("https://swinstudy.com/api/users/create-public-id", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ uuid: user.id })
+                    })
+                }catch(err){
+                     console.error("Failed to create public id:", err);
+                }
 
                 if (user) {
                     dispatch({ type: "LOGIN", payload: user });

@@ -132,6 +132,10 @@ const routes: RouteObject[] = [
                 element: <ProtectedRoute element={<UnitBuddies />} />
             },
             {
+                path: 'dashboard/chat/:unitName', 
+                element: <ProtectedRoute element={<UnitBuddies />} />
+            },
+            {
                 path: 'survey',
                 element: <ProtectedRoute element={<SurveyGate/>}/>
             },
