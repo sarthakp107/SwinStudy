@@ -3,7 +3,7 @@ name: Deploy Backend via Bastion
 on:
   push:
     branches:
-      - development
+      - DEVSARTHAK_layoutChanges
 
 jobs:
   deploy:
@@ -41,7 +41,7 @@ jobs:
         run: |
           ssh backend-server <<'EOF'
             cd /var/SwinStudy
-            sudo git pull origin development
+            sudo git pull origin DEVSARTHAK_layoutChanges
             cd Backend
             sudo npm install
             sudo npm run build
