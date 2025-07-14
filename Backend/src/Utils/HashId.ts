@@ -1,10 +1,11 @@
 import Hashids from "hashids";
 
-const SALT =process.env.SECRET_SALT; 
+// const SALT =process.env.SECRET_SALT; 
+const SALT ="swinstudy-ontop"; 
 const hashids = new Hashids(SALT, 10); // minimum hash length
 
-if(!SALT){
-    console.error("empty SALT");
+if (!SALT) {
+  throw new Error("SECRET_SALT is missing in the environment!");
 }
 
 // Converts UUID to hash
