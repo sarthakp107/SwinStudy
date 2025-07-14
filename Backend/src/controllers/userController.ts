@@ -11,7 +11,7 @@ export const createHash = async (req: Request, res: Response) => {
     await createUserInApp(uuid); //feeds to db
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: "Create hash error" });
+    res.status(500).json({ error: "Create hash error", err });
   }
 }
 export const test = async (req: Request, res: Response) => {
