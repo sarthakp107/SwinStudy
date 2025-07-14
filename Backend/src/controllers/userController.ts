@@ -5,13 +5,13 @@ export const createHash = async (req: Request, res: Response) => {
   const { uuid } = req.body;
   console.log("📨 Incoming request to /create-public-id:", uuid);
 
-//   if (!uuid)  res.status(400).json({ error: "Missing UUID" });
+  if (!uuid)  res.status(400).json({ error: "Missing UUID" });
 
   try {
     await createUserInApp(uuid); //feeds to db
     res.status(200).json({ success: true });
   } catch (err) {
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Create hash error" });
   }
 }
 export const test = async (req: Request, res: Response) => {
