@@ -3,8 +3,9 @@ import { createUserInApp } from "../User/UUIDhash";
 
 export const createHash = async (req: Request, res: Response) => {
   const { uuid } = req.body;
+  console.log("📨 Incoming request to /create-public-id:", uuid);
 
-  if (!uuid)  res.status(400).json({ error: "Missing UUID" });
+//   if (!uuid)  res.status(400).json({ error: "Missing UUID" });
 
   try {
     await createUserInApp(uuid); //feeds to db
