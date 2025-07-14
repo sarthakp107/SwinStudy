@@ -53,7 +53,7 @@ jobs:
         run: |
           ssh frontend-server << 'EOF'
             cd /var/www/SwinStudy
-            sudo git pull origin development
+            sudo git pull origin DEVSARTHAK_layoutChanges
             cd Frontend
             sudo npm install
             sudo npm run build

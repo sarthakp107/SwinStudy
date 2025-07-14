@@ -1,3 +1,5 @@
+//actions working delete this
+
 import express from 'express';
 import dotenv from 'dotenv';
 import {establishConnectionToDB, query} from './database'
