@@ -2,11 +2,13 @@ export const formatTimestamp = (date: Date): string => {
   const now = new Date();
   const msgDate = new Date(date);
 
+    if (isNaN(msgDate.getTime())) return "Just now";
+
   const isToday =
-    now.toDateString() === msgDate.toDateString();
+    now.toDateString() == msgDate.toDateString();
 
   const isYesterday =
-    new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).toDateString() ===
+    new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1).toDateString() ==
     msgDate.toDateString();
 
   const timeString = msgDate.toLocaleTimeString("en-AU", {
@@ -23,5 +25,7 @@ export const formatTimestamp = (date: Date): string => {
     day: "numeric",
   });
 
-  return `${dateString} at ${timeString}`;
+  return `
+  ${dateString} at ${timeString}`;
+
 };
