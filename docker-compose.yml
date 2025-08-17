@@ -1,0 +1,36 @@
+version: '3.9'  # Docker Compose version
+
+services:
+  backend:
+    build: ./Backend       # Builds Dockerfile from ./backend folder
+    ports:
+      - "1313:1313"         # Expose backend API on localhost:1313
+    depends_on:
+      - db                 # Wait for database before starting
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./Frontend  # Path to frontend folder
+      dockerfile: Dockerfile.dev  # Use dev Dockerfile (can be Dockerfile for prod)
+    ports:
+      - "5173:5173"        # Vite dev server or production Nginx
+    environment:
+      - VITE_API_URL=http://localhost:1313  # For React to call backend
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  db:
+    image: postgres:15     # Official Postgres image
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=mydb
+    ports:
+      - "5432:5432"        # (optional if using internally)
+    volumes:
+      - db_data:/var/lib/postgresql/data  # Persist data
+
+volumes:
+  db_data:                 # Named volume to persist PostgreSQL data

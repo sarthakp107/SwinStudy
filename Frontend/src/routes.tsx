@@ -17,6 +17,7 @@ import FeatureBlock from "./components/LandingPage/FeatureBlock";
 import { Footer } from "./components/Footer";
 import { Flashcards } from "./pages/Flashcards/Flashcards_ForLoggedIn";
 import { ViewSavedFlashcards } from "./pages/Flashcards/ViewSavedFlashcards";
+import { ProfilePage } from "./pages/Profile/ProfilePage";
 import { ViewAllGeneratedFlashcards } from "./pages/Flashcards/ViewAllGeneratedFlashcards";
 
 const PublicOnlyRoute = ({element}: {element: React.ReactElement}) => {
@@ -37,7 +38,11 @@ const PublicOnlyRoute = ({element}: {element: React.ReactElement}) => {
 
 const ProtectedRoute = ({element}: {element: React.ReactElement})=>{
     
-    const {user} = useAuthContext();
+    const {user, authIsChecked} = useAuthContext();
+    
+    if(!authIsChecked){
+        return <Spinner/>
+    }
     
     if (!user){
        return <Navigate to="/login" replace/>
@@ -50,22 +55,9 @@ const PublicPrivateRoute = ({element}: {element: React.ReactElement})=>{
     return (element)
 }
 
-// const UploadGate = () =>{
-//     const {state, dispatch} = useFileContext();
-//     state.file && dispatch({type: "REMOVE_FILE"})
-//     console.log("Removed File:", state.file)
-//     console.log("New File:", state.file.name)
-//     return <UploadPage />;
-// }
-
 const SurveyGate = () => {
     // const { user } =  useAuthContext();
     const {isLoading, hasSubmittedSurvey } = useSurveyStatus();
-    
-    // if (!user) {
-    //     console.log("NOT A USER")
-    //     return <Navigate to="/" replace />;
-    // }
     console.log(hasSubmittedSurvey);
     if (isLoading){
         return <Spinner />
@@ -155,7 +147,11 @@ const routes: RouteObject[] = [
             {
                 path:'flashcardsaved',
                 element: <PublicPrivateRoute element={<ViewSavedFlashcards/>} />
-            }
+            },
+            {
+                path: 'profile/:id',
+                element: <ProtectedRoute element={<ProfilePage />} />
+            },
         ],
     },
     {

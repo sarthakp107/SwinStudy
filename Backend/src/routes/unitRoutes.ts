@@ -6,5 +6,6 @@ import { getAllUnits, getHome } from '../controllers/unitController';
  //GET all units
  router.get("/getUnits", getAllUnits);
  router.get("/", getHome );
+
  export default router;
 

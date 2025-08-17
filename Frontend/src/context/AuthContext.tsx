@@ -39,10 +39,19 @@ export const authReducer = (state: AuthState, action: any) => {
     }
 }
 
+
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [state, dispatch] = useReducer(authReducer, initialState);
 
     useEffect(() => {
+
+        const checkSession = async () => {
+            const { data: { session } } = await supabase.auth.getSession();
+            dispatch({ type: 'AUTH_IS_CHECKED', payload: session?.user ?? null });
+        };
+
+        checkSession();
+
         const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
             const user = session?.user || null;
             dispatch({ type: 'AUTH_IS_CHECKED', payload: user });

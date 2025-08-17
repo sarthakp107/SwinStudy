@@ -1,5 +1,4 @@
 //Component used in Upload Page outlining instructions on uploading of PDF
-import * as React from 'react';
 export const UploadGuidelines = () =>{
     return(
         <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">

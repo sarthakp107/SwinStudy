@@ -5,11 +5,13 @@ import helmet from "helmet";
 import morgan from "morgan";
 import cors from "cors";
 import unitRoutes from "./routes/unitRoutes"
-// import chatRoutes from "./routes/chatRoutes"
+import chatRoutes from "./routes/chatRoutes"
+
+import { Server } from 'socket.io';
+import { handleGroupChat } from './sockets/groupChat';
 import flashcardRoutes from "./routes/flashcardRoutes"
-// import { Server } from 'socket.io';
 import { createServer } from 'http';
-// import { handleGroupChat } from './sockets/groupChat';
+import { handleIndivChat } from './sockets/indivChats';
 
 dotenv.config();
 
@@ -26,27 +28,26 @@ app.use(morgan("dev")); // logs the requests
 app.use("/api/units", unitRoutes )
 app.use("/", unitRoutes)
 
+//chats
+app.use("/chat", chatRoutes);
+
 //flashcards
 app.use("/flashcards", flashcardRoutes);
 
-//chats
-// app.use("/api/chat", chatRoutes);
-
 
 const httpServer = createServer(app);
-// const allowedOrigins = process.env.CORS_ORIGIN?.split(",") || [];
-// export const io = new Server(httpServer, {
-//   cors: {
-//     // origin: allowedOrigins,
-//     // origin: "http://localhost:5173",
-//     // origin: process.env.CORS_ORIGIN,
-//     origin:"https://swinstudy.com",
-//     methods: ["GET", "POST"]
-//   }
-// });
+export const io = new Server(httpServer, {
+  cors: {
+    // origin: "http://localhost:5173",
+    // origin: process.env.CORS_ORIGIN,
+    origin: "*",
+    // origin:"https://swinstudy.com",
+    methods: ["GET", "POST"]
+  }
+});
 
-// handleGroupChat(io);
-
+handleGroupChat(io);
+handleIndivChat(io);
 
 async function startServer() {
     try{
@@ -58,3 +59,5 @@ async function startServer() {
 }
 
 startServer();
+
+
