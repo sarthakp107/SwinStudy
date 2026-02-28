@@ -1,27 +1,22 @@
 import React, {useState} from 'react';
-import { FaGithub, FaGoogle, FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
+import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
 import { useEmailAuth } from '@/Hooks/Authentication/useEmailAuth';
 import { useOAuth } from '@/Hooks/Authentication/useOAuth';
-import { Link } from 'react-router-dom';
 import Spinner from '@/components/Loading/Spinner';
 import { useNavigate } from 'react-router-dom';
 
 const SignupPage: React.FC = () => {
-  const[displayName, setDisplayName] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {signUpWithEmail, error : emailAuthError, isPending} = useEmailAuth();
-  const {signInWithGithub, signInWithGoogle, error: oAuthError} = useOAuth();
+  const { signUpWithEmail, error: emailAuthError, isPending } = useEmailAuth();
+  const { error: oAuthError } = useOAuth();
 
-  // Signup Handling Function
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await signUpWithEmail(email,password, displayName);
-    if (isPending){
-      <Spinner />
-    }
-    navigate("/survey")
+    const success = await signUpWithEmail(email, password, displayName);
+    if (success) navigate('/survey');
   };
 
   return (
@@ -89,29 +84,6 @@ const SignupPage: React.FC = () => {
             {/* {isPending && <button className='w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-300 shadow-md mb-3'>Loading</button>} */}
             {isPending && <Spinner/>}
           </form>
-
-          {/* {Or Seperator} */}
-          <div className='flex items-center my-4'>
-            <hr className='flex-grow border-t border-gray-300'/>
-            <span className='mx-4 text-gray-500'>or</span>
-            <hr className='flex-grow border-t border-gray-300'/>
-          </div>
-          <button onClick={signInWithGithub} className="w-full bg-gray-800 text-white py-2 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-900 transition duration-300 shadow-md">
-            <FaGithub className="text-xl" />
-            <span className="text-lg">Sign up with GitHub</span>
-          </button>
-
-          <button onClick={signInWithGoogle} className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-600 transition-colors duration-300 shadow-md">
-            <FaGoogle className="text-xl" />
-            <span className="text-lg">Sign up with Google</span>
-          </button>
-        
-          <p className="text-sm text-gray-600 text-center mt-4">
-            Already have an account? 
-            <Link to="/login" className="text-red-500 hover:underline ml-1">
-              Login
-            </Link>
-          </p>
       </div>
     </div>
   );

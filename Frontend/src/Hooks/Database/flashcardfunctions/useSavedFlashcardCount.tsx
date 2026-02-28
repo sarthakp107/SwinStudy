@@ -1,31 +1,34 @@
 import { typeFlashcardForQuery } from "@/types";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import { apiFetch } from "@/lib/apiClient";
+import { useFlashcardRefreshTrigger } from "@/context/FlashcardRefreshContext";
 
-
-export const useSavedFlashcardCount = (userId:string|undefined) =>{
-    // const {user} = useAuthContext();
+export const useSavedFlashcardCount = (userId: string | undefined) => {
     const [numberOfSavedFlashcards, setNumberOfSavedFlashcard] = useState(0);
-    const [useSavedFlashcardCountError, setUseSavedFlashcardCountError ] = useState<string|null>(null);
-    const [useSavedFlashcardCountLoading, setUseSavedFlashcardCountLoading ] = useState(false);
-    useEffect(()=>{
+    const [useSavedFlashcardCountError, setUseSavedFlashcardCountError] = useState<string | null>(null);
+    const [useSavedFlashcardCountLoading, setUseSavedFlashcardCountLoading] = useState(false);
+    const refreshTrigger = useFlashcardRefreshTrigger();
+
+    useEffect(() => {
         if (!userId) {
             setUseSavedFlashcardCountLoading(false);
             return;
         }
-        const getSavedFlashcardsCount = async () =>{
-            try{
+        const getSavedFlashcardsCount = async () => {
+            try {
                 setUseSavedFlashcardCountLoading(true);
                 setUseSavedFlashcardCountError(null);
-                const getResult = await fetch(`${import.meta.env.VITE_BASE_API_Flashcards}/getUserSavedFlashcard?userId=${userId}`)
-                const data: typeFlashcardForQuery[] = await getResult.json();   
+                const res = await apiFetch("/api/flashcards/saved");
+                if (!res.ok) throw new Error("Failed to fetch");
+                const data: typeFlashcardForQuery[] = await res.json();
                 setNumberOfSavedFlashcard(data.length);
-            }catch(error:any){
-                setUseSavedFlashcardCountError(error);
-            }finally{
+            } catch (error: unknown) {
+                setUseSavedFlashcardCountError(error instanceof Error ? error.message : String(error));
+            } finally {
                 setUseSavedFlashcardCountLoading(false);
             }
-        }
+        };
         getSavedFlashcardsCount();
-    }, [userId])
-    return {numberOfSavedFlashcards, useSavedFlashcardCountError, useSavedFlashcardCountLoading}
-}
+    }, [userId, refreshTrigger]);
+    return { numberOfSavedFlashcards, useSavedFlashcardCountError, useSavedFlashcardCountLoading };
+};

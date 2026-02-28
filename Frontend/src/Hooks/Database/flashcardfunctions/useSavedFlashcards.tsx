@@ -1,29 +1,34 @@
 import { typeFlashcardForQuery } from "@/types";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import { apiFetch } from "@/lib/apiClient";
+import { useFlashcardRefreshTrigger } from "@/context/FlashcardRefreshContext";
 
-export const useSavedFlashcards = (userId:string|undefined) =>{
+export const useSavedFlashcards = (userId: string | undefined) => {
     const [savedFlashcards, setSavedFlashcards] = useState<typeFlashcardForQuery[]>([]);
-    const [useSavedFlashcardsError, setUseSavedFlashcardsError ] = useState<string|null>(null);
-    const [useSavedFlashcardsLoading, setUseSavedFlashcardsLoading ] = useState(false);
-    useEffect(()=>{
+    const [useSavedFlashcardsError, setUseSavedFlashcardsError] = useState<string | null>(null);
+    const [useSavedFlashcardsLoading, setUseSavedFlashcardsLoading] = useState(false);
+    const refreshTrigger = useFlashcardRefreshTrigger();
+
+    useEffect(() => {
         if (!userId) {
             setUseSavedFlashcardsLoading(false);
             return;
         }
-        const getSavedFlashcardsCount = async () =>{
-            try{
+        const getSavedFlashcards = async () => {
+            try {
                 setUseSavedFlashcardsLoading(true);
                 setUseSavedFlashcardsError(null);
-                const getResult = await fetch(`${import.meta.env.VITE_BASE_API_Flashcards}/getUserSavedFlashcard?userId=${userId}`)
-                const data: typeFlashcardForQuery[] = await getResult.json();   
+                const res = await apiFetch("/api/flashcards/saved");
+                if (!res.ok) throw new Error("Failed to fetch");
+                const data: typeFlashcardForQuery[] = await res.json();
                 setSavedFlashcards(data);
-            }catch(error:any){
-                setUseSavedFlashcardsError(error);
-            }finally{
+            } catch (error: unknown) {
+                setUseSavedFlashcardsError(error instanceof Error ? error.message : String(error));
+            } finally {
                 setUseSavedFlashcardsLoading(false);
             }
-        }
-        getSavedFlashcardsCount();
-    }, [userId])
-    return {savedFlashcards, useSavedFlashcardsError, useSavedFlashcardsLoading}
-}
+        };
+        getSavedFlashcards();
+    }, [userId, refreshTrigger]);
+    return { savedFlashcards, useSavedFlashcardsError, useSavedFlashcardsLoading };
+};

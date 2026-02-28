@@ -1,37 +1,29 @@
 import { useEffect, useState } from 'react';
-import {useAuthContext} from '../Context/useAuthContext';
-import supabase from '@/config/supabase-client';
+import { useAuthContext } from '../Context/useAuthContext';
+import { apiFetch } from '@/lib/apiClient';
 
 export const useSignOut = () => {
-    const [isCancelled, setIsCancelled] = useState(false)
-    const [error, setError] = useState<string | null>(null)
-    const [isPending, setIsPending] = useState(false)
-    const {dispatch} = useAuthContext();
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState(false);
+  const { logout } = useAuthContext();
 
-    const signOut = async() => {
-        setError(null);
-        setIsPending(true);
-        try {
-            await supabase.auth.signOut();
-            dispatch({type: "LOGOUT"})
-
-            setIsPending(false);
-            setError(null);
-
-            if (!isCancelled) {
-                setIsPending(false)
-                setError(null)
-              }
-        } catch (error : any) {
-            if (!isCancelled) {
-                setError(error?.message || "An unknown error has occured.");
-                setIsPending(false)
-              }
-        }
+  const signOut = async () => {
+    setError(null);
+    setIsPending(true);
+    try {
+      await apiFetch('/api/auth/logout', { method: 'POST' });
+      if (!isCancelled) logout();
+    } catch (err: unknown) {
+      if (!isCancelled) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      }
+    } finally {
+      if (!isCancelled) setIsPending(false);
     }
-    useEffect(() => {
-        return () => setIsCancelled(true)
-      }, [])
+  };
 
-      return {signOut,isPending, error}
-}
+  useEffect(() => () => setIsCancelled(true), []);
+
+  return { signOut, isPending, error };
+};

@@ -1,44 +1,43 @@
-import supabase from "@/config/supabase-client";
 import { useEffect, useState } from "react";
+import { apiFetch } from "@/lib/apiClient";
 
 interface Degree {
-    degree_id: string;
-    degree_name: string;
+  degreeId: number;
+  degreeName: string;
+  degreeCode?: string;
 }
 
 export const useAvailableDegrees = () => {
-    const [degrees, setDegrees] = useState<Degree[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+  const [degrees, setDegrees] = useState<Degree[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const fetchDegrees = async () => {
+      setLoading(true);
+      setError(null);
 
-    useEffect(() => {
-        const fetchDegrees = async () => {
-            setLoading(true);
-            setError(null);
+      try {
+        const res = await apiFetch("/api/degrees");
+        if (!res.ok) throw new Error("Failed to fetch degrees");
+        const data = await res.json();
+        setDegrees(data || []);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "An unknown error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-            try {
-                const { data, error } = await supabase
-                    .from("all_degrees")
-                    .select("degree_id, degree_name");
+    fetchDegrees();
+  }, []);
 
-                if (error) {
-                    throw new Error(error.message);
-                }
-
-                setDegrees(data || []);
-            } catch (err: unknown) { // Use 'unknown' type for error
-                if (err instanceof Error) {
-                    setError(err.message); // Access 'message' if it's an instance of Error
-                } else {
-                    setError("An unknown error occurred");
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchDegrees();
-    }, [])
-    return { degrees, loading, error };
-}
+  return {
+    degrees: degrees.map((d) => ({
+      degree_id: String(d.degreeId),
+      degree_name: d.degreeName,
+    })),
+    loading,
+    error,
+  };
+};

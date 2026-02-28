@@ -1,93 +1,74 @@
 import { useEffect, useState } from 'react';
 import { useAuthContext } from '../Context/useAuthContext';
-import supabase from '@/config/supabase-client';
-// import { useNavigate } from 'react-router-dom';
-
+import { apiFetch } from '@/lib/apiClient';
 
 export const useEmailAuth = () => {
-    const [isCancelled, setIsCancelled] = useState(false)
-    const [error, setError] = useState<string | null>()
-    const [isPending, setIsPending] = useState(false)
-    const { dispatch } = useAuthContext()
+  const [isCancelled, setIsCancelled] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isPending, setIsPending] = useState(false);
+  const { login } = useAuthContext();
 
-    //login to existing acc
-    const signInWithPassword = async (email: string, password: string) => {
-        setError(null)
-        setIsPending(true)
-
-        try {
-            const res = await supabase.auth.signInWithPassword({ email, password });
-
-            //can add online status
-
-            if (res.data.user) {
-                dispatch({ type: "LOGIN", payload: res.data.user });
-            } else {
-                setError(res.error?.message);
-            }
-        }
-        catch (err) {
-            setError("Invalid Login Credentials");
-            setIsPending(false);
-        } finally {
-            setIsPending(false);
-        }
-    };
-
-    //SIGNUP
-
-    const signUpWithEmail = async (email: string, password: string, displayName: string) => {
+  const signInWithPassword = async (email: string, password: string): Promise<boolean> => {
+    setError(null);
+    setIsPending(true);
+    try {
+      const res = await apiFetch('/api/auth/login', {
+        method: 'POST',
+        body: { email, password },
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Login failed');
+      const { user } = data;
+      if (!user) throw new Error('Invalid response');
+      if (!isCancelled) {
+        login({
+          id: String(user.id),
+          email: String(user.email),
+          fullName: user.fullName,
+        });
         setError(null);
-        setIsPending(true);
-
-        try {
-            const { data, error } = await supabase.auth.signUp({ email, password});
-
-            if (error) {
-                throw new Error(error.message)
-            }
-
-            if (data.user) {
-                const user = data.user;
-
-                const displayNameResponse = await supabase.from('profile').upsert({
-                    id: user.id,
-                    display_name: displayName
-                })
-
-                if (displayNameResponse.error) throw displayNameResponse.error.message;
-
-                if (user) {
-                    dispatch({ type: "LOGIN", payload: user });
-                } else {
-                    setError(error);
-                }
-                setIsPending(false);
-
-                if (!isCancelled) {
-                    setIsPending(false);
-                    setError(null);
-                }
-
-            }
-            setIsPending(false);
-        } catch (error) {
-            if (error instanceof Error) {
-                setError(error.message);
-                setIsPending(false);
-            } else {
-                setError("An unknown error occurred.");
-                setIsPending(false);
-            }
-        } finally {
-            if (!isCancelled) {
-                setIsPending(false);
-            }
-        }
+        return true;
+      }
+      return false;
+    } catch (err) {
+      if (!isCancelled) setError(err instanceof Error ? err.message : 'Invalid Login Credentials');
+      return false;
+    } finally {
+      if (!isCancelled) setIsPending(false);
     }
-    useEffect(() => {
-        return () => setIsCancelled(true)
-    }, [])
+  };
 
-    return { signInWithPassword, signUpWithEmail, error, isPending }
-}
+  const signUpWithEmail = async (email: string, password: string, displayName: string): Promise<boolean> => {
+    setError(null);
+    setIsPending(true);
+    try {
+      const res = await apiFetch('/api/auth/register', {
+        method: 'POST',
+        body: { name: displayName, email, password },
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? 'Registration failed');
+      const { user } = data;
+      if (!user) throw new Error('Invalid response');
+      if (!isCancelled) {
+        login({
+          id: String(user.id),
+          email: String(user.email),
+          fullName: user.fullName,
+        });
+        setError(null);
+        return true;
+      }
+      return false;
+    } catch (err) {
+      if (!isCancelled) setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      return false;
+    } finally {
+      if (!isCancelled) setIsPending(false);
+    }
+  };
+
+  useEffect(() => () => setIsCancelled(true), []);
+
+  return { signInWithPassword, signUpWithEmail, error, isPending };
+};

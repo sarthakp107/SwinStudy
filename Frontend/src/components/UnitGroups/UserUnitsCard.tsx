@@ -5,7 +5,7 @@ import { UnitBuddiesButton } from "../Buttons/UnitButtons/UnitBuddiesButton";
 // import UnitActions from "./UnitActions";
 
 export const UserUnitsCard: React.FC = () => {
-    const { units, loading, error } = useUserUnits();
+    const { unitNames, loading, error } = useUserUnits();
 
     if (loading) {
         return <SkeletonUserGroups />;  // Show a spinner while loading
@@ -19,9 +19,9 @@ export const UserUnitsCard: React.FC = () => {
         <div className="p-6">
 
             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {units.length > 0 ? (
-                    units.map((unit, index) => (
-                        <Link key={index} to={`/dashboard/${unit}`}>
+                {unitNames.length > 0 ? (
+                    unitNames.map((unitName, index) => (
+                        <Link key={index} to={`/dashboard/${encodeURIComponent(unitName)}`}>
                             <li  
                                 className="bg-white shadow-lg rounded-lg p-6 transform transition-transform duration-300 hover:scale-105"
                             >
@@ -29,7 +29,7 @@ export const UserUnitsCard: React.FC = () => {
                                     <i className="fas fa-book text-4xl text-green-500"></i>
                                 </div>
                                 <div className="text-center">
-                                    <h4 className="text-xl font-medium">{unit}</h4>
+                                    <h4 className="text-xl font-medium">{unitName}</h4>
                                 </div>
                             <UnitBuddiesButton/>
                             </li>

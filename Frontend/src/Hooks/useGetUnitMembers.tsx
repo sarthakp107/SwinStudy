@@ -1,59 +1,51 @@
 import { useState, useEffect } from "react";
-import supabase from "@/config/supabase-client";
 import { useAuthContext } from "./Context/useAuthContext";
-// import { useUserUnits } from "./GetUserInfo/useUserUnits";
+import { apiFetch } from "@/lib/apiClient";
 
-export const useGetUnitMembers = (unit: string) => {
-  // const { unit } = useUserUnits(); // Get the selected unit
+export const useGetUnitMembers = (unitName: string) => {
   const [users, setUsers] = useState<{ user_id: string; display_name: string }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const{user} = useAuthContext();
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchUsers = async () => {
-      if (!unit) return; // Avoid querying if no unit is selected
+      if (!unitName) {
+        setUsers([]);
+        setLoading(false);
+        return;
+      }
 
       setLoading(true);
       setError(null);
 
-      // Fetch the user_id from testTable for the selected unit
-      const { data, error } = await supabase
-        .from("testTable")
-        .select("user_id") 
-        .eq("selected_units", unit);
-
-      if (error) {
-        setError(error.message);
-      } else {
-
-        const userIds = data.map((row) => row.user_id); // Get user_ids array
-
-        const { data: profiles, error: profileError } = await supabase
-          .from("profile") 
-          .select("id, display_name")
-          .in("id", userIds); // Filter by the fetched user_ids
-
-        if (profileError) {
-          setError(profileError.message);
-        } else {
-          const filteredUsers = profiles
-          .filter((profile) => profile.id !== user?.id) // Exclude the current user's user_id
-          .map((profile) => ({
-            user_id: profile.id,
-            display_name: profile.display_name || "SwinStudent", // Default to 'SwinStudent'
-          }));
-
-        setUsers(filteredUsers);
-
+      try {
+        const res = await apiFetch(
+          `/api/units/members?unitName=${encodeURIComponent(unitName)}`
+        );
+        if (!res.ok) {
+          setUsers([]);
+          setLoading(false);
+          return;
         }
+        const data = await res.json();
+        const members = (data ?? []).map((m: { id: string; fullName: string }) => ({
+          user_id: m.id,
+          display_name: m.fullName || "SwinStudent",
+        }));
+        // Exclude current user
+        const filtered = members.filter((m: { user_id: string }) => m.user_id !== user?.id);
+        setUsers(filtered);
+      } catch {
+        setError("Failed to fetch unit buddies.");
+        setUsers([]);
+      } finally {
+        setLoading(false);
       }
-
-      setLoading(false);
     };
 
     fetchUsers();
-  }, [unit]); // Depend on unit to trigger the fetch
+  }, [unitName, user?.id]);
 
   return { users, loading, error };
 };

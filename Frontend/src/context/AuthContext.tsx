@@ -1,72 +1,85 @@
-import { User } from "@supabase/supabase-js";
-import { createContext, useEffect, useReducer } from "react";
-import { supabase } from "../config/supabase-client"
+import { createContext, useEffect, useReducer } from 'react';
+import { apiFetch } from '../lib/apiClient';
 
-interface AuthContextType {
-    user: User | null;
-    dispatch: React.Dispatch<AuthAction>;
-    authIsChecked: boolean;
+export interface AuthUser {
+  id: string;
+  email: string;
+  fullName?: string;
 }
 
 interface AuthState {
-    user: User | null;
-    authIsChecked: boolean;
+  user: AuthUser | null;
+  /** True once we've finished the initial session check (/api/auth/me). Prevents flash of wrong content. */
+  isAuthReady: boolean;
 }
 
 type AuthAction =
-    | { type: 'LOGIN'; payload: User }
-    | { type: 'LOGOUT' }
-    | { type: 'AUTH_IS_CHECKED'; payload: User | null };
+  | { type: 'LOGIN'; payload: AuthUser }
+  | { type: 'LOGOUT' }
+  | { type: 'SESSION_CHECKED'; payload: AuthUser | null };
 
-const initialState = {
-    user: null,
-    authIsChecked: false
+interface AuthContextValue extends AuthState {
+  login: (user: AuthUser) => void;
+  logout: () => void;
 }
 
+const initialState: AuthState = {
+  user: null,
+  isAuthReady: false,
+};
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const authReducer = (state: AuthState, action: AuthAction): AuthState => {
+  switch (action.type) {
+    case 'LOGIN':
+      return { user: action.payload, isAuthReady: true };
+    case 'LOGOUT':
+      return { user: null, isAuthReady: true };
+    case 'SESSION_CHECKED':
+      return { user: action.payload, isAuthReady: true };
+    default:
+      return state;
+  }
+};
 
-export const authReducer = (state: AuthState, action: any) => {
-    switch (action.type) {
-        case 'LOGIN':
-            return { ...state, user: action.payload }
-        case 'LOGOUT':
-            return { ...state, user: null }
-        case 'AUTH_IS_CHECKED':
-            return { user: action.payload, authIsChecked: true }
-        default:
-            return state
-    }
-}
-
+export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
-    const [state, dispatch] = useReducer(authReducer, initialState);
+  const [state, dispatch] = useReducer(authReducer, initialState);
 
-    useEffect(() => {
+  useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const res = await apiFetch('/api/auth/me');
+        if (!res.ok) {
+          dispatch({ type: 'SESSION_CHECKED', payload: null });
+          return;
+        }
+        const data = await res.json();
+        if (data?.id && data?.email) {
+          dispatch({
+            type: 'SESSION_CHECKED',
+            payload: {
+              id: String(data.id),
+              email: String(data.email),
+              fullName: data.fullName ?? data.user_metadata?.full_name,
+            },
+          });
+        } else {
+          dispatch({ type: 'SESSION_CHECKED', payload: null });
+        }
+      } catch {
+        dispatch({ type: 'SESSION_CHECKED', payload: null });
+      }
+    };
+    checkSession();
+  }, []);
 
-        const checkSession = async () => {
-            const { data: { session } } = await supabase.auth.getSession();
-            dispatch({ type: 'AUTH_IS_CHECKED', payload: session?.user ?? null });
-        };
+  const login = (user: AuthUser) => dispatch({ type: 'LOGIN', payload: user });
+  const logout = () => dispatch({ type: 'LOGOUT' });
 
-        checkSession();
-
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
-            const user = session?.user || null;
-            dispatch({ type: 'AUTH_IS_CHECKED', payload: user });
-        });
-
-        return () => {
-            subscription.unsubscribe();
-        };
-    }, [])
-
-    return (
-        <AuthContext.Provider value={{ ...state, dispatch }}>
-            {children}
-        </AuthContext.Provider>
-    );
-}
-
-
+  return (
+    <AuthContext.Provider value={{ ...state, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};

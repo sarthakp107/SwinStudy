@@ -1,44 +1,44 @@
-import supabase from "@/config/supabase-client";
 import { useEffect, useState } from "react";
+import { apiFetch } from "@/lib/apiClient";
 
-interface Units {
-    unit_id: string;
-    unit_name: string;
+interface Unit {
+  unitId: number;
+  unitName: string;
+  unitCode?: string;
+  creditPoints?: number;
 }
 
 export const useAvailableUnits = () => {
-    const [units, setUnits] = useState<Units[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+  const [units, setUnits] = useState<Unit[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
+  useEffect(() => {
+    const fetchUnits = async () => {
+      setLoading(true);
+      setError(null);
 
-    useEffect(() => {
-        const fetchUnits = async () => {
-            setLoading(true);
-            setError(null);
+      try {
+        const res = await apiFetch("/api/units");
+        if (!res.ok) throw new Error("Failed to fetch units");
+        const data = await res.json();
+        setUnits(data || []);
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "An unknown error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-            try {
-                const { data, error } = await supabase
-                    .from("all_units")
-                    .select("unit_id, unit_name");
+    fetchUnits();
+  }, []);
 
-                if (error) {
-                    throw new Error(error.message);
-                }
-
-                setUnits(data || []);
-            } catch (err: unknown) { // Use 'unknown' type for error
-                if (err instanceof Error) {
-                    setError(err.message); // Access 'message' if it's an instance of Error
-                } else {
-                    setError("An unknown error occurred");
-                }
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchUnits();
-    }, [])
-    return { units, loading, error };
-}
+  return {
+    units: units.map((u) => ({
+      unit_id: String(u.unitId),
+      unit_name: u.unitName,
+    })),
+    loading,
+    error,
+  };
+};

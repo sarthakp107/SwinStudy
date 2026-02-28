@@ -1,25 +1,21 @@
 import React, {useState} from 'react';
-import { Link } from 'react-router-dom';
-import { FaUser, FaLock, FaGoogle, FaGithub } from 'react-icons/fa';
+import { FaUser, FaLock} from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import { useEmailAuth } from '@/Hooks/Authentication/useEmailAuth';
-import { useOAuth } from '@/Hooks/Authentication/useOAuth';
 import Spinner from '@/components/Loading/Spinner';
+
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const {signInWithPassword, isPending ,error: emailAuthError} = useEmailAuth();
-  const{signInWithGithub, signInWithGoogle}=useOAuth();
 
-  // Log In Handling Function
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(""); // Reset previous errors
-    try {
-      await signInWithPassword(email, password);
-    } catch (err: any) {
-      setError(`Error: ${err.message || err}`);
-    }
+    setError("");
+    const success = await signInWithPassword(email, password);
+    if (success) navigate('/dashboard');
   };
 
   return (
@@ -79,32 +75,6 @@ const LoginPage: React.FC = () => {
             {isPending && <Spinner/>}
 
         </form>
-
-        {/* {Or in the middle} */}
-        <div className='flex items-center my-4'>
-            <hr className='flex-grow border-t border-gray-300'/>
-            <span className='mx-4 text-gray-500'>or</span>
-            <hr className='flex-grow border-t border-gray-300'/>
-        </div>
-
-        {/* {Github Sign in} */}
-          <button onClick={signInWithGithub} className="w-full bg-gray-800 text-white py-2 rounded-md flex items-center justify-center space-x-2 hover:bg-gray-900 transition duration-300 shadow-md">
-            <FaGithub className="text-xl" />
-            <span className="text-lg">Log in with GitHub</span>
-          </button>
-        
-        {/* {Google Sign In} */}
-          <button onClick={signInWithGoogle} className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md flex items-center justify-center space-x-2 hover:bg-blue-600 transition-colors duration-300 shadow-md">
-            <FaGoogle className="text-xl" />
-            <span className="text-lg">Log in with Google</span>
-          </button>
-
-        <p className="text-sm text-gray-600 text-center mt-4">
-          Don't have an account? 
-          <Link to="/signup" className="text-red-500 hover:underline ml-1">
-            Sign up
-          </Link>
-        </p>
       </div>
     </div>
   );

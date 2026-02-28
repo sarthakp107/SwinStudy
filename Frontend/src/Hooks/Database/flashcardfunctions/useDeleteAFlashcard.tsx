@@ -1,22 +1,28 @@
-import {useState } from "react";
+import { useState } from "react";
+import { apiFetch } from "@/lib/apiClient";
+import { useFlashcardRefresh } from "@/context/FlashcardRefreshContext";
 
 export const useDeleteAFlaschard = () => {
-    const [useDeleteAFlashcardError, setUseDeleteAFlashcardError ] = useState<string|null>(null);
-    const [useDeleteAFlashcardLoading, setUseDeleteAFlashcardLoading ] = useState(false);
-    const [useDeleteAFlashcardSuccess, setUseDeleteAFlashcardSuccess ] = useState(false);
-        const DeleteAFlashcard = async (question:string, answer:string, userId:string| undefined) =>{
-            try{
-                setUseDeleteAFlashcardLoading(true);
-                await fetch(`${import.meta.env.VITE_BASE_API_Flashcards}/deleteUserSavedFlashcard?userId=${userId}&question=${question}&answer=${answer}`,{
-                    method: "DELETE"
-                })
-                  setUseDeleteAFlashcardSuccess(true);
-            }catch(error:any){
-                setUseDeleteAFlashcardError(`An Error when saving flashcard: ${error}`)
-                setUseDeleteAFlashcardSuccess(false);
-            }finally{
-                setUseDeleteAFlashcardLoading(false);
-            }
+    const [useDeleteAFlashcardError, setUseDeleteAFlashcardError] = useState<string | null>(null);
+    const [useDeleteAFlashcardLoading, setUseDeleteAFlashcardLoading] = useState(false);
+    const [useDeleteAFlashcardSuccess, setUseDeleteAFlashcardSuccess] = useState(false);
+    const triggerRefresh = useFlashcardRefresh();
+
+    const DeleteAFlashcard = async (question: string, answer: string, _userId: string | undefined) => {
+        try {
+            setUseDeleteAFlashcardLoading(true);
+            const res = await apiFetch("/api/flashcards/saved?question=" + encodeURIComponent(question) + "&answer=" + encodeURIComponent(answer), {
+                method: "DELETE",
+            });
+            if (!res.ok) throw new Error("Failed to delete");
+            setUseDeleteAFlashcardSuccess(true);
+            triggerRefresh();
+        } catch (error: unknown) {
+            setUseDeleteAFlashcardError(`An Error when deleting flashcard: ${error instanceof Error ? error.message : error}`);
+            setUseDeleteAFlashcardSuccess(false);
+        } finally {
+            setUseDeleteAFlashcardLoading(false);
         }
-    return { useDeleteAFlashcardSuccess ,useDeleteAFlashcardLoading, useDeleteAFlashcardError, DeleteAFlashcard}
-}
+    };
+    return { useDeleteAFlashcardSuccess, useDeleteAFlashcardLoading, useDeleteAFlashcardError, DeleteAFlashcard };
+};

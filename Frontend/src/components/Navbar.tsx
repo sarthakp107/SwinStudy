@@ -23,7 +23,6 @@ const Navbar: React.FC = () => {
           SwinStudy
         </Link>
       </div>
-
       {/* Navigation Links */}
       <div className="flex items-center gap-6">
         <Link to="/" className="text-gray-700 hover:text-red-600 transition-colors duration-300">

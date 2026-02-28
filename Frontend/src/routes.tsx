@@ -19,144 +19,85 @@ import { Flashcards } from "./pages/Flashcards/Flashcards_ForLoggedIn";
 import { ViewSavedFlashcards } from "./pages/Flashcards/ViewSavedFlashcards";
 import { ProfilePage } from "./pages/Profile/ProfilePage";
 
-const PublicOnlyRoute = ({element}: {element: React.ReactElement}) => {
-    
-    const {user, authIsChecked} = useAuthContext();
+/** Layout that subscribes to auth so Navbar/CTAs re-render when login/logout */
+const RootLayout = () => {
+  useAuthContext(); // Subscribe to auth - forces re-render when auth changes
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+      <Footer />
+    </>
+  );
+};
 
-    if(!authIsChecked){
+/**
+ * Protects routes that require authentication.
+ * Redirects to /login if not logged in.
+ */
+const RequireAuth = ({ children }: { children: React.ReactNode }) => {
+  const { user, isAuthReady } = useAuthContext();
 
-        return <Spinner />     
-    }
-    
-    if(user){
-       return <Navigate to="/dashboard" replace/>
-    }
+  if (!isAuthReady) return <Spinner />;
+  if (!user) return <Navigate to="/login" replace />;
 
-    return (element);
-}
+  return <>{children}</>;
+};
 
-const ProtectedRoute = ({element}: {element: React.ReactElement})=>{
-    
-    const {user, authIsChecked} = useAuthContext();
-    
-    if(!authIsChecked){
-        return <Spinner/>
-    }
-    
-    if (!user){
-       return <Navigate to="/login" replace/>
-    }
+/**
+ * Guest-only routes (login, signup).
+ * Redirects to /dashboard if already logged in.
+ */
+const RequireGuest = ({ children }: { children: React.ReactNode }) => {
+  const { user, isAuthReady } = useAuthContext();
 
-    return (element)
-}
+  if (!isAuthReady) return <Spinner />;
+  if (user) return <Navigate to="/survey" replace />;
 
-const PublicPrivateRoute = ({element}: {element: React.ReactElement})=>{
-    return (element)
-}
+  return <>{children}</>;
+};
 
 const SurveyGate = () => {
-    // const { user } =  useAuthContext();
-    const {isLoading, hasSubmittedSurvey } = useSurveyStatus();
-    console.log(hasSubmittedSurvey);
-    if (isLoading){
-        return <Spinner />
-    }
-    if (!hasSubmittedSurvey) {
-        return <SignUpSurvey />;
-    }else{
-        console.log("HAS ALREADY SUBMITTED SURVEY")
-        return <Navigate to="/" replace />;
-    }
+  const { isLoading, hasSubmittedSurvey } = useSurveyStatus();
+
+  if (isLoading) return <Spinner />;
+  if (!hasSubmittedSurvey) return <SignUpSurvey />;
+
+  return <Navigate to="/dashboard" replace />;
 };
 
 const routes: RouteObject[] = [
-    {
-        path: '/',
-        element: (
-            <>
-                <Navbar />
-                <Outlet />
-                <Footer />
-            </>
-        ),
-        children: [
-            {
-                index: true,
-                element: <LandingPage />
-            },
-            //Visible To Non-Users ONLY
-            {
-                path: 'login', 
-                element: <PublicOnlyRoute element={<LoginPage />} />
-            },
-            {
-                path: 'signup', 
-                element: <PublicOnlyRoute element={<SignupPage />} />
-            },
-            {
-                path: 'flashcard/:questionID',
-                element: <PublicPrivateRoute element={<ViewFlashcards />} />
-            },
-            //Visible To ALL Users
-            {
-                path: 'about',
-                element:<PublicPrivateRoute element={<InProgress />} />
-            },
-            {
-                path: 'buddies',
-                element:<PublicPrivateRoute element={<InProgress />} />
-            },
-            {
-                path: 'smartstudy',
-                element:<PublicPrivateRoute element={<InProgress />} />
-            },
-            {
-                path: 'features',
-                element: <PublicPrivateRoute element={<FeatureBlock />}/>
-            },            
-            {
-                path: 'flashcardupload', 
-                element: <PublicPrivateRoute element={<UploadPage />} />
-            },
-            {
-                path: 'flashcards',
-                element:<PublicPrivateRoute element={<Flashcards/>} />
-            },
-            //Visible To Users ONLY
-            {
-                path: 'dashboard',
-                element: <ProtectedRoute element={<Dashboard />} />
-            },
-            {
-                path: 'dashboard/:unitName', 
-                element: <ProtectedRoute element={<UnitBuddies />} />
-            },
-            {
-                path: 'survey',
-                element: <ProtectedRoute element={<SurveyGate/>}/>
-            },
-            {
-                path: 'mentors',
-                element: <ProtectedRoute element={<InProgress/>}/>
-            },
-            {
-                path:'flashcardsaved',
-                element: <PublicPrivateRoute element={<ViewSavedFlashcards/>} />
-            },
-            {
-                path: 'profile/:id',
-                element: <ProtectedRoute element={<ProfilePage />} />
-            },
-        ],
-    },
-    {
-        path: '*',
-        element: <InProgress />
-    }
-]
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <LandingPage /> },
+
+      // Guest-only: redirect to dashboard if logged in
+      { path: 'login', element: <RequireGuest><LoginPage /></RequireGuest> },
+      { path: 'signup', element: <RequireGuest><SignupPage /></RequireGuest> },
+
+      // Public: anyone can access
+      { path: 'flashcard/:questionID', element: <ViewFlashcards /> },
+      { path: 'about', element: <InProgress /> },
+      { path: 'buddies', element: <InProgress /> },
+      { path: 'smartstudy', element: <InProgress /> },
+      { path: 'features', element: <FeatureBlock /> },
+      { path: 'flashcardupload', element: <UploadPage /> },
+      { path: 'flashcards', element: <Flashcards /> },
+      { path: 'flashcardsaved', element: <ViewSavedFlashcards /> },
+
+      // Protected: redirect to login if not authenticated
+      { path: 'dashboard', element: <RequireAuth><Dashboard /></RequireAuth> },
+      { path: 'dashboard/:unitName', element: <RequireAuth><UnitBuddies /></RequireAuth> },
+      { path: 'survey', element: <RequireAuth><SurveyGate /></RequireAuth> },
+      { path: 'mentors', element: <RequireAuth><InProgress /></RequireAuth> },
+      { path: 'profile/:id', element: <RequireAuth><ProfilePage /></RequireAuth> },
+    ],
+  },
+  { path: '*', element: <InProgress /> },
+];
 
 const router = createBrowserRouter(routes);
 
 export default router;
-
-
