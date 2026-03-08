@@ -4,38 +4,34 @@ import { useState } from "react"
 import DragDrop from "../components/Flashcards/DragDrop"
 import { DropDownList } from "../components/Survey/DropDownList"
 import {NUMBER_OF_FLASHCARDS} from '../config/Constants'
-import { PDFParser } from "../components/Flashcards/PDFParser"
-import { QnAConverter } from "../components/Flashcards/QnAConverter"
 import { SwinButton } from "../components/Buttons/SwinButton"
 import { useFileContext } from "../Hooks/Context/useFileContext"
-import { FetchQnA } from "../components/Flashcards/FetchQnA"
-import { useRandomAPI } from "../Hooks/useRandomAPI"
+import { uploadPdfAndGetFlashcards } from "../components/Flashcards/FetchQnA"
 import { ShowSelection } from "../components/Survey/ShowSelection"
 import {UploadGuidelines} from "../components/Flashcards/UploadGuidelines"
 
 export const UploadPage = () => {
-  const { state, dispatch } = useFileContext() //Update in FileContext to access it from Flashcard Page
+  const { state, dispatch } = useFileContext()
   const navigate = useNavigate()
-  const [extractedText, setExtractedText] = useState("") //Used for Validation
-  const [flashcardCount, setFlashcardCount] = useState(0) //Used for Validation
+  const [uploaded, setUploaded] = useState(false) // true once backend has generated flashcards
+  const [flashcardCount, setFlashcardCount] = useState(0)
   const [error, setError] = useState("")
-  const API = useRandomAPI();  
 
-  //Main Function, Starts: User Uploads File
+  // Upload PDF to backend; backend extracts text, calls LLM, returns flashcards.
   const handleUpload = async (file: File) => {
-    dispatch({type: "SET_QNA", payload:[] }) //0. Remove any previous questions first
-    dispatch({ type: "SET_FILE", payload: file }) //1. Set File
+    dispatch({ type: "SET_QNA", payload: [] })
+    dispatch({ type: "SET_FILE", payload: file })
+    setError("")
     try {
-      const responseFromParser = await PDFParser(file) //2. Extract Text
-      setExtractedText(responseFromParser) 
-      dispatch({ type: "SET_EXTRACTED_TEXT", payload: responseFromParser })//3.Set Extracted Text
-      const QnAText = await FetchQnA(responseFromParser, API) //4. Send Extracted Text to AI to generate Question
-      dispatch({ type: "SET_QNA_TEXT", payload: QnAText }) //5. Set QnA (Text) received from AI
-      const QnAFormatted = await QnAConverter(QnAText) //6. Format QnA in QnA Format
-      dispatch({ type: "SET_QNA", payload: QnAFormatted }) //7. Set QnA (Formatted)
-    } catch (error: any) {
-      setError("Error in Extraction of Text:" + error.message)
-      throw new Error("Error in Q/Ans Generation")
+      const qnaFormatted = await uploadPdfAndGetFlashcards(file)
+      setUploaded(true)
+      dispatch({ type: "SET_EXTRACTED_TEXT", payload: "Generated" })
+      dispatch({ type: "SET_QNA_TEXT", payload: "" })
+      dispatch({ type: "SET_QNA", payload: qnaFormatted })
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Error generating flashcards"
+      setError(message)
+      throw new Error(message)
     }
   }
 
@@ -86,7 +82,7 @@ export const UploadPage = () => {
 
         {/* Generate Button */}
         <div className="mb-8 flex justify-end">
-          <SwinButton label="Generate" onClick={handleGenerate} icon={<FaBolt />} isdisabled={!(flashcardCount > 0 && extractedText)} disabledLabel="Generate"/>
+          <SwinButton label="Generate" onClick={handleGenerate} icon={<FaBolt />} isdisabled={!(flashcardCount > 0 && uploaded)} disabledLabel="Generate"/>
         </div>
         
       </div>

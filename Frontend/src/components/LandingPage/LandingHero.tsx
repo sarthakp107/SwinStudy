@@ -1,27 +1,25 @@
-import HeroPhoto from "./HeroPhoto"; 
 import TitleAndButton from "./TitleAndButton";
 
-const LandingHero = () => {
-    return (
-        <>
-            {/* Parent Section Container */}
-            <section className="relative bg-white py-20">
-                {/* Shapes and Graphics Divs*/}
-                <div className="absolute top-0 left-0 w-64 h-64 bg-red-100 opacity-30 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-2000"></div>
-                <div className="absolute bottom-0 right-0 w-64 h-64 bg-black opacity-20 rounded-full mix-blend-multiply filter blur-xl animate-blob animation-delay-4000"></div>
-                <div className="absolute top-1/4 right-1/4 w-48 h-48 bg-red-500 opacity-30 rounded-full mix-blend-multiply filter blur-xl animate-blob"></div>
+/** Hero background: add your PNG to public/hero-bg.png to show behind the text. */
+const HERO_BG_IMAGE = "/landing-bg-v2.png";
 
-                {/* Main Div */}
-                <div className="container mx-auto relative ">
-                    {/* Flex Container*/}
-                    <div className="flex items-center lg:justify-between">
-                        <TitleAndButton />{/* Text and Button (Left) */}
-                        <HeroPhoto /> {/* Image (Right) */}
-                    </div> {/* Flex Container End*/}
-                </div>
-            </section>
-        </>
-    );
+const LandingHero = () => {
+  return (
+    <section
+      className="relative min-h-screen -mt-16 pt-24 flex items-center justify-center"
+      style={{
+        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.25) 100%), url(${HERO_BG_IMAGE})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        backgroundColor: "#f9fafb",
+      }}
+    >
+      <div className="w-full max-w-3xl mx-auto px-8 sm:px-12 lg:px-24 relative z-10 text-center">
+        <TitleAndButton />
+      </div>
+    </section>
+  );
 };
 
 export default LandingHero;

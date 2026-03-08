@@ -25,7 +25,9 @@ const RootLayout = () => {
   return (
     <>
       <Navbar />
-      <Outlet />
+      <main className="pt-16">
+        <Outlet />
+      </main>
       <Footer />
     </>
   );
