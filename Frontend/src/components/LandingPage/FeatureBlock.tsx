@@ -2,22 +2,24 @@ import Feature1 from "./Feature1"
 import Feature2 from "./Feature2"
 import Feature3 from "./Feature3"
 
-const FeatureBlock = () =>{
-    return (
-    <>
-       <section className="py-20 bg-gray-100">
-        <div className="container mx-auto px-6">
-          <h2 className="text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-12">All the Tools a Swinburne Student Needs</h2>
-          {/* Unit Buddies */}
+const FeatureBlock = () => {
+  return (
+    <section className="py-24 bg-slate-50">
+      <div className="container mx-auto px-6 max-w-6xl">
+        <h2 className="text-3xl lg:text-5xl font-bold text-center text-slate-900 mb-4 tracking-tight">
+          All the Tools a Swinburne Student Needs
+        </h2>
+        <p className="text-slate-600 text-center text-lg max-w-2xl mx-auto mb-16">
+          Everything you need to ace your units, connect with peers, and study smarter.
+        </p>
+        <div className="space-y-24">
           <Feature1 />
-          {/* AI Flashcards */}
           <Feature2 />
-           {/* Study Plans */}
           <Feature3 />
         </div>
-      </section>
-    </>
-    )
+      </div>
+    </section>
+  )
 }
 
-export default FeatureBlock;
+export default FeatureBlock
