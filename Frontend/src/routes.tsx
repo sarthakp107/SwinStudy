@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Outlet, RouteObject, createBrowserRouter } from "react-router-dom";
+import { Navigate, Outlet, RouteObject, createBrowserRouter, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import LandingPage from "./pages/LandingPage";
 import { useAuthContext } from "./Hooks/Context/useAuthContext";
@@ -21,11 +21,13 @@ import { ProfilePage } from "./pages/Profile/ProfilePage";
 
 /** Layout that subscribes to auth so Navbar/CTAs re-render when login/logout */
 const RootLayout = () => {
-  useAuthContext(); // Subscribe to auth - forces re-render when auth changes
+  useAuthContext();
+  const { pathname } = useLocation();
+  const isLanding = pathname === "/";
   return (
     <>
-      <Navbar />
-      <main className="pt-16">
+      {!isLanding && <Navbar />}
+      <main className={isLanding ? "" : "pt-16"}>
         <Outlet />
       </main>
       <Footer />

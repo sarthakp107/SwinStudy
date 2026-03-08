@@ -31,10 +31,14 @@ const LandingPage: React.FC = () => {
     }
   }, [hasSeenSplash]);
 
-  if (loading) return <Spinner />; 
+  if (loading) return <Spinner />;
   return (
-    <div className="overflow-hidden"> 
-    {!hasSeenSplash && !splashDone && (<div className="fixed inset-0 z-50 bg-white flex items-center justify-center"> <SplashScreen /> </div>)}
+    <div className="overflow-hidden">
+      {!hasSeenSplash && !splashDone && (
+        <div className="fixed inset-0 z-50 bg-white flex items-center justify-center">
+          <SplashScreen />
+        </div>
+      )}
       <LandingHero />
       {!user && <ProblemBlock />}
       {!user && <SupaDemoFlashcards />}

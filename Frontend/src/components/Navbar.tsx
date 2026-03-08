@@ -5,7 +5,12 @@ import { Link, useLocation } from 'react-router-dom';
 import { HiMenu, HiX } from 'react-icons/hi';
 import Spinner from './Loading/Spinner';
 
-const Navbar: React.FC = () => {
+interface NavbarProps {
+  /** When true, navbar scrolls with content (inside hero). When false, navbar is fixed. */
+  inline?: boolean;
+}
+
+const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
   const { user } = useAuthContext();
   const { signOut, isPending } = useSignOut();
   const location = useLocation();
@@ -42,12 +47,12 @@ const Navbar: React.FC = () => {
     </>
   );
 
+  const navClass = inline
+    ? "relative z-10"
+    : `fixed top-0 left-0 right-0 z-50 ${isLanding ? "bg-transparent" : "bg-white shadow-sm"}`;
+
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 px-6 py-4 flex items-center justify-between ${
-        isLanding ? 'bg-transparent' : 'bg-white shadow-sm'
-      }`}
-    >
+    <nav className={`px-6 py-4 flex items-center justify-between ${navClass}`}>
       <Link
         to="/"
         className="text-xl font-bold tracking-tight text-red-600 hover:text-red-700 transition-colors duration-200 shrink-0"
