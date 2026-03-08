@@ -8,7 +8,7 @@ const TitleAndButton = () => {
 
   return (
     <div className="text-center">
-      <p className="text-xs font-semibold uppercase tracking-[0.25em] text-red-600 mb-4">
+      <p className="text-sm font-bold uppercase tracking-[0.25em] text-red-600 mb-1">
         Built for Swinburne students
       </p>
 

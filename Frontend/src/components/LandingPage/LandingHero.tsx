@@ -6,7 +6,7 @@ const LandingHero = () => {
     <section
       className="relative min-h-screen flex flex-col"
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.25) 100%), url(/landing-bg-v2.png)`,
+        backgroundImage: `url(/landing-bg-v2.png)`,
         backgroundSize: "cover",
         backgroundPosition: "center top",
         backgroundRepeat: "no-repeat",
