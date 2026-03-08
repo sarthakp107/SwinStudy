@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import DragDrop from "../components/Flashcards/DragDrop"
 import { DropDownList } from "../components/Survey/DropDownList"
-import {NUMBER_OF_FLASHCARDS} from '../config/Constants'
+import { NUMBER_OF_FLASHCARDS } from '../config/Constants'
 import { SwinButton } from "../components/Buttons/SwinButton"
 import { useFileContext } from "../Hooks/Context/useFileContext"
 import { uploadPdfAndGetFlashcards } from "../components/Flashcards/FetchQnA"
 import { ShowSelection } from "../components/Survey/ShowSelection"
-import {UploadGuidelines} from "../components/Flashcards/UploadGuidelines"
+import { UploadGuidelines } from "../components/Flashcards/UploadGuidelines"
 
 export const UploadPage = () => {
   const { state, dispatch } = useFileContext()
@@ -53,18 +53,18 @@ export const UploadPage = () => {
     // Main Div
     <div className="min-h-screen bg-gray-50 py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        
+
         {/* Title/Error */}
         <h1 className="text-3xl font-bold text-gray-800 mb-8 ">Create Flashcards</h1>
         {error && <div className="error">{error}</div>}
-        
+
         {/* File Upload Div */}
         <div className="bg-white p-8 rounded-xl shadow-md mb-8">
           <div className="flex flex-col space-y-6">
             <div>
               <DragDrop onUpload={handleUpload} />
-              {state.extractedText && <div className="text-gray-700 mt-2 mb-0"><ShowSelection element={state.file.name}/></div>}
-              
+              {state.extractedText && <div className="text-gray-700 mt-2 mb-0"><ShowSelection element={state.file.name} /></div>}
+
               <UploadGuidelines />
             </div>
           </div>
@@ -82,9 +82,9 @@ export const UploadPage = () => {
 
         {/* Generate Button */}
         <div className="mb-8 flex justify-end">
-          <SwinButton label="Generate" onClick={handleGenerate} icon={<FaBolt />} isdisabled={!(flashcardCount > 0 && uploaded)} disabledLabel="Generate"/>
+          <SwinButton label="Generate" onClick={handleGenerate} icon={<FaBolt />} isdisabled={!(flashcardCount > 0 && uploaded)} disabledLabel="Generate" />
         </div>
-        
+
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import { useAuthContext } from "@/Hooks/Context/useAuthContext";
 import useUserProfile from "@/Hooks/GetUserInfo/useUserProfile";
 import { Link } from "react-router-dom";
+import { scrollToSection } from "@/utils/scrollToSection";
 
 const TitleAndButton = () => {
   const { user } = useAuthContext();
@@ -45,12 +46,13 @@ const TitleAndButton = () => {
             Get Started for Free
           </Link>
         )}
-        <Link
-          to="/features"
+        <button
+          type="button"
+          onClick={() => scrollToSection("features", 1200)}
           className="border-2 border-red-600 text-red-600 px-10 py-3 rounded-full font-semibold text-lg hover:bg-red-50 transition-colors"
         >
           Learn More
-        </Link>
+        </button>
       </div>
     </div>
   );

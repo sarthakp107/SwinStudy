@@ -26,7 +26,7 @@ export const UserUnitsCard: React.FC = () => {
                                 className="bg-white shadow-lg rounded-lg p-6 transform transition-transform duration-300 hover:scale-105"
                             >
                                 <div className="flex items-center justify-center mb-4">
-                                    <i className="fas fa-book text-4xl text-green-500"></i>
+                                    <i className="fas fa-book text-4xl text-red-600"></i>
                                 </div>
                                 <div className="text-center">
                                     <h4 className="text-xl font-medium">{unitName}</h4>

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { useAuthContext } from "@/Hooks/Context/useAuthContext"
+import { ScrollReveal } from "@/components/ScrollReveal"
 
 const BuiltForSwinBlock = () => {
   const { user } = useAuthContext()
@@ -25,7 +26,7 @@ const BuiltForSwinBlock = () => {
 
       {/* Top: Built for Swinburne */}
       <div className="relative z-10 flex-1 flex items-center justify-center py-20 lg:py-24 px-8 lg:px-16 min-h-[50vh]">
-        <div className="max-w-3xl text-center">
+        <ScrollReveal className="max-w-3xl text-center">
           <p className="text-red-600 text-sm font-semibold tracking-[0.2em] uppercase mb-6">
             By Students, For Students
           </p>
@@ -50,12 +51,12 @@ const BuiltForSwinBlock = () => {
               Designed for Swinburne
             </span>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
 
       {/* Bottom: Conquer your units */}
       <div className="relative z-10 flex-1 flex items-center justify-center py-20 lg:py-24 px-8 lg:px-16 min-h-[50vh] border-t border-slate-200">
-        <div className="max-w-3xl text-center">
+        <ScrollReveal delay={100} className="max-w-3xl text-center">
           <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-6 leading-tight">
             Ready to Conquer Your Units?
           </h2>
@@ -79,7 +80,7 @@ const BuiltForSwinBlock = () => {
               <span>→</span>
             </Link>
           )}
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   )

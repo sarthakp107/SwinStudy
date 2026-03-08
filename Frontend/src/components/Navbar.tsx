@@ -2,6 +2,7 @@ import { useSignOut } from '@/Hooks/Authentication/useSignOut';
 import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { scrollToSection } from '@/utils/scrollToSection';
 import { HiMenu, HiX } from 'react-icons/hi';
 import Spinner from './Loading/Spinner';
 
@@ -34,14 +35,49 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
     ? 'text-white bg-red-600 hover:bg-red-700 rounded-full px-3 py-1.5 font-semibold transition-all duration-200 shadow-md'
     : 'text-white bg-red-600 hover:bg-red-700 rounded-full px-3 py-1.5 font-semibold transition-all duration-200';
 
+  const scrollToTop = () => {
+    setMobileOpen(false);
+    const start = window.scrollY;
+    const startTime = performance.now();
+    const duration = 1000;
+    function easeInOutCubic(t: number) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+    function step(currentTime: number) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      window.scrollTo(0, start * (1 - easeInOutCubic(progress)));
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  };
+
   const navLinks = (
     <>
-      <Link to="/" className={linkBase} onClick={() => setMobileOpen(false)}>
-        Home
-      </Link>
+      {isLanding ? (
+        <button onClick={scrollToTop} className={`${linkBase} bg-transparent border-none cursor-pointer`}>
+          Home
+        </button>
+      ) : (
+        <Link to="/" className={linkBase} onClick={() => setMobileOpen(false)}>
+          Home
+        </Link>
+      )}
       <Link to="/about" className={linkBase} onClick={() => setMobileOpen(false)}>
         About
       </Link>
+      {isLanding && (
+        <button
+          type="button"
+          onClick={() => {
+            setMobileOpen(false);
+            scrollToSection("features", 1200);
+          }}
+          className={`${linkBase} bg-transparent border-none cursor-pointer`}
+        >
+          Features
+        </button>
+      )}
       <Link to="/buddies" className={linkBase} onClick={() => setMobileOpen(false)}>
         Unit Buddy
       </Link>
@@ -58,63 +94,62 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
   return (
     <nav className={`px-6 py-4 flex items-center justify-center ${navClass}`}>
       <div className="w-full max-w-4xl flex items-center justify-between">
-      <Link
-        to="/"
-        className="text-xl font-bold tracking-tight text-red-600 hover:text-red-700 transition-colors duration-200 shrink-0"
-      >
-        SwinStudy
-      </Link>
-
-      <div
-        className={`hidden md:flex items-center justify-center gap-6 absolute left-1/2 -translate-x-1/2 rounded-full h-11 px-6 ${isLanding ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
-      >
-        {navLinks}
-      </div>
-
-      <div className="flex items-center gap-4 shrink-0">
-        <div
-          className={`hidden md:flex items-center justify-center gap-2 rounded-full h-11 px-3 ${isLanding ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
+        <Link
+          to="/"
+          className="text-xl font-bold tracking-tight text-red-600 hover:text-red-700 transition-colors duration-200 shrink-0"
         >
-          {!user ? (
-            <>
-              <Link to="/login" className={`${linkBase} ${btnSecondary}`}>
-                Login
-              </Link>
-              <Link to="/signup" className={btnPrimary}>
-                Sign up
-              </Link>
-            </>
-          ) : (
-            <>
-              <Link to="/dashboard" className={`${linkBase} ${btnSecondary}`}>
-                Dashboard
-              </Link>
-              {!isPending ? (
-                <button className={btnPrimary} onClick={handleSignOut}>
-                  Logout
-                </button>
-              ) : (
-                <Spinner />
-              )}
-            </>
-          )}
+          SwinStudy
+        </Link>
+
+        <div
+          className={`hidden md:flex items-center justify-center gap-6 absolute left-1/2 -translate-x-1/2 rounded-full h-11 px-6 ${isLanding ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
+        >
+          {navLinks}
         </div>
 
-        <button
-          className={`md:hidden p-2 rounded-lg ${isLanding ? 'text-slate-800' : 'text-gray-700'}`}
-          onClick={() => setMobileOpen((open) => !open)}
-          aria-label="Toggle menu"
-        >
-          {mobileOpen ? <HiX size={24} /> : <HiMenu size={24} />}
-        </button>
-      </div>
+        <div className="flex items-center gap-4 shrink-0">
+          <div
+            className={`hidden md:flex items-center justify-center gap-2 rounded-full h-11 px-3 ${isLanding ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
+          >
+            {!user ? (
+              <>
+                <Link to="/login" className={`${linkBase} ${btnSecondary}`}>
+                  Login
+                </Link>
+                <Link to="/signup" className={btnPrimary}>
+                  Sign up
+                </Link>
+              </>
+            ) : (
+              <>
+                <Link to="/dashboard" className={`${linkBase} ${btnSecondary}`}>
+                  Dashboard
+                </Link>
+                {!isPending ? (
+                  <button className={btnPrimary} onClick={handleSignOut}>
+                    Logout
+                  </button>
+                ) : (
+                  <Spinner />
+                )}
+              </>
+            )}
+          </div>
+
+          <button
+            className={`md:hidden p-2 rounded-lg ${isLanding ? 'text-slate-800' : 'text-gray-700'}`}
+            onClick={() => setMobileOpen((open) => !open)}
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <HiX size={24} /> : <HiMenu size={24} />}
+          </button>
+        </div>
       </div>
 
       {mobileOpen && (
         <div
-          className={`absolute top-full left-0 right-0 mt-1 mx-4 py-4 rounded-xl flex flex-col gap-3 md:hidden backdrop-blur-xl ${
-            isLanding ? 'bg-white/90 shadow-lg border border-white/30' : 'bg-white shadow-lg'
-          }`}
+          className={`absolute top-full left-0 right-0 mt-1 mx-4 py-4 rounded-xl flex flex-col gap-3 md:hidden backdrop-blur-xl ${isLanding ? 'bg-white/90 shadow-lg border border-white/30' : 'bg-white shadow-lg'
+            }`}
         >
           {navLinks}
           {!user ? (
