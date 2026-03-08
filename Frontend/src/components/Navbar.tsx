@@ -22,13 +22,17 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
     signOut();
   };
 
+  const capsuleGlass = 'backdrop-blur-xl bg-white/20 border border-white/30 shadow-lg';
   const linkBase = isLanding
     ? 'text-slate-800 hover:text-red-600 transition-colors duration-200 font-medium'
     : 'text-gray-700 hover:text-red-600 transition-colors duration-200 font-medium';
 
+  const btnSecondary = isLanding
+    ? 'rounded-full px-3 py-1.5 font-medium transition-all duration-200 bg-white/30 hover:bg-white/40 hover:text-red-600 border border-white/40'
+    : 'rounded-full px-3 py-1.5 font-medium transition-all duration-200 bg-slate-100/80 hover:bg-slate-200/80 hover:text-red-600 border border-slate-200/80';
   const btnPrimary = isLanding
-    ? 'text-white bg-red-600 hover:bg-red-700 rounded-lg px-5 py-2 font-semibold transition-all duration-200'
-    : 'text-white bg-red-600 hover:bg-red-700 border border-red-600 rounded-lg px-4 py-2 font-semibold transition-all duration-200';
+    ? 'text-white bg-red-600 hover:bg-red-700 rounded-full px-3 py-1.5 font-semibold transition-all duration-200 shadow-md'
+    : 'text-white bg-red-600 hover:bg-red-700 rounded-full px-3 py-1.5 font-semibold transition-all duration-200';
 
   const navLinks = (
     <>
@@ -61,15 +65,19 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
         SwinStudy
       </Link>
 
-      <div className="hidden md:flex items-center justify-center gap-6 absolute left-1/2 -translate-x-1/2">
+      <div
+        className={`hidden md:flex items-center justify-center gap-6 absolute left-1/2 -translate-x-1/2 rounded-full h-11 px-6 ${isLanding ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
+      >
         {navLinks}
       </div>
 
       <div className="flex items-center gap-4 shrink-0">
-        <div className="hidden md:flex items-center gap-4">
+        <div
+          className={`hidden md:flex items-center justify-center gap-2 rounded-full h-11 px-3 ${isLanding ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
+        >
           {!user ? (
             <>
-              <Link to="/login" className={linkBase}>
+              <Link to="/login" className={`${linkBase} ${btnSecondary}`}>
                 Login
               </Link>
               <Link to="/signup" className={btnPrimary}>
@@ -78,7 +86,7 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
             </>
           ) : (
             <>
-              <Link to="/dashboard" className={linkBase}>
+              <Link to="/dashboard" className={`${linkBase} ${btnSecondary}`}>
                 Dashboard
               </Link>
               {!isPending ? (
