@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom"
-import { FaCalendarDay } from "react-icons/fa"
 
 const Feature3 = () => {
   return (
@@ -7,7 +6,7 @@ const Feature3 = () => {
       <div className="min-h-[280px] flex items-center justify-center order-2 lg:order-1">
           <img
           src="/rocket.png"
-          alt="Smart flashcards from your notes"
+          alt="Customizable study plans"
           className="w-full max-w-lg object-contain object-bottom mix-blend-multiply"
           />
       </div>

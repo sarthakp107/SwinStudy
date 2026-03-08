@@ -5,7 +5,6 @@ import LandingHero from '@/components/LandingPage/LandingHero';
 import FeatureBlock from '@/components/LandingPage/FeatureBlock';
 import ProblemBlock from '@/components/LandingPage/ProblemBlock';
 import BuiltForSwinBlock from '@/components/LandingPage/BuiltForSwinBlock';
-import CTABlock from '@/components/LandingPage/CTABlock';
 import SupaDemoFlashcards from '@/components/LandingPage/SupaDemoFlashcards';
 import { useAuthContext } from '@/Hooks/Context/useAuthContext';
 import SplashScreen from '@/components/SplashScreen';
@@ -44,7 +43,6 @@ const LandingPage: React.FC = () => {
       {!user && <SupaDemoFlashcards />}
       <FeatureBlock />
       <BuiltForSwinBlock />
-      <CTABlock />
     </div>
   );
 };
