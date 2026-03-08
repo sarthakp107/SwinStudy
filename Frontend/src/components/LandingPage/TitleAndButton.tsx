@@ -7,8 +7,8 @@ const TitleAndButton = () => {
   const { displayName } = useUserProfile();
 
   return (
-    <div className="text-center">
-      <p className="text-sm font-bold uppercase tracking-[0.25em] text-red-600 mb-1">
+    <div className="text-center pt-16">
+      <p className="text-m font-bold uppercase tracking-[0.25em] text-red-600 mb-">
         Built for Swinburne students
       </p>
 
