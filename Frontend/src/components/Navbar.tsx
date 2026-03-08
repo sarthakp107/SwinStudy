@@ -52,7 +52,8 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
     : `fixed top-0 left-0 right-0 z-50 ${isLanding ? "bg-transparent" : "bg-white shadow-sm"}`;
 
   return (
-    <nav className={`px-6 py-4 flex items-center justify-between ${navClass}`}>
+    <nav className={`px-6 py-4 flex items-center justify-center ${navClass}`}>
+      <div className="w-full max-w-4xl flex items-center justify-between">
       <Link
         to="/"
         className="text-xl font-bold tracking-tight text-red-600 hover:text-red-700 transition-colors duration-200 shrink-0"
@@ -98,6 +99,7 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
         >
           {mobileOpen ? <HiX size={24} /> : <HiMenu size={24} />}
         </button>
+      </div>
       </div>
 
       {mobileOpen && (
