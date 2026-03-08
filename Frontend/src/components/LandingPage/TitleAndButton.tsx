@@ -11,7 +11,7 @@ const TitleAndButton = () =>{
                 {/* Dynamic Headline */}
                 {user ? (
                     <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 leading-tight mb-6">
-                        Welcome back, <span className="text-red-600">{displayName || 'Swinburne Student'}!</span>
+                        Welcome <span className="text-red-600">{displayName || 'Swinburne Student'}!</span>
                         <br /> Let's boost your <span className="text-red-600">studies</span>.
                     </h1>
                 ) : (

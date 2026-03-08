@@ -21,7 +21,7 @@ export const useHandleSurveySubmit = () => {
     setError(null);
 
     try {
-      const res = await apiFetch("/api/survey", {
+      const res = await apiFetch("/api/survey/save", {
         method: "POST",
         body: {
           degree: state.degree,
