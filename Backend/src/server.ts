@@ -16,7 +16,7 @@ import { handleIndivChat } from './sockets/indivChats';
 dotenv.config();
 
 const app = express();
-const port = parseInt(process.env.PORT || "1313", 10);
+const port = parseInt(process.env.PORT || "8081", 10);
 
 
 app.use(express.json());

@@ -3,7 +3,7 @@ import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
 import { useEmailAuth } from '@/Hooks/Authentication/useEmailAuth';
 import { useOAuth } from '@/Hooks/Authentication/useOAuth';
 import Spinner from '@/components/Loading/Spinner';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignupPage: React.FC = () => {
   const [displayName, setDisplayName] = useState("");
@@ -21,22 +21,31 @@ const SignupPage: React.FC = () => {
 
   return (
     <div className="relative flex justify-center items-center min-h-[calc(100vh-4rem)] pt-8 pb-12">
-      {/* Single bird background - fixed, full viewport, blends with navbar */}
-      <div
-        className="fixed inset-0 -z-10"
+      {/* Single bird "background" - fixed and positioned relative to center
+          so it stays near the form on ultrawide screens. */}
+      <div className="fixed inset-0" style={{ backgroundColor: "#fef2f2", zIndex: -30 }} />
+      <img
+        src="/fly-bird-down.png"
+        alt=""
+        aria-hidden
+        className="fixed pointer-events-none select-none opacity-90"
         style={{
-          backgroundImage: `url("/fly-bird-down.png")`,
-          backgroundSize: "auto 50%",
-          backgroundPosition: "75% 70%",
-          backgroundRepeat: "no-repeat",
-          backgroundColor: "#fef2f2",
+          zIndex: -20,
+          top: "10%",
+          left: "50%",
+          height: "clamp(260px, 52vh, 540px)",
+          width: "auto",
+          transform: "translate(-50%, -50%) translateX(clamp(-220px, -16vw, -120px)) translateY(40px)",
+          filter: "drop-shadow(0 24px 60px rgba(0,0,0,0.08))",
         }}
       />
-      {/* Very subtle gradient - keeps form readable without separating it */}
-      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-white/40 via-transparent to-white/50" />
+      <div
+        className="fixed inset-0 pointer-events-none bg-gradient-to-b from-white/40 via-transparent to-white/50"
+        style={{ zIndex: -10 }}
+      />
 
-      {/* Form - blended glass, no harsh card */}
-      <div className="w-full max-w-md mx-4 backdrop-blur-md bg-white/60 border border-white/50 rounded-2xl p-8 shadow-xl">
+      {/* Form - blended glass */}
+      <div className="relative z-10 w-full max-w-md mx-4 backdrop-blur-md bg-white/60 border border-white/50 rounded-2xl p-8 shadow-xl">
           <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Create an account</h2>
 
           {/* Form For Sign Up with Email/Password */}
@@ -96,6 +105,12 @@ const SignupPage: React.FC = () => {
             {/* {isPending && <button className='w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition duration-300 shadow-md mb-3'>Loading</button>} */}
             {isPending && <Spinner/>}
           </form>
+          <p className="mt-6 text-center text-sm text-slate-700">
+            Already have an account?{" "}
+            <Link to="/login" className="font-semibold text-red-600 hover:text-red-700">
+              Log in
+            </Link>
+          </p>
       </div>
     </div>
   );

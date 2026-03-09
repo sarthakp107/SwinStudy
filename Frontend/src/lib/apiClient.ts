@@ -1,5 +1,5 @@
 const getBaseUrl = () =>
-  import.meta.env.VITE_BACKEND_API_BASE_URL ?? 'http://localhost:5288';
+  import.meta.env.VITE_BACKEND_API_BASE_URL ?? 'http://localhost:8080';
 
 export type ApiFetchInit = Omit<RequestInit, 'body'> & {
   body?: object | string;
