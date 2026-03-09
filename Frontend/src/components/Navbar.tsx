@@ -16,6 +16,8 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
   const { signOut, isPending } = useSignOut();
   const location = useLocation();
   const isLanding = location.pathname === '/';
+  const isAuthPage = location.pathname === '/signup' || location.pathname === '/login';
+  const useBlendedNav = isLanding || isAuthPage;
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleSignOut = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,11 +26,11 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
   };
 
   const capsuleGlass = 'backdrop-blur-xl bg-white/20 border border-white/30 shadow-lg';
-  const linkBase = isLanding
+  const linkBase = useBlendedNav
     ? 'text-slate-800 hover:text-red-600 transition-colors duration-200 font-medium'
     : 'text-gray-700 hover:text-red-600 transition-colors duration-200 font-medium';
 
-  const btnSecondary = isLanding
+  const btnSecondary = useBlendedNav
     ? 'rounded-full px-3 py-1.5 font-medium transition-all duration-200 bg-white/30 hover:bg-white/40 hover:text-red-600 border border-white/40'
     : 'rounded-full px-3 py-1.5 font-medium transition-all duration-200 bg-slate-100/80 hover:bg-slate-200/80 hover:text-red-600 border border-slate-200/80';
   const btnPrimary = isLanding
@@ -89,7 +91,7 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
 
   const navClass = inline
     ? "relative z-10"
-    : `fixed top-0 left-0 right-0 z-50 ${isLanding ? "bg-transparent" : "bg-white shadow-sm"}`;
+    : `fixed top-0 left-0 right-0 z-50 ${useBlendedNav ? "bg-transparent" : "bg-white shadow-sm"}`;
 
   return (
     <nav className={`px-6 py-4 flex items-center justify-center ${navClass}`}>
@@ -102,14 +104,14 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
         </Link>
 
         <div
-          className={`hidden md:flex items-center justify-center gap-6 absolute left-1/2 -translate-x-1/2 rounded-full h-11 px-6 ${isLanding ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
+          className={`hidden md:flex items-center justify-center gap-6 absolute left-1/2 -translate-x-1/2 rounded-full h-11 px-6 ${useBlendedNav ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
         >
           {navLinks}
         </div>
 
         <div className="flex items-center gap-4 shrink-0">
           <div
-            className={`hidden md:flex items-center justify-center gap-2 rounded-full h-11 px-3 ${isLanding ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
+            className={`hidden md:flex items-center justify-center gap-2 rounded-full h-11 px-3 ${useBlendedNav ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
           >
             {!user ? (
               <>
@@ -137,7 +139,7 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
           </div>
 
           <button
-            className={`md:hidden p-2 rounded-lg ${isLanding ? 'text-slate-800' : 'text-gray-700'}`}
+            className={`md:hidden p-2 rounded-lg ${useBlendedNav ? 'text-slate-800' : 'text-gray-700'}`}
             onClick={() => setMobileOpen((open) => !open)}
             aria-label="Toggle menu"
           >
@@ -148,7 +150,7 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
 
       {mobileOpen && (
         <div
-          className={`absolute top-full left-0 right-0 mt-1 mx-4 py-4 rounded-xl flex flex-col gap-3 md:hidden backdrop-blur-xl ${isLanding ? 'bg-white/90 shadow-lg border border-white/30' : 'bg-white shadow-lg'
+          className={`absolute top-full left-0 right-0 mt-1 mx-4 py-4 rounded-xl flex flex-col gap-3 md:hidden backdrop-blur-xl ${useBlendedNav ? 'bg-white/90 shadow-lg border border-white/30' : 'bg-white shadow-lg'
             }`}
         >
           {navLinks}

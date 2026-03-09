@@ -19,12 +19,22 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-red-50 to-gray-100">
-      {/* Two Corner Half-Circles */}
-      {/* <div className="fixed top-0 right-0 w-64 h-64 bg-red-500 opacity-10 rounded-bl-full"></div>  */}
-      <div className="fixed bottom-0 left-0 w-96 h-96 bg-red-500 opacity-10 rounded-tr-full"></div>
+    <div className="relative flex justify-center items-center min-h-[calc(100vh-4rem)] pt-8 pb-12">
+      {/* Bird background - fixed, blends with navbar */}
+      <div
+        className="fixed inset-0 -z-10"
+        style={{
+          backgroundImage: `url("/fly-bird-up.png")`,
+          backgroundSize: "auto 50%",
+          backgroundPosition: "71% -8%",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "#fef2f2",
+        }}
+      />
+      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-white/40 via-transparent to-white/50" />
 
-      <div className="bg-white shadow-xl rounded-lg p-8 w-full max-w-md">
+      {/* Form - blended glass */}
+      <div className="w-full max-w-md mx-4 backdrop-blur-md bg-white/60 border border-white/50 rounded-2xl p-8 shadow-xl">
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">Welcome Back</h2>
 
         {/* Login Form */}
