@@ -82,16 +82,19 @@ const routes: RouteObject[] = [
       { path: 'signup', element: <RequireGuest><SignupPage /></RequireGuest> },
 
       // Public: anyone can access
-      { path: 'flashcard/:questionID', element: <ViewFlashcards /> },
       { path: 'about', element: <InProgress /> },
-      { path: 'buddies', element: <InProgress /> },
       { path: 'smartstudy', element: <InProgress /> },
       { path: 'features', element: <FeatureBlock /> },
-      { path: 'flashcardupload', element: <UploadPage /> },
-      { path: 'flashcards', element: <Flashcards /> },
-      { path: 'flashcardsaved', element: <ViewSavedFlashcards /> },
 
       // Protected: redirect to login if not authenticated
+      // Flashcards & buddies: require auth
+      { path: 'flashcard/:questionID', element: <RequireAuth><ViewFlashcards /></RequireAuth> },
+      { path: 'buddies', element: <RequireAuth><InProgress /></RequireAuth> },
+      { path: 'flashcardupload', element: <RequireAuth><UploadPage /></RequireAuth> },
+      { path: 'flashcards', element: <RequireAuth><Flashcards /></RequireAuth> },
+      { path: 'flashcardsaved', element: <RequireAuth><ViewSavedFlashcards /></RequireAuth> },
+
+      // Protected: redirect to login if not authenticated (dashboard & others)
       { path: 'dashboard', element: <RequireAuth><Dashboard /></RequireAuth> },
       { path: 'dashboard/:unitName', element: <RequireAuth><UnitBuddies /></RequireAuth> },
       { path: 'survey', element: <RequireAuth><SurveyGate /></RequireAuth> },

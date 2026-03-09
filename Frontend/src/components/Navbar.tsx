@@ -18,6 +18,7 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
   const isLanding = location.pathname === '/';
   const isAuthPage = location.pathname === '/signup' || location.pathname === '/login';
   const useBlendedNav = isLanding || isAuthPage;
+  const showPrimaryNavLinks = !isAuthPage;
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleSignOut = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -103,11 +104,13 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
           SwinStudy
         </Link>
 
-        <div
-          className={`hidden md:flex items-center justify-center gap-6 absolute left-1/2 -translate-x-1/2 rounded-full h-11 px-6 ${useBlendedNav ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
-        >
-          {navLinks}
-        </div>
+        {showPrimaryNavLinks && (
+          <div
+            className={`hidden md:flex items-center justify-center gap-6 absolute left-1/2 -translate-x-1/2 rounded-full h-11 px-6 ${useBlendedNav ? capsuleGlass : 'bg-slate-100/90 backdrop-blur-md border border-slate-200/50 shadow-md'}`}
+          >
+            {navLinks}
+          </div>
+        )}
 
         <div className="flex items-center gap-4 shrink-0">
           <div
@@ -153,7 +156,7 @@ const Navbar: React.FC<NavbarProps> = ({ inline = false }) => {
           className={`absolute top-full left-0 right-0 mt-1 mx-4 py-4 rounded-xl flex flex-col gap-3 md:hidden backdrop-blur-xl ${useBlendedNav ? 'bg-white/90 shadow-lg border border-white/30' : 'bg-white shadow-lg'
             }`}
         >
-          {navLinks}
+          {showPrimaryNavLinks && navLinks}
           {!user ? (
             <div className="flex flex-col gap-2 pt-2 border-t border-slate-200">
               <Link
