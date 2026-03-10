@@ -135,3 +135,76 @@ export const getUserGeneratedFlashcards = async (req: Request, res:Response)=>{
         res.status(500).json({message: "Failed to get flashcard"})
     }
 }
+
+export const getUserLoggedInDates = async (req: Request, res: Response) => {
+    try {
+        const { userId } = req.query;
+
+        if (!userId) {
+            res.status(400).json({
+                message: "Missing UserId."
+            });
+        }
+        const getQuery_build = `
+            SELECT DISTINCT TO_CHAR(login_date, 'YYYY-MM-DD') AS login_date
+            FROM m_userlogindates
+            WHERE user_id = $1
+            ORDER BY login_date;
+        `;
+        const result = await query(getQuery_build, [userId]);
+
+        const loggedInDates = result.rows.map((row: any) => row.login_date);
+        res.json(loggedInDates);
+    } catch (error: any) {
+        console.error("An error occurred when fetching login dates: ", error.message);
+        res.status(500).json({
+            message: "Failed to fetch login dates."
+        });
+    }
+}
+
+export const postUserFlashcardDeck = async (req: Request, res:Response)=>{
+    try{
+        const {question, answer, userId, deck_name} = req.body;
+        if (!question || !answer || !userId) {
+            res.status(400).json({ error: "Missing required fields: question, answer, or userId." });
+        }
+        const insertQuery_build = `
+        WITH inserted_flashcard AS(
+            INSERT INTO m_allflashcards( question, answer )
+            VALUES($1, $2)
+            RETURNING m_allflashcards_pkey
+        )
+        INSERT INTO m_usergeneratedflashcards(userid, qnareference, deck_name)
+        SELECT $3, m_allflashcards_pkey, $4 FROM inserted_flashcard;
+        `
+        const result = await query(insertQuery_build, [ question, answer, userId, deck_name ]);
+        res.status(201).json({
+            message:"Flaschard added successfully!"
+        })
+    }catch(error:any){
+        console.log("An error occured when posting: ", error.message)
+        res.status(500).json({message: "Failed to add flashcard"})
+    }
+
+}
+
+export const getUserFlashcardDeck = async (req: Request, res:Response)=>{
+    try{
+        const {userId, deck_name} = req.query;
+        if (!userId) {
+            res.status(400).json({ error: "Missing required field: userId." });
+        }
+        const insertQuery_build = `
+        SELECT m.userid, flashcard.question, flashcard.answer, flashcard.created_date as date, m.deck_name FROM m_usergeneratedflashcards m
+        LEFT JOIN m_allflashcards flashcard on m.qnareference = flashcard.m_allflashcards_pkey
+        where m.userid = $1 and m.deck_name = $2
+        `
+        const getResult = await query(insertQuery_build, [ userId, deck_name ]);
+        res.json(getResult.rows);
+    }catch(error:any){
+        console.log("An error occured when getting: ", error.message)
+        res.status(500).json({message: "Failed to get flashcard"})
+    }
+}
+
