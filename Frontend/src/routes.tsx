@@ -24,14 +24,17 @@ const RootLayout = () => {
   useAuthContext();
   const { pathname } = useLocation();
   const isLanding = pathname === "/";
+
+  const mainClassName = `${isLanding ? "" : "pt-16"} flex-1`;
+
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       {!isLanding && <Navbar />}
-      <main className={isLanding ? "" : "pt-16"}>
+      <main className={mainClassName}>
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 
