@@ -1,60 +1,54 @@
 import React, { useRef } from "react";
+import { FaCloudUploadAlt } from "react-icons/fa";
 
 interface DragDropProps {
-  onUpload: (file: File) => void; //Function passed to parent to handle
+  onUpload: (file: File) => void;
 }
 
 const DragDrop: React.FC<DragDropProps> = ({ onUpload }) => {
-  const fileInputRef = useRef<HTMLInputElement>(null); //This creates a reference to the "Input" tag below and stores its value
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
-    if (file) onUpload(file); //Pass to parent
+    if (file) onUpload(file);
   };
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file) onUpload(file); //Pass to parent
+    if (file) onUpload(file);
   };
 
   return (
-    <>
-    {/* Main Div that houses a hidden Input field and instructions*/}
-      <div
-        onDrop={handleDrop}
-        onDragOver={(e) => e.preventDefault()}
-        onClick={() => fileInputRef.current?.click()}
-        className="border-2 border-dashed rounded-xl p-12 text-center cursor-pointer transition-colors
-          hover:border-red-400 bg-white hover:bg-red-50
-          border-gray-300"
-      >
-        {/* Instructions Div */}
-        <div className="mb-4">
-            <span className="text-red-600 text-4xl">📄</span>
-        </div>
-        {/* Instructions Div */}
-        <h3 className="text-lg font-semibold text-gray-700 mb-2">
-          Drag and drop your PDF here
-        </h3>
-        {/* Instructions Div */}
-        <p className="text-gray-500 mb-4">
-        Support for PDF upto 10 MB
-        </p>
-        {/* Button within Div, only a placeholder. When user clicks, the div gets clicked, and therefore this button doesn't need a onClick Function  */}
-        <button className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">
-              Browse Files
-        </button>
-        {/* Hidden Input Field that accepts PDF and DOCX */}
-        <input
-          type="file"
-          accept=".pdf"
-          ref={fileInputRef}
-          className="hidden"
-          onChange={handleFileSelect}
-        />
+    <div
+      onDrop={handleDrop}
+      onDragOver={(e) => e.preventDefault()}
+      onClick={() => fileInputRef.current?.click()}
+      className="group relative flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 px-6 py-12 text-center cursor-pointer transition-all duration-200 hover:border-red-400 hover:bg-red-50"
+    >
+      <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-sm text-red-500 group-hover:bg-red-100 transition-colors duration-200">
+        <FaCloudUploadAlt className="h-7 w-7" />
       </div>
-    </>
+
+      <div>
+        <p className="text-sm font-semibold text-gray-700 group-hover:text-red-700">
+          Drag & drop your PDF here
+        </p>
+        <p className="mt-1 text-xs text-gray-400">or click anywhere to browse</p>
+      </div>
+
+      <span className="inline-flex items-center rounded-full border border-red-200 bg-white px-4 py-1.5 text-xs font-medium text-red-600 shadow-sm group-hover:bg-red-600 group-hover:text-white transition-colors duration-200">
+        Browse Files
+      </span>
+
+      <input
+        type="file"
+        accept=".pdf"
+        ref={fileInputRef}
+        className="hidden"
+        onChange={handleFileSelect}
+      />
+    </div>
   );
 };
 
